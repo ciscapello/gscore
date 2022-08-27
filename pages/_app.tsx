@@ -1,8 +1,22 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import { AppProps } from "next/app";
+import Layout from "../components/layout";
+import { createGlobalStyle } from "styled-components";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <Layout>
+      <GlobalStyle />
+      <Component {...pageProps} />
+    </Layout>
+  );
 }
 
-export default MyApp
+const GlobalStyle = createGlobalStyle`
+  html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+  }
+`;
+
+export default MyApp;
