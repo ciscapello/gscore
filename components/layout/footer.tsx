@@ -45,6 +45,7 @@ const Footer = () => {
 };
 
 const Wrapper = styled.footer`
+  margin-top: 40px;
   font-family: "Inter", sans-serif;
   font-weight: 500;
   font-size: 18px;
