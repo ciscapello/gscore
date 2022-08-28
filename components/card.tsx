@@ -20,7 +20,7 @@ export default function Card({ pricing, index }: CardProps) {
           <Item key={ind}>{feature}</Item>
         ))}
       </List>
-      <Link href="/login">
+      <Link href="/createAccount">
         <Button index={index}>Get Gscore</Button>
       </Link>
     </Wrapper>
