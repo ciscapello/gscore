@@ -10,17 +10,19 @@ export default function Checkout() {
       <StatusBar count={3} />
       <Title>Checkout</Title>
       <Table>
-        <TableRow>
-          <TableHeader>Package name</TableHeader>
-          <TableHeader>Price</TableHeader>
-        </TableRow>
-        <TableRow>
-          <TableData>Single site license</TableData>
-          <TableData>
-            $77{""}
-            <Delete />
-          </TableData>
-        </TableRow>
+        <tbody>
+          <TableRow>
+            <TableHeader>Package name</TableHeader>
+            <TableHeader>Price</TableHeader>
+          </TableRow>
+          <TableRow>
+            <TableData>Single site license</TableData>
+            <TableData>
+              $77{""}
+              <Delete />
+            </TableData>
+          </TableRow>
+        </tbody>
       </Table>
       <Wrapper>
         <Total>Total:</Total>
