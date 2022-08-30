@@ -1,10 +1,22 @@
 import styled from "styled-components";
 import StatusBar from "../components/statusBar";
 import { Container, Title } from "./createAccount";
-import Image from "next/image";
 import { Button } from "../components/signUpForm";
+import axios from "axios";
+import { BASE_URL } from ".";
+import { GetStaticPropsContext } from "next";
+import { IProduct } from "../types";
+import { useAppSelector } from "../hooks/useStore";
 
-export default function Checkout() {
+interface CheckoutProps {
+  data: IProduct[];
+}
+
+export default function Checkout({ data }: CheckoutProps) {
+  const { selectedProductId } = useAppSelector((state) => state.user);
+  const selectedProduct = data.find(
+    (product) => product.id === selectedProductId
+  );
   return (
     <Container>
       <StatusBar count={3} />
@@ -16,9 +28,9 @@ export default function Checkout() {
             <TableHeader>Price</TableHeader>
           </TableRow>
           <TableRow>
-            <TableData>Single site license</TableData>
+            <TableData>{selectedProduct?.name}</TableData>
             <TableData>
-              $77{""}
+              {`$${selectedProduct?.prices[0].price}`}
               <Delete />
             </TableData>
           </TableRow>
@@ -26,11 +38,22 @@ export default function Checkout() {
       </Table>
       <Wrapper>
         <Total>Total:</Total>
-        <Total>77$</Total>
+        <Total>{`$${selectedProduct?.prices[0].price}`}</Total>
       </Wrapper>
       <Button>Purchase</Button>
     </Container>
   );
+}
+
+export async function getStaticProps(context: GetStaticPropsContext) {
+  const res = await axios(`${BASE_URL}/products`);
+  const data = await res.data;
+
+  if (!data) {
+    return {};
+  }
+
+  return { props: { data } };
 }
 
 const Total = styled.p`

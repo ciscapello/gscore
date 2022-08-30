@@ -5,6 +5,7 @@ interface UserState {
   username: string;
   email: string;
   token: string;
+  selectedProductId: number;
 }
 
 const initialState: UserState = {
@@ -12,6 +13,7 @@ const initialState: UserState = {
   username: "",
   email: "",
   token: "",
+  selectedProductId: 0,
 };
 
 interface LoginAction {
@@ -33,10 +35,16 @@ export const userSlice = createSlice({
     },
     logout: (state) => {
       state.isLogin = false;
+      state.username = "";
+      state.token = "";
+      state.email = "";
+    },
+    selectProduct: (state, action: PayloadAction<number>) => {
+      state.selectedProductId = action.payload;
     },
   },
 });
 
 export default userSlice.reducer;
 
-export const { signIn, logout } = userSlice.actions;
+export const { signIn, logout, selectProduct } = userSlice.actions;

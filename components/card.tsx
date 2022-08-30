@@ -1,28 +1,40 @@
 import Link from "next/link";
 import styled from "styled-components";
-import { Pricing } from "../types";
+import { useAppDispatch, useAppSelector } from "../hooks/useStore";
+import { IProduct, Pricing } from "../types";
+import { selectProduct } from "../store/user/userSlice";
+import Router from "next/router";
 
 interface CardProps {
   pricing: Pricing;
   index: number;
+  product: IProduct;
 }
 
-export default function Card({ pricing, index }: CardProps) {
-  const { price, title, text, features } = pricing;
-  const background = index === 1 ? "#FC5842" : "#272727";
+export default function Card({ product, pricing, index }: CardProps) {
+  const dispatch = useAppDispatch();
+  const { token } = useAppSelector((state) => state.user);
+
+  const onClick = () => {
+    dispatch(selectProduct(product.id));
+    token ? Router.push("/checkout") : Router.push("/createAccount");
+  };
+
+  const { text, features } = pricing;
+
   return (
     <Wrapper index={index}>
-      <Price>{price}</Price>
-      <Title>{title}</Title>
+      <Price>{`$${product.prices[0].price}`}</Price>
+      <Title>{product.name}</Title>
       <Text index={index}>{text}</Text>
       <List>
         {features.map((feature, ind) => (
           <Item key={ind}>{feature}</Item>
         ))}
       </List>
-      <Link href="/createAccount">
-        <Button index={index}>Get Gscore</Button>
-      </Link>
+      <Button index={index} onClick={onClick}>
+        Get Gscore
+      </Button>
     </Wrapper>
   );
 }

@@ -1,24 +1,46 @@
 import Card from "../components/card";
-import { Pricing } from "../types";
+import { IProduct, Pricing } from "../types";
 import styled from "styled-components";
 import axios from "axios";
+import { GetStaticPropsContext } from "next";
 
 export const BASE_URL = "https://gscore-back.herokuapp.com/api";
 
-export default function Home() {
-  axios(`${BASE_URL}/products`).then((res) => console.log(res));
+interface HomeProps {
+  data: IProduct[];
+}
+
+export default function Home({ data }: HomeProps) {
+  console.log(data);
   return (
     <Wrapper>
       <Title>Get started with Gscore today!</Title>
       <Container>
         {pricing.map((elem, index) => (
-          <Card key={index} pricing={elem} index={index} />
+          <Card
+            product={data[index]}
+            key={index}
+            pricing={elem}
+            index={index}
+          />
         ))}
       </Container>
-      <Paragraph>Have more than 10 sites?</Paragraph>
+      <Paragraph>Have more than 7 sites?</Paragraph>
       <A href="#">Contact us</A>
     </Wrapper>
   );
+}
+
+export async function getStaticProps(context: GetStaticPropsContext) {
+  console.log("ctx", context);
+  const res = await axios(`${BASE_URL}/products`);
+  const data = await res.data;
+
+  if (!data) {
+    return {};
+  }
+
+  return { props: { data } };
 }
 
 const Paragraph = styled.p`
@@ -88,10 +110,10 @@ const pricing: Pricing[] = [
   },
   {
     price: "$167",
-    title: "10 Site license",
+    title: "7 Site license",
     text: "Get the advanced WordPress plugin that optimizes content with GSC keywords at one low annual price",
     features: [
-      "All features for 10 sites",
+      "All features for 7 sites",
       "Special introductory pricing",
       "Unlimited Pages and Keywords",
       "Billed annually",
