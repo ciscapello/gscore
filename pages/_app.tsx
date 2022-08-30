@@ -1,13 +1,17 @@
 import { AppProps } from "next/app";
 import Layout from "../components/layout";
 import { createGlobalStyle } from "styled-components";
+import { Provider } from "react-redux";
+import { store } from "../store/store";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <Layout>
+    <Provider store={store}>
       <GlobalStyle />
-      <Component {...pageProps} />
-    </Layout>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </Provider>
   );
 }
 

@@ -1,8 +1,12 @@
 import Card from "../components/card";
 import { Pricing } from "../types";
 import styled from "styled-components";
+import axios from "axios";
+
+export const BASE_URL = "https://gscore-back.herokuapp.com/api";
 
 export default function Home() {
+  axios(`${BASE_URL}/products`).then((res) => console.log(res));
   return (
     <Wrapper>
       <Title>Get started with Gscore today!</Title>

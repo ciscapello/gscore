@@ -1,6 +1,10 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button, Error, Form, Input } from "./signUpForm";
 import { useRouter } from "next/router";
+import axios from "axios";
+import { BASE_URL } from "../pages";
+import { useAppDispatch } from "../hooks/useStore";
+import { signIn } from "../store/user/userSlice";
 
 interface FormValues {
   email: string;
@@ -8,6 +12,7 @@ interface FormValues {
 }
 
 export default function LogInForm() {
+  const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
@@ -18,7 +23,15 @@ export default function LogInForm() {
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);
-    router.push("/checkout");
+    axios.post(`${BASE_URL}/users/sign-in`, data).then((res) => {
+      console.log(res);
+      const {
+        token,
+        user: { username, email },
+      } = res.data;
+      dispatch(signIn({ email, username, token }));
+      router.push("/checkout");
+    });
   };
 
   return (

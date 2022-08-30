@@ -1,13 +1,18 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
+import axios from "axios";
+import { BASE_URL } from "../pages";
+import { useAppDispatch } from "../hooks/useStore";
+import router from "next/router";
 
 interface FormValues {
-  username: string;
   email: string;
+  username: string;
   password: string;
 }
 
 export default function SingUpForm() {
+  const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
@@ -17,11 +22,12 @@ export default function SingUpForm() {
     mode: "onChange",
   });
 
-  console.log("errors", errors);
-
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
     reset();
+    axios.post(`${BASE_URL}/users/sign-up`, data).then((res) => {
+      console.log(res);
+      router.push("/login");
+    });
   };
 
   return (
