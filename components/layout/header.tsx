@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import Router from "next/router";
 import { useState } from "react";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
@@ -15,8 +16,14 @@ export default function Header() {
     setIsShow((prevState: boolean) => !prevState);
   };
 
-  let logoutHandler = () => {
+  const logoutHandler = () => {
     dispatch(logout());
+    setIsShow((prevState: boolean) => !prevState);
+    Router.push("/");
+  };
+
+  const settingsHandler = () => {
+    Router.push("/settings");
     setIsShow((prevState: boolean) => !prevState);
   };
 
@@ -39,13 +46,13 @@ export default function Header() {
         )}
       </Container>
       <Profile isShow={isShow}>
-        <Row>
+        <Row onClick={settingsHandler}>
           <Image src="/icons/settings.png" width={24} height={24} alt="" />
-          <ProfileLink href="#">Settings</ProfileLink>
+          <ProfileLink>Settings</ProfileLink>
         </Row>
         <Row onClick={logoutHandler}>
           <Image src="/icons/logout.png" width={24} height={24} alt="" />
-          <ProfileLink href="#">Logout</ProfileLink>
+          <ProfileLink>Logout</ProfileLink>
         </Row>
       </Profile>
     </Wrapper>
@@ -56,7 +63,7 @@ interface SpanProps {
   isShow: boolean;
 }
 
-const ProfileLink = styled.a`
+const ProfileLink = styled.p`
   color: white;
   text-decoration: none;
   margin-left: 10px;
