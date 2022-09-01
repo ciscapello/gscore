@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Form } from "./infoForm";
-import { ChangedButton, InfoInput, Subtitle } from "./infoForm";
-import { Error } from "../signUpForm";
+import { ChangedButton, InfoInput, Subtitle } from "../../styles";
+import { Error, Success } from "../../styles";
 import axios from "axios";
 import { BASE_URL } from "../../pages";
 import { useAppSelector } from "../../hooks/useStore";
@@ -66,7 +66,3 @@ export default function PasswordForm() {
     </Form>
   );
 }
-
-const Success = styled.small`
-  color: green;
-`;

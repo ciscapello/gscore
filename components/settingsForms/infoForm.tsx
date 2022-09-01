@@ -1,7 +1,15 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
-import { Button, Error, Input } from "../signUpForm";
+import {
+  Button,
+  ChangedButton,
+  Error,
+  InfoInput,
+  Input,
+  Subtitle,
+  Success,
+} from "../../styles";
 import axios from "axios";
 import { BASE_URL } from "../../pages";
 import { updateUserData } from "../../store/user/userSlice";
@@ -70,25 +78,7 @@ export default function InfoForm() {
   );
 }
 
-const Success = styled.small`
-  color: green;
-`;
-
-export const ChangedButton = styled(Button)`
-  width: 16%;
-`;
-
-export const Subtitle = styled.h3`
-  font-weight: 700;
-  font-size: 28px;
-  line-height: 40px;
-`;
-
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
-`;
-
-export const InfoInput = styled(Input)`
-  width: 40%;
 `;
