@@ -22,6 +22,11 @@ interface LoginAction {
   token: string;
 }
 
+interface UpdateUserData {
+  username: string;
+  email: string;
+}
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
@@ -42,9 +47,14 @@ export const userSlice = createSlice({
     selectProduct: (state, action: PayloadAction<number>) => {
       state.selectedProductId = action.payload;
     },
+    updateUserData: (state, action: PayloadAction<UpdateUserData>) => {
+      state.username = action.payload.username;
+      state.email = action.payload.email;
+    },
   },
 });
 
 export default userSlice.reducer;
 
-export const { signIn, logout, selectProduct } = userSlice.actions;
+export const { signIn, logout, selectProduct, updateUserData } =
+  userSlice.actions;
