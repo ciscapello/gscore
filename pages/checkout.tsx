@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import StatusBar from "../components/statusBar";
 import { Container, Title } from "./createAccount";
-import { Button } from "../components/signUpForm";
+import { Button } from "../styles";
 import axios from "axios";
 import { BASE_URL } from ".";
 import { GetStaticPropsContext } from "next";

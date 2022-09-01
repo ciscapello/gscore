@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { LoginAction, UpdateUserData } from "./types";
 
 interface UserState {
   isLogin: boolean;
@@ -15,17 +16,6 @@ const initialState: UserState = {
   token: "",
   selectedProductId: 0,
 };
-
-interface LoginAction {
-  email: string;
-  username: string;
-  token: string;
-}
-
-interface UpdateUserData {
-  username: string;
-  email: string;
-}
 
 export const userSlice = createSlice({
   name: "user",
