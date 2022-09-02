@@ -3,7 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { BASE_URL } from "../pages";
 import { useAppDispatch } from "../hooks/useStore";
-import router from "next/router";
+import { useRouter } from "next/router";
 import { Form, Error, Input, Button } from "../styles";
 
 interface FormValues {
@@ -13,6 +13,7 @@ interface FormValues {
 }
 
 export default function SingUpForm() {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const {
     register,
@@ -52,12 +53,12 @@ export default function SingUpForm() {
           })}
         />
         {errors.password ? (
-          <Error>Minimum password length is 8 symbols</Error>
+          <Error>Minimum password length is 6 symbols</Error>
         ) : null}
         <Input
           placeholder="Password"
           type="password"
-          {...register("password", { minLength: 8 })}
+          {...register("password", { minLength: 6 })}
         />
         <Button>Send password</Button>
       </Form>

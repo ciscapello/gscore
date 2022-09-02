@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../hooks/useStore";
 import { IProduct, Pricing } from "../types";
 import { selectProduct } from "../store/user/userSlice";
-import Router from "next/router";
+import { useRouter } from "next/router";
 
 interface CardProps {
   pricing: Pricing;
@@ -14,10 +14,11 @@ interface CardProps {
 export default function Card({ product, pricing, index }: CardProps) {
   const dispatch = useAppDispatch();
   const { token } = useAppSelector((state) => state.user);
+  const router = useRouter();
 
   const onClick = () => {
     dispatch(selectProduct(product.id));
-    token ? Router.push("/checkout") : Router.push("/createAccount");
+    token ? router.push("/checkout") : router.push("/createAccount");
   };
 
   const { text, features } = pricing;

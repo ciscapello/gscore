@@ -21,6 +21,12 @@ export const Input = styled.input`
   line-height: 18px;
 `;
 
+export const Paragraph = styled.p`
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+`;
+
 export const Button = styled.button`
   margin-top: 50px;
   margin-bottom: 50px;

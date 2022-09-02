@@ -1,26 +1,77 @@
 import styled from "styled-components";
 import StatusBar from "../components/statusBar";
 import { Container, Title } from "./createAccount";
-import { Button } from "../styles";
+import { Button, Paragraph } from "../styles";
 import axios from "axios";
 import { BASE_URL } from ".";
 import { GetStaticPropsContext } from "next";
 import { IProduct } from "../types";
 import { useAppSelector } from "../hooks/useStore";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
 interface CheckoutProps {
   data: IProduct[];
 }
 
 export default function Checkout({ data }: CheckoutProps) {
-  const { selectedProductId } = useAppSelector((state) => state.user);
+  const [isPurchased, setIsPurchased] = useState(false);
+
+  const { selectedProductId, isLogin, token } = useAppSelector(
+    (state) => state.user
+  );
+
+  const router = useRouter();
+  !isLogin ? router.push("/login") : null;
+  !selectedProductId ? router.push("/") : null;
+
   const selectedProduct = data.find(
     (product) => product.id === selectedProductId
   );
+
+  const onClick = () => {
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+
+    axios
+      .post(
+        `${BASE_URL}/payments/buy`,
+        {
+          priceId: selectedProduct?.id,
+        },
+        {
+          headers: headers,
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        setIsPurchased(true);
+      });
+  };
+
+  const handleClick = () => {
+    router.push("/subscriptions");
+  };
+
   return (
     <Container>
-      <StatusBar count={3} />
-      <Title>Checkout</Title>
+      {!isPurchased && (
+        <>
+          <StatusBar count={3} />
+          <Title>Checkout</Title>
+        </>
+      )}
+      {isPurchased && (
+        <>
+          <Title>Start your subscription</Title>
+          <Text>
+            We have sent you a payment receipt by e-mail and a link to download
+            the plugin with a license key.
+          </Text>
+        </>
+      )}
       <Table>
         <tbody>
           <TableRow>
@@ -31,16 +82,21 @@ export default function Checkout({ data }: CheckoutProps) {
             <TableData>{selectedProduct?.name}</TableData>
             <TableData>
               {`$${selectedProduct?.prices[0].price}`}
-              <Delete />
+              {!isPurchased && <Delete />}
             </TableData>
           </TableRow>
         </tbody>
       </Table>
-      <Wrapper>
-        <Total>Total:</Total>
-        <Total>{`$${selectedProduct?.prices[0].price}`}</Total>
-      </Wrapper>
-      <Button>Purchase</Button>
+      {!isPurchased && (
+        <Wrapper>
+          <Total>Total:</Total>
+          <Total>{`$${selectedProduct?.prices[0].price}`}</Total>
+        </Wrapper>
+      )}
+      {!isPurchased && <Button onClick={onClick}>Purchase</Button>}
+      {isPurchased && (
+        <LongButton onClick={handleClick}>Go to my subscriptions</LongButton>
+      )}
     </Container>
   );
 }
@@ -55,6 +111,14 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
   return { props: { data } };
 }
+
+const LongButton = styled(Button)`
+  width: 100%;
+`;
+
+const Text = styled(Paragraph)`
+  margin-bottom: 40px;
+`;
 
 const Total = styled.p`
   font-weight: 700;

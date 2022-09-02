@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
@@ -9,6 +9,7 @@ import { logout } from "../../store/user/userSlice";
 export default function Header() {
   const { isLogin, username } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   let [isShow, setIsShow] = useState<boolean>(false);
 
@@ -19,23 +20,23 @@ export default function Header() {
   const logoutHandler = () => {
     dispatch(logout());
     setIsShow((prevState: boolean) => !prevState);
-    Router.push("/");
+    router.push("/");
   };
 
   const settingsHandler = () => {
-    Router.push("/settings");
+    router.push("/settings");
     setIsShow((prevState: boolean) => !prevState);
   };
 
   return (
     <Wrapper>
       <Link href="/">
-        <Image width={170} height={42} src="/Logo.png" alt="gscore" />
+        <LinkedImage width={170} height={42} src="/Logo.png" alt="gscore" />
       </Link>
       <Container>
         {isLogin && (
           <>
-            <Link href="#">
+            <Link href="/subscriptions">
               <A>My subscriptions</A>
             </Link>
             <Username onClick={onClick}>
@@ -59,6 +60,10 @@ export default function Header() {
   );
 }
 
+const LinkedImage = styled(Image)`
+  cursor: pointer;
+`;
+
 interface SpanProps {
   isShow: boolean;
 }
@@ -70,6 +75,10 @@ const ProfileLink = styled.p`
   font-weight: 500;
   font-size: 20px;
   line-height: 22px;
+  cursor: pointer;
+  &:hover {
+    color: gray;
+  }
 `;
 
 const Profile = styled.div<SpanProps>`
@@ -95,7 +104,6 @@ const Row = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  cursor: pointer;
 `;
 
 const Span = styled.span<SpanProps>`

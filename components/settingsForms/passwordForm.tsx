@@ -55,10 +55,10 @@ export default function PasswordForm() {
       />
       <InfoInput
         placeholder="New Password"
-        {...register("newPassword", { minLength: 8 })}
+        {...register("newPassword", { minLength: 6 })}
       />
       {errors.newPassword && (
-        <Error>New password should have minimal 8 symbols</Error>
+        <Error>New password should have minimal 6 symbols</Error>
       )}
       {isSuccess && <Success>Your password is successfully updated</Success>}
       {isError && <Error>Something goes wrong</Error>}
