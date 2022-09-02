@@ -1,14 +1,14 @@
 import Link from "next/link";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../hooks/useStore";
-import { IProduct, Pricing } from "../types";
+import { Product, Pricing } from "../types";
 import { selectProduct } from "../store/user/userSlice";
 import { useRouter } from "next/router";
 
 interface CardProps {
   pricing: Pricing;
   index: number;
-  product: IProduct;
+  product: Product;
 }
 
 export default function Card({ product, pricing, index }: CardProps) {

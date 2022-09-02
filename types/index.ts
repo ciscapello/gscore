@@ -5,16 +5,36 @@ export interface Pricing {
   features: string[];
 }
 
-export interface IProduct {
+export interface Prices {
+  id: number;
+  isActive: boolean;
+  productId: number;
+  price: string;
+}
+
+export interface Product {
   id: number;
   sitesCount: number;
   name: string;
-  prices: IPrices[];
+  prices: Prices[];
 }
 
-export interface IPrices {
+export interface Code {
   id: number;
-  isActivate: boolean;
+  code: string;
+  origin: string | null;
+  status: string;
+  subscribeId: number;
+  userId: number;
+}
+
+export interface Subscribe {
+  id: number;
+  userId: number;
   productId: number;
-  price: string;
+  currentPeriodStart: string;
+  currentPeriodEnd: string;
+  status: string;
+  product: Product;
+  codes: Code[];
 }

@@ -2,7 +2,7 @@ import Link from "next/link";
 import styled from "styled-components";
 import SingUpForm from "../components/signUpForm";
 import StatusBar from "../components/statusBar";
-import { Paragraph } from "../styles";
+import { Paragraph, Title } from "../styles";
 
 export default function Login() {
   return (
@@ -27,12 +27,6 @@ export default function Login() {
 export const Container = styled.div`
   width: 45%;
   margin: 0 auto;
-`;
-
-export const Title = styled.h1`
-  font-weight: 700;
-  font-size: 44px;
-  line-height: 54px;
 `;
 
 const Question = styled.p`

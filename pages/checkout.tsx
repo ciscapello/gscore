@@ -1,21 +1,22 @@
 import styled from "styled-components";
 import StatusBar from "../components/statusBar";
-import { Container, Title } from "./createAccount";
-import { Button, Paragraph } from "../styles";
+import { Container } from "./createAccount";
+import { Button, Error, Paragraph, Title } from "../styles";
 import axios from "axios";
 import { BASE_URL } from ".";
 import { GetStaticPropsContext } from "next";
-import { IProduct } from "../types";
+import { Product } from "../types";
 import { useAppSelector } from "../hooks/useStore";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
 interface CheckoutProps {
-  data: IProduct[];
+  data: Product[];
 }
 
 export default function Checkout({ data }: CheckoutProps) {
   const [isPurchased, setIsPurchased] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const { selectedProductId, isLogin, token } = useAppSelector(
     (state) => state.user
@@ -48,6 +49,11 @@ export default function Checkout({ data }: CheckoutProps) {
       .then((res) => {
         console.log(res);
         setIsPurchased(true);
+        setIsError(false);
+      })
+      .catch((error) => {
+        setIsError(true);
+        console.error(error);
       });
   };
 
@@ -93,6 +99,7 @@ export default function Checkout({ data }: CheckoutProps) {
           <Total>{`$${selectedProduct?.prices[0].price}`}</Total>
         </Wrapper>
       )}
+      {isError && <Error>Something goes wrong</Error>}
       {!isPurchased && <Button onClick={onClick}>Purchase</Button>}
       {isPurchased && (
         <LongButton onClick={handleClick}>Go to my subscriptions</LongButton>
@@ -106,7 +113,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   const data = await res.data;
 
   if (!data) {
-    return {};
+    return null;
   }
 
   return { props: { data } };

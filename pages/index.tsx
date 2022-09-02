@@ -1,5 +1,5 @@
 import Card from "../components/card";
-import { IProduct, Pricing } from "../types";
+import { Product, Pricing } from "../types";
 import styled from "styled-components";
 import axios from "axios";
 import { GetStaticPropsContext } from "next";
@@ -7,7 +7,7 @@ import { GetStaticPropsContext } from "next";
 export const BASE_URL = "https://gscore-back.herokuapp.com/api";
 
 interface HomeProps {
-  data: IProduct[];
+  data: Product[];
 }
 
 export default function Home({ data }: HomeProps) {
