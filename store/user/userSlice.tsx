@@ -7,6 +7,7 @@ interface UserState {
   email: string;
   token: string;
   selectedProductId: number;
+  checkedCodes: number[];
 }
 
 const initialState: UserState = {
@@ -15,6 +16,7 @@ const initialState: UserState = {
   email: "",
   token: "",
   selectedProductId: 0,
+  checkedCodes: [],
 };
 
 export const userSlice = createSlice({

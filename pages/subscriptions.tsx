@@ -1,33 +1,31 @@
-import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { BASE_URL } from ".";
 import CodeContainer from "../components/codeContainer";
 import ProductCard from "../components/productCard";
-import { useAppSelector } from "../hooks/useStore";
+import { useAppDispatch, useAppSelector } from "../hooks/useStore";
+import { getSubscribes } from "../store/products/productsSlice";
 import { Title } from "../styles";
-import { Subscribe } from "../types";
 
 export default function Subscriptions() {
-  const [data, setData] = useState<Subscribe[]>();
-  const [counter, setCounter] = useState(1);
-  const [offset, setOffset] = useState(0);
-
   const { token } = useAppSelector((state) => state.user);
 
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    };
-    axios(`${BASE_URL}/subscribe/self`, {
-      headers: headers,
-    }).then((res) => {
-      console.log(res.data);
-      setData(() => res.data);
-    });
-  }, [token]);
+    dispatch(getSubscribes(token));
+  }, [dispatch, token]);
+
+  const { products: data } = useAppSelector((state) => state.products);
+
+  const [currentCard, setCurrentCard] = useState<number | null>(null);
+
+  const currentCodes = data.find((elem) => elem.id === currentCard)?.codes;
+
+  // const [currentCodes, setCodes] = useState(codes);
+
+  const [counter, setCounter] = useState(1);
+  const [offset, setOffset] = useState(0);
 
   const turnLeft = () => {
     if (counter <= 1) return;
@@ -42,41 +40,50 @@ export default function Subscriptions() {
   };
 
   return (
-    <Container>
-      <Title>My subscriptions</Title>
-      <Cards offset={offset}>
-        {data?.map((elem) => (
-          <ProductCard
-            key={elem.id}
-            status={elem.status}
-            date={elem.currentPeriodEnd}
-            name={elem.product.name}
-            price={elem.product.prices[0].price}
-            id={elem.id}
-          />
-        ))}
-      </Cards>
-      <Navigation>
-        <ArrowLeft onClick={turnLeft}>
-          <Image src="/icons/arrowRight.png" width={24} height={24} alt="" />
-        </ArrowLeft>
-        <Counter>
-          <Span>{counter}</Span>/{data?.length}
-        </Counter>
-        <ArrowRight onClick={turnRight}>
-          <Image src="/icons/arrowRight.png" width={24} height={24} alt="" />
-        </ArrowRight>
-      </Navigation>
-      <Codes>
-        <CodeContainer />
-      </Codes>
-    </Container>
+    <Wrapper>
+      <Container>
+        <Title>My subscriptions</Title>
+        <Cards offset={offset}>
+          {data?.map((elem) => (
+            <ProductCard
+              key={elem.id}
+              status={elem.status}
+              date={elem.currentPeriodEnd}
+              name={elem.product.name}
+              price={elem.product.prices[0].price}
+              id={elem.id}
+              setCurrentCard={setCurrentCard}
+            />
+          ))}
+        </Cards>
+        <Navigation>
+          <ArrowLeft onClick={turnLeft}>
+            <Image src="/icons/arrowRight.png" width={24} height={24} alt="" />
+          </ArrowLeft>
+          <Counter>
+            <Span>{counter}</Span>/{data?.length}
+          </Counter>
+          <ArrowRight onClick={turnRight}>
+            <Image src="/icons/arrowRight.png" width={24} height={24} alt="" />
+          </ArrowRight>
+        </Navigation>
+        <Codes>
+          {currentCodes?.map((code) => (
+            <CodeContainer key={code.id} code={code} />
+          ))}
+        </Codes>
+      </Container>
+    </Wrapper>
   );
 }
 
 interface CardsProps {
   offset: number;
 }
+
+const Wrapper = styled.div`
+  overflow: hidden;
+`;
 
 const Codes = styled.div`
   display: flex;

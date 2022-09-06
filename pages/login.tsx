@@ -1,6 +1,7 @@
 import LogInForm from "../components/logInForm";
 import StatusBar from "../components/statusBar";
-import { Container, Title } from "./createAccount";
+import { Container } from "./createAccount";
+import { Title } from "../styles";
 
 export default function Login() {
   return (

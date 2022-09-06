@@ -95,6 +95,7 @@ const Profile = styled.div<SpanProps>`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  z-index: 1;
   &:hover {
     color: gray;
   }

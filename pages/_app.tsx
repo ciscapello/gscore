@@ -25,7 +25,6 @@ const GlobalStyle = createGlobalStyle`
     background-color: #000;
     color: white;
     font-family: "thicccboi", sans-serif;
-    overflow: hidden;
   }
 
   @font-face {

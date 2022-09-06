@@ -6,6 +6,7 @@ interface ProductCardProps {
   name: string;
   price: string;
   id: number;
+  setCurrentCard: (arg: number) => void;
 }
 
 export default function ProductCard({
@@ -14,15 +15,9 @@ export default function ProductCard({
   name,
   price,
   id,
+  setCurrentCard,
 }: ProductCardProps) {
-  // date = date.;
-  // const days = date.getDay();
-  // const months = date.getMonth();
-  // const years = date.getFullYear();
-  // const formattedDate = `${days}.${months}.${years}`;
   let newDate = new Date(Number(date)).toLocaleDateString();
-  console.log(Number(date));
-  console.log(newDate);
 
   return (
     <Card>
@@ -38,7 +33,7 @@ export default function ProductCard({
           </ProductWrapper>
           <Price>${price}</Price>
         </Row>
-        <Button>View</Button>
+        <Button onClick={() => setCurrentCard(id)}>View</Button>
       </CardBody>
     </Card>
   );
@@ -55,6 +50,7 @@ const Button = styled.button`
   width: 120px;
   height: 58px;
   margin-top: 35px;
+  cursor: pointer;
   &:hover {
     background-color: gray;
   }
