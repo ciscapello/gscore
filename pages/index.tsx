@@ -1,4 +1,4 @@
-import Card from "../components/card";
+import { Card } from "../components";
 import { Product, Pricing } from "../types";
 import styled from "styled-components";
 import axios from "axios";

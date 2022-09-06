@@ -1,7 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import InfoForm from "../components/settingsForms/infoForm";
-import PasswordForm from "../components/settingsForms/passwordForm";
+import { InfoForm, PasswordForm } from "../components";
 
 export default function Settings() {
   const [personalInfo, setPersonalInfo] = useState("info");

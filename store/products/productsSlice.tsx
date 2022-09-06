@@ -15,10 +15,6 @@ const initialState: InitialState = {
   error: false,
 };
 
-interface GetSubscribes {
-  token: string;
-}
-
 export const getSubscribes = createAsyncThunk<
   Subscribe[],
   string,

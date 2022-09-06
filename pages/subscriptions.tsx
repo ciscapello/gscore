@@ -1,14 +1,18 @@
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import CodeContainer from "../components/codeContainer";
-import ProductCard from "../components/productCard";
+import {
+  CodeContainer,
+  NoSubscriptions,
+  ProductCard,
+  ProductNavigation,
+} from "../components";
 import { useAppDispatch, useAppSelector } from "../hooks/useStore";
 import { getSubscribes } from "../store/products/productsSlice";
-import { Title } from "../styles";
+import { Button, Title } from "../styles";
 
 export default function Subscriptions() {
   const { token } = useAppSelector((state) => state.user);
+  const { loading } = useAppSelector((state) => state.products);
 
   const dispatch = useAppDispatch();
 
@@ -22,9 +26,8 @@ export default function Subscriptions() {
 
   const currentCodes = data.find((elem) => elem.id === currentCard)?.codes;
 
-  // const [currentCodes, setCodes] = useState(codes);
-
   const [counter, setCounter] = useState(1);
+
   const [offset, setOffset] = useState(0);
 
   const turnLeft = () => {
@@ -42,37 +45,44 @@ export default function Subscriptions() {
   return (
     <Wrapper>
       <Container>
-        <Title>My subscriptions</Title>
-        <Cards offset={offset}>
-          {data?.map((elem) => (
-            <ProductCard
-              key={elem.id}
-              status={elem.status}
-              date={elem.currentPeriodEnd}
-              name={elem.product.name}
-              price={elem.product.prices[0].price}
-              id={elem.id}
-              setCurrentCard={setCurrentCard}
+        <Header>
+          <Title>My subscriptions</Title>
+          {data[0] && <Upgrade>Upgrade</Upgrade>}
+        </Header>
+        {data[0] ? (
+          <>
+            <Cards offset={offset}>
+              {data?.map((elem, index) => (
+                <ProductCard
+                  key={elem.id}
+                  status={elem.status}
+                  date={elem.currentPeriodEnd}
+                  name={elem.product.name}
+                  price={elem.product.prices[0].price}
+                  id={elem.id}
+                  setCurrentCard={setCurrentCard}
+                  counter={counter}
+                  index={index}
+                />
+              ))}
+            </Cards>
+            <ProductNavigation
+              turnLeft={turnLeft}
+              turnRight={turnRight}
+              counter={counter}
+              dataLength={data.length}
             />
-          ))}
-        </Cards>
-        <Navigation>
-          <ArrowLeft onClick={turnLeft}>
-            <Image src="/icons/arrowRight.png" width={24} height={24} alt="" />
-          </ArrowLeft>
-          <Counter>
-            <Span>{counter}</Span>/{data?.length}
-          </Counter>
-          <ArrowRight onClick={turnRight}>
-            <Image src="/icons/arrowRight.png" width={24} height={24} alt="" />
-          </ArrowRight>
-        </Navigation>
-        <Codes>
-          {currentCodes?.map((code) => (
-            <CodeContainer key={code.id} code={code} />
-          ))}
-        </Codes>
+            <Codes>
+              {currentCodes?.map((code) => (
+                <CodeContainer key={code.id} code={code} />
+              ))}
+            </Codes>
+          </>
+        ) : (
+          <NoSubscriptions />
+        )}
       </Container>
+      {loading && <Loading>Loading...</Loading>}
     </Wrapper>
   );
 }
@@ -90,6 +100,23 @@ const Codes = styled.div`
   flex-direction: column;
 `;
 
+const Upgrade = styled(Button)`
+  max-width: 10%;
+`;
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const Loading = styled.div`
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: green;
+`;
+
 const Cards = styled.div<CardsProps>`
   display: flex;
   position: relative;
@@ -100,51 +127,4 @@ const Cards = styled.div<CardsProps>`
 const Container = styled.div`
   width: 90%;
   margin: 0 auto;
-`;
-
-const Navigation = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 20px;
-`;
-
-const Counter = styled.div`
-  font-weight: 700;
-  font-size: 22px;
-  line-height: 28px;
-  color: #393939;
-`;
-
-const Span = styled.span`
-  color: white;
-`;
-
-const ArrowLeft = styled.button`
-  background-color: transparent;
-  width: 44px;
-  height: 44px;
-  border: 1px solid white;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 10px;
-  transform: rotate(180deg);
-  &:hover {
-    border-color: gray;
-  }
-`;
-const ArrowRight = styled.button`
-  background-color: transparent;
-  width: 44px;
-  height: 44px;
-  border: 1px solid white;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 10px;
-  &:hover {
-    border-color: gray;
-  }
 `;

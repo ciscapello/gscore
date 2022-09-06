@@ -5,6 +5,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
 import { logout } from "../../store/user/userSlice";
+import Head from "next/head";
 
 export default function Header() {
   const { isLogin, username } = useAppSelector((state) => state.user);
@@ -30,6 +31,9 @@ export default function Header() {
 
   return (
     <Wrapper>
+      <Head>
+        <title>Gscore</title>
+      </Head>
       <Link href="/">
         <LinkedImage width={170} height={42} src="/Logo.png" alt="gscore" />
       </Link>
@@ -62,6 +66,9 @@ export default function Header() {
 
 const LinkedImage = styled(Image)`
   cursor: pointer;
+  &:hover {
+    opacity: 0.5;
+  }
 `;
 
 interface SpanProps {
@@ -76,9 +83,6 @@ const ProfileLink = styled.p`
   font-size: 20px;
   line-height: 22px;
   cursor: pointer;
-  &:hover {
-    color: gray;
-  }
 `;
 
 const Profile = styled.div<SpanProps>`
@@ -96,15 +100,15 @@ const Profile = styled.div<SpanProps>`
   justify-content: space-around;
   align-items: center;
   z-index: 1;
-  &:hover {
-    color: gray;
-  }
 `;
 
 const Row = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  &:hover {
+    opacity: 0.5;
+  }
 `;
 
 const Span = styled.span<SpanProps>`

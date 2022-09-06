@@ -1,8 +1,7 @@
 import Link from "next/link";
 import styled from "styled-components";
-import SingUpForm from "../components/signUpForm";
-import StatusBar from "../components/statusBar";
-import { Paragraph, Title } from "../styles";
+import { SingUpForm, StatusBar } from "../components";
+import { Paragraph, Title, Container } from "../styles";
 
 export default function Login() {
   return (
@@ -23,11 +22,6 @@ export default function Login() {
     </Container>
   );
 }
-
-export const Container = styled.div`
-  width: 45%;
-  margin: 0 auto;
-`;
 
 const Question = styled.p`
   font-weight: 400;

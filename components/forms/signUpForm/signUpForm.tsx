@@ -1,10 +1,9 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import styled from "styled-components";
 import axios from "axios";
-import { BASE_URL } from "../pages";
-import { useAppDispatch } from "../hooks/useStore";
+import { BASE_URL } from "../../../pages";
+import { useAppDispatch } from "../../../hooks/useStore";
 import { useRouter } from "next/router";
-import { Form, Error, Input, Button } from "../styles";
+import { Form, Error, Input, Button } from "../../../styles";
 
 interface FormValues {
   email: string;

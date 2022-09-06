@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { useAppDispatch } from "../hooks/useStore";
 import { activateCode } from "../store/products/productsSlice";
 import { Code } from "../types";
+import useCopyToClipboard from "../hooks/useCopyToClipboard";
+import { useState } from "react";
 
 interface CodeContainerProps {
   code: Code;
@@ -9,9 +11,19 @@ interface CodeContainerProps {
 
 export default function CodeContainer({ code }: CodeContainerProps) {
   const dispatch = useAppDispatch();
+  const [value, copy] = useCopyToClipboard();
+  const [copied, setCopied] = useState(false);
 
   const onClick = () => {
     dispatch(activateCode(code));
+  };
+
+  const handleClipboard = () => {
+    copy(code.code);
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 1500);
   };
 
   return (
@@ -19,15 +31,20 @@ export default function CodeContainer({ code }: CodeContainerProps) {
       <Checkbox type="checkbox" />
       <Code>
         <Small>License code</Small>
-        <CodeBox disabled defaultValue={code.code} />
+        <CodeBox disabled defaultValue={`${code.code.slice(0, 24)}...`} />
+        <CopyButton onClick={handleClipboard} />
+        {copied && <Copied>This code copied in clipboard</Copied>}
       </Code>
       <Domain>
         <Small>Domain</Small>
         <DomainBox
           status={code.status}
           disabled
-          defaultValue="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendus,
-          molestiae."
+          defaultValue={
+            code.status === "INACTIVE"
+              ? ""
+              : "https://gscore-back.herokuapp.com/api/#/Subscribe/SubscribeController_getSelfSubscribe"
+          }
         />
       </Domain>
       {code.status === "INACTIVE" && (
@@ -76,6 +93,14 @@ const StatusBox = styled.div<StatusProps>`
   line-height: 77px;
 `;
 
+const Copied = styled.div`
+  background-color: gray;
+  border: 1px solid black;
+  font-size: 14px;
+  position: absolute;
+  left: 350px;
+`;
+
 const Small = styled.small`
   font-weight: 700;
   font-size: 16px;
@@ -95,13 +120,28 @@ const DomainBox = styled.input<StatusProps>`
 
 const CodeBox = styled.input`
   margin-top: 10px;
-  background-color: #393939;
   border-radius: 6px;
   height: 68px;
   width: 300px;
   color: #969696;
+  background-color: #393939;
   border: 0;
-  text-align: center;
+  padding-left: 20px;
+`;
+
+const CopyButton = styled.button`
+  background: url("/icons/clipboard.png") center/cover no-repeat,
+    rgba(0, 0, 0, 0);
+  cursor: pointer;
+  border: 0;
+  height: 56px;
+  width: 56px;
+  position: absolute;
+  left: 438px;
+  margin-top: 34px;
+  &:hover {
+    opacity: 0.5;
+  }
 `;
 
 const Code = styled.div`

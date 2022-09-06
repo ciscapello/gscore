@@ -1,10 +1,10 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Form } from "./infoForm";
-import { ChangedButton, InfoInput, Subtitle } from "../../styles";
-import { Error, Success } from "../../styles";
+import { Form } from "../infoForm/infoForm";
+import { ChangedButton, InfoInput, Subtitle } from "../../../styles";
+import { Error, Success } from "../../../styles";
 import axios from "axios";
-import { BASE_URL } from "../../pages";
-import { useAppSelector } from "../../hooks/useStore";
+import { BASE_URL } from "../../../pages";
+import { useAppSelector } from "../../../hooks/useStore";
 import styled from "styled-components";
 import { useState } from "react";
 

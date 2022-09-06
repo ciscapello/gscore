@@ -1,6 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
-import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
+import { useAppDispatch, useAppSelector } from "../../../hooks/useStore";
 import {
   Button,
   ChangedButton,
@@ -9,10 +9,10 @@ import {
   Input,
   Subtitle,
   Success,
-} from "../../styles";
+} from "../../../styles";
 import axios from "axios";
-import { BASE_URL } from "../../pages";
-import { updateUserData } from "../../store/user/userSlice";
+import { BASE_URL } from "../../../pages";
+import { updateUserData } from "../../../store/user/userSlice";
 import { useState } from "react";
 
 interface InfoData {

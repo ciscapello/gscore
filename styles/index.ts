@@ -68,3 +68,8 @@ export const Title = styled.h1`
   font-size: 44px;
   line-height: 54px;
 `;
+
+export const Container = styled.div`
+  width: 45%;
+  margin: 0 auto;
+`;

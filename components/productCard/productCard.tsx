@@ -7,6 +7,8 @@ interface ProductCardProps {
   price: string;
   id: number;
   setCurrentCard: (arg: number) => void;
+  counter: number;
+  index: number;
 }
 
 export default function ProductCard({
@@ -16,11 +18,13 @@ export default function ProductCard({
   price,
   id,
   setCurrentCard,
+  counter,
+  index,
 }: ProductCardProps) {
   let newDate = new Date(Number(date)).toLocaleDateString();
 
   return (
-    <Card>
+    <Card counter={counter} index={index}>
       <CardHeader>
         <span>Gscore</span>
         <Status>{status}</Status>
@@ -37,6 +41,11 @@ export default function ProductCard({
       </CardBody>
     </Card>
   );
+}
+
+interface CardProps {
+  counter: number;
+  index: number;
 }
 
 const Button = styled.button`
@@ -79,13 +88,15 @@ const ProductName = styled.div`
   line-height: 26px;
 `;
 
-const Card = styled.div`
+const Card = styled.div<CardProps>`
   box-sizing: border-box;
   min-width: 620px;
   height: 330px;
   background: #393939;
   border-radius: 12px;
   margin-right: 20px;
+  opacity: ${(props) => (props.counter === props.index + 1 ? "1" : "0.7")};
+  transition: 0.4s;
 `;
 
 const CardBody = styled.div`
