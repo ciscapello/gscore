@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { useAppDispatch, useAppSelector } from "../hooks/useStore";
-import { Product, Pricing } from "../types";
-import { selectProduct } from "../store/user/userSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
+import { Product, Pricing } from "../../types";
+import { selectProduct } from "../../store/user/userSlice";
 import { useRouter } from "next/router";
 
 interface CardProps {

@@ -4,6 +4,7 @@ import { createGlobalStyle } from "styled-components";
 import { Provider } from "react-redux";
 import { persistor, store } from "../store/store";
 import { PersistGate } from "redux-persist/integration/react";
+import Loading from "../components/loading/loading";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -11,6 +12,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <PersistGate persistor={persistor} loading={null}>
         <GlobalStyle />
         <Layout>
+          <Loading />
           <Component {...pageProps} />
         </Layout>
       </PersistGate>

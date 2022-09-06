@@ -1,26 +1,27 @@
 import styled from "styled-components";
+import { Subscribe } from "../../types";
 
 interface ProductCardProps {
-  status: string;
-  date: string;
-  name: string;
+  data: Subscribe;
   price: string;
-  id: number;
   setCurrentCard: (arg: number) => void;
   counter: number;
   index: number;
 }
 
 export default function ProductCard({
-  status,
-  date,
-  name,
   price,
-  id,
+  data,
   setCurrentCard,
   counter,
   index,
 }: ProductCardProps) {
+  const {
+    status,
+    currentPeriodEnd: date,
+    product: { name },
+    id,
+  } = data;
   let newDate = new Date(Number(date)).toLocaleDateString();
 
   return (

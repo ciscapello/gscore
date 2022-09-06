@@ -9,3 +9,4 @@ export { NoSubscriptions } from "./noSubscriptions";
 export { ProductCard } from "./productCard";
 export { ProductNavigation } from "./ProductNavigation";
 export { StatusBar } from "./statusBar";
+export { Loading } from "./loading";

@@ -3,8 +3,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import styled from "styled-components";
-import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
-import { logout } from "../../store/user/userSlice";
+import { useAppDispatch, useAppSelector } from "../../../hooks/useStore";
+import { logout } from "../../../store/user/userSlice";
 import Head from "next/head";
 
 export default function Header() {

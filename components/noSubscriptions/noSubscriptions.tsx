@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Subtitle, Button as OldButton } from "../styles";
+import { Subtitle, Button as OldButton } from "../../styles";
 
 export default function NoSubscriptions() {
   const router = useRouter();

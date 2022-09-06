@@ -12,7 +12,6 @@ import { Button, Title } from "../styles";
 
 export default function Subscriptions() {
   const { token } = useAppSelector((state) => state.user);
-  const { loading } = useAppSelector((state) => state.products);
 
   const dispatch = useAppDispatch();
 
@@ -54,12 +53,9 @@ export default function Subscriptions() {
             <Cards offset={offset}>
               {data?.map((elem, index) => (
                 <ProductCard
+                  data={elem}
                   key={elem.id}
-                  status={elem.status}
-                  date={elem.currentPeriodEnd}
-                  name={elem.product.name}
                   price={elem.product.prices[0].price}
-                  id={elem.id}
                   setCurrentCard={setCurrentCard}
                   counter={counter}
                   index={index}
@@ -82,7 +78,6 @@ export default function Subscriptions() {
           <NoSubscriptions />
         )}
       </Container>
-      {loading && <Loading>Loading...</Loading>}
     </Wrapper>
   );
 }
@@ -108,13 +103,6 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
-
-const Loading = styled.div`
-  position: fixed;
-  top: 0;
-  right: 0;
-  background-color: green;
 `;
 
 const Cards = styled.div<CardsProps>`

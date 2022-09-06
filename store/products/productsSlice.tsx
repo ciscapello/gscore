@@ -50,8 +50,8 @@ export const productsSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
-    setSubscribes: (state, action) => {
-      state.products = action.payload;
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -83,3 +83,5 @@ export const productsSlice = createSlice({
 });
 
 export default productsSlice.reducer;
+
+export const { setLoading } = productsSlice.actions;

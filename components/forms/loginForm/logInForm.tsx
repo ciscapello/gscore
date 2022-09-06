@@ -1,10 +1,10 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Button, Error, Form, Input } from "../styles";
+import { Button, Error, Form, Input } from "../../../styles";
 import { useRouter } from "next/router";
 import axios from "axios";
-import { BASE_URL } from "../pages";
-import { useAppDispatch } from "../hooks/useStore";
-import { signIn } from "../store/user/userSlice";
+import { BASE_URL } from "../../../pages";
+import { useAppDispatch } from "../../../hooks/useStore";
+import { signIn } from "../../../store/user/userSlice";
 import { useState } from "react";
 
 interface FormValues {
