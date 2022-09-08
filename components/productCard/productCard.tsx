@@ -1,28 +1,49 @@
 import styled from "styled-components";
 import { Subscribe } from "../../types";
+import { setCurrentCardIndex } from "../../store/products/productsSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
 
 interface ProductCardProps {
-  data: Subscribe;
+  subscribe: Subscribe;
   price: string;
-  setCurrentCard: (arg: number) => void;
   counter: number;
   index: number;
+  turnRight: (count: number) => void;
 }
 
 export default function ProductCard({
   price,
-  data,
-  setCurrentCard,
+  subscribe,
   counter,
   index,
+  turnRight,
 }: ProductCardProps) {
+  const dispatch = useAppDispatch();
+  const { currentCardIndex } = useAppSelector((state) => state.products);
   const {
     status,
-    currentPeriodEnd: date,
+    currentPeriodEnd,
     product: { name },
     id,
-  } = data;
-  let newDate = new Date(Number(date)).toLocaleDateString();
+  } = subscribe;
+  let currentPeriodEndFormatted = new Date(
+    Number(currentPeriodEnd)
+  ).toLocaleDateString();
+
+  let count: number;
+
+  if (counter < index) {
+    count = index + 1 - counter;
+  } else if (counter > index) {
+    count = counter - index + 1;
+  } else {
+    count = 1;
+  }
+
+  const handleClick = () => {
+    dispatch(setCurrentCardIndex(index));
+    turnRight(count);
+  };
 
   return (
     <Card counter={counter} index={index}>
@@ -34,11 +55,11 @@ export default function ProductCard({
         <Row>
           <ProductWrapper>
             <ProductName>{name} license</ProductName>
-            <Data>valid until {newDate}</Data>
+            <Data>valid until {currentPeriodEndFormatted}</Data>
           </ProductWrapper>
           <Price>${price}</Price>
         </Row>
-        <Button onClick={() => setCurrentCard(id)}>View</Button>
+        <Button onClick={handleClick}>View</Button>
       </CardBody>
     </Card>
   );

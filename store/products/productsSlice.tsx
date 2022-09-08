@@ -4,15 +4,19 @@ import { BASE_URL } from "../../pages";
 import { Code, Subscribe } from "../../types";
 
 interface InitialState {
-  products: Subscribe[] | [];
+  subscribes: Subscribe[] | [];
   loading: boolean;
   error: boolean;
+  currentCardIndex: number | null;
+  currentCardId: number | null;
 }
 
 const initialState: InitialState = {
-  products: [],
+  subscribes: [],
   loading: false,
   error: false,
+  currentCardIndex: null,
+  currentCardId: null,
 };
 
 export const getSubscribes = createAsyncThunk<
@@ -53,6 +57,9 @@ export const productsSlice = createSlice({
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
+    setCurrentCardIndex: (state, action: PayloadAction<number>) => {
+      state.currentCardIndex = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -61,7 +68,7 @@ export const productsSlice = createSlice({
         state.error = false;
       })
       .addCase(getSubscribes.fulfilled, (state, action) => {
-        state.products = action.payload;
+        state.subscribes = action.payload;
         state.loading = false;
         state.error = false;
       })
@@ -71,17 +78,17 @@ export const productsSlice = createSlice({
       .addCase(activateCode.fulfilled, (state, action) => {
         state.loading = false;
         console.log("payload", action.payload);
-        const subscribeIndex = state.products.findIndex(
+        const subscribeIndex = state.subscribes.findIndex(
           (elem) => elem.id === action.payload.subscribeId
         );
-        const codeIndex = state.products[subscribeIndex].codes.findIndex(
+        const codeIndex = state.subscribes[subscribeIndex].codes.findIndex(
           (elem) => elem.id === action.payload.id
         );
-        state.products[subscribeIndex].codes[codeIndex] = action.payload;
+        state.subscribes[subscribeIndex].codes[codeIndex] = action.payload;
       });
   },
 });
 
 export default productsSlice.reducer;
 
-export const { setLoading } = productsSlice.actions;
+export const { setLoading, setCurrentCardIndex } = productsSlice.actions;

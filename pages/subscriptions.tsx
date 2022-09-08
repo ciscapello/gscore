@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
@@ -7,38 +8,49 @@ import {
   ProductNavigation,
 } from "../components";
 import { useAppDispatch, useAppSelector } from "../hooks/useStore";
-import { getSubscribes } from "../store/products/productsSlice";
+import {
+  getSubscribes,
+  setCurrentCardIndex,
+} from "../store/products/productsSlice";
 import { Button, Title } from "../styles";
 
 export default function Subscriptions() {
-  const { token } = useAppSelector((state) => state.user);
-
   const dispatch = useAppDispatch();
+  const router = useRouter();
+  const { token, isLogin } = useAppSelector((state) => state.user);
+  const { currentCardIndex, subscribes } = useAppSelector(
+    (state) => state.products
+  );
+
+  !isLogin ? router.push("/") : null;
+
+  if (subscribes && currentCardIndex === null) {
+    dispatch(setCurrentCardIndex(0));
+  }
 
   useEffect(() => {
     dispatch(getSubscribes(token));
   }, [dispatch, token]);
 
-  const { products: data } = useAppSelector((state) => state.products);
-
-  const [currentCard, setCurrentCard] = useState<number | null>(null);
-
-  const currentCodes = data.find((elem) => elem.id === currentCard)?.codes;
+  const currentCodes = subscribes.find(
+    (_, index) => index === currentCardIndex
+  )?.codes;
 
   const [counter, setCounter] = useState(1);
-
   const [offset, setOffset] = useState(0);
 
-  const turnLeft = () => {
+  const turnLeft = (count = 1) => {
     if (counter <= 1) return;
-    setCounter((prevState) => prevState - 1);
-    setOffset((prevState) => prevState + 640);
+    setCounter((prevState) => prevState - 1 * count);
+    setOffset((prevState) => prevState + 640 * count);
+    dispatch(setCurrentCardIndex(currentCardIndex! - 1 * count));
   };
 
-  const turnRight = () => {
-    if (counter >= data!.length) return;
-    setCounter((prevState) => prevState + 1);
-    setOffset((prevState) => prevState - 640);
+  const turnRight = (count = 1) => {
+    if (counter >= subscribes!.length) return;
+    setCounter((prevState) => prevState + 1 * count);
+    setOffset((prevState) => prevState - 640 * count);
+    dispatch(setCurrentCardIndex(currentCardIndex! + 1 * count));
   };
 
   return (
@@ -46,17 +58,17 @@ export default function Subscriptions() {
       <Container>
         <Header>
           <Title>My subscriptions</Title>
-          {data[0] && <Upgrade>Upgrade</Upgrade>}
+          {subscribes[0] && <Upgrade>Upgrade</Upgrade>}
         </Header>
-        {data[0] ? (
+        {subscribes[0] ? (
           <>
             <Cards offset={offset}>
-              {data?.map((elem, index) => (
+              {subscribes?.map((elem, index) => (
                 <ProductCard
-                  data={elem}
+                  turnRight={turnRight}
+                  subscribe={elem}
                   key={elem.id}
                   price={elem.product.prices[0].price}
-                  setCurrentCard={setCurrentCard}
                   counter={counter}
                   index={index}
                 />
@@ -66,7 +78,7 @@ export default function Subscriptions() {
               turnLeft={turnLeft}
               turnRight={turnRight}
               counter={counter}
-              dataLength={data.length}
+              dataLength={subscribes.length}
             />
             <Codes>
               {currentCodes?.map((code) => (

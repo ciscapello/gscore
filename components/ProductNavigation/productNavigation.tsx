@@ -2,8 +2,8 @@ import styled from "styled-components";
 import Image from "next/image";
 
 interface IProductNavigationProps {
-  turnLeft: () => void;
-  turnRight: () => void;
+  turnLeft: (count: number) => void;
+  turnRight: (count: number) => void;
   counter: number;
   dataLength: number;
 }
@@ -16,13 +16,13 @@ export default function ProductNavigation({
 }: IProductNavigationProps) {
   return (
     <Navigation>
-      <ArrowLeft onClick={turnLeft}>
+      <ArrowLeft onClick={() => turnLeft(1)}>
         <Image src="/icons/arrowRight.png" width={24} height={24} alt="" />
       </ArrowLeft>
       <Counter>
         <Span>{counter}</Span>/{dataLength}
       </Counter>
-      <ArrowRight onClick={turnRight}>
+      <ArrowRight onClick={() => turnRight(1)}>
         <Image src="/icons/arrowRight.png" width={24} height={24} alt="" />
       </ArrowRight>
     </Navigation>
