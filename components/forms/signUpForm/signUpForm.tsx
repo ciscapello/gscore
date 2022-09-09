@@ -4,8 +4,9 @@ import { BASE_URL } from "../../../pages";
 import { useAppDispatch } from "../../../hooks/useStore";
 import { useRouter } from "next/router";
 import { Form, Error, Input, Button } from "../../../styles";
+import { signUp } from "../../../store/user/userSlice";
 
-interface FormValues {
+export interface SignUpFormValues {
   email: string;
   username: string;
   password: string;
@@ -19,16 +20,18 @@ export default function SingUpForm() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FormValues>({
+  } = useForm<SignUpFormValues>({
     mode: "onChange",
   });
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
+  const onSubmit: SubmitHandler<SignUpFormValues> = (data) => {
     reset();
-    axios.post(`${BASE_URL}/users/sign-up`, data).then((res) => {
-      console.log(res);
-      router.push("/login");
-    });
+    dispatch(signUp(data));
+    router.push("/login");
+    // axios.post(`${BASE_URL}/users/sign-up`, data).then((res) => {
+    //   console.log(res);
+    //   router.push("/login");
+    // });
   };
 
   return (

@@ -23,26 +23,36 @@ export default function ProductCard({
   const {
     status,
     currentPeriodEnd,
+    currentPeriodStart,
     product: { name },
     id,
   } = subscribe;
   let currentPeriodEndFormatted = new Date(
     Number(currentPeriodEnd)
   ).toLocaleDateString();
+  // const diffDate = Number(currentPeriodEnd) - Number(currentPeriodStart);
+  // const currentDate = Date.now();
+  // const currentDateMs = new Date(currentDate).getMilliseconds();
+  // const dateEnd = new Date(currentDateMs + diffDate).toLocaleDateString();
 
-  let count: number;
+  // console.log(
+  //   new Date(
+  //     Number(currentPeriodStart) + Number(currentPeriodEnd)
+  //   ).toLocaleDateString()
+  // );
+  let turnCount: number;
 
-  if (counter < index) {
-    count = index + 1 - counter;
-  } else if (counter > index) {
-    count = counter - index + 1;
-  } else {
-    count = 1;
+  if (counter < index + 1) {
+    turnCount = index + 1 - counter;
+  } else if (counter > index + 1) {
+    turnCount = counter - index + 1;
+  } else if (counter === index + 1) {
+    turnCount = 0;
   }
 
   const handleClick = () => {
     dispatch(setCurrentCardIndex(index));
-    turnRight(count);
+    turnRight(turnCount);
   };
 
   return (

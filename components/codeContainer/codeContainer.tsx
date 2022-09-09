@@ -4,9 +4,11 @@ import { activateCode } from "../../store/products/productsSlice";
 import { Code } from "../../types";
 import useCopyToClipboard from "../../hooks/useCopyToClipboard";
 import { useState } from "react";
+import { UseFormRegister } from "react-hook-form";
 
 interface CodeContainerProps {
   code: Code;
+  // register: UseFormRegister
 }
 
 export default function CodeContainer({ code }: CodeContainerProps) {

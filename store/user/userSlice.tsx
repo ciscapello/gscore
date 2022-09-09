@@ -1,4 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
+import { SignUpFormValues } from "../../components/forms/signUpForm/signUpForm";
+import { BASE_URL } from "../../pages";
 import { LoginAction, UpdateUserData } from "./types";
 
 interface UserState {
@@ -6,7 +9,7 @@ interface UserState {
   username: string;
   email: string;
   token: string;
-  selectedProductId: number;
+  selectedProductForBuy: number;
   checkedCodes: number[];
 }
 
@@ -15,9 +18,19 @@ const initialState: UserState = {
   username: "",
   email: "",
   token: "",
-  selectedProductId: 0,
+  selectedProductForBuy: 0,
   checkedCodes: [],
 };
+
+export const signUp = createAsyncThunk<
+  unknown,
+  SignUpFormValues,
+  { rejectValue: string }
+>("products/activateCode", async (data, { rejectWithValue }) => {
+  const res = await axios.post(`${BASE_URL}/users/sign-up`, data);
+
+  if (!res.data) return rejectWithValue("Server error");
+});
 
 export const userSlice = createSlice({
   name: "user",
@@ -37,7 +50,7 @@ export const userSlice = createSlice({
       state.email = "";
     },
     selectProduct: (state, action: PayloadAction<number>) => {
-      state.selectedProductId = action.payload;
+      state.selectedProductForBuy = action.payload;
     },
     updateUserData: (state, action: PayloadAction<UpdateUserData>) => {
       state.username = action.payload.username;

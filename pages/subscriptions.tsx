@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import {
   CodeContainer,
@@ -11,6 +12,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/useStore";
 import {
   getSubscribes,
   setCurrentCardIndex,
+  setSelectedSubcribeId,
 } from "../store/products/productsSlice";
 import { Button, Title } from "../styles";
 
@@ -18,6 +20,7 @@ export default function Subscriptions() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { token, isLogin } = useAppSelector((state) => state.user);
+  // const { holded, setHolded } = useState<boolean>(false);
   const { currentCardIndex, subscribes } = useAppSelector(
     (state) => state.products
   );
@@ -39,26 +42,38 @@ export default function Subscriptions() {
   const [counter, setCounter] = useState(1);
   const [offset, setOffset] = useState(0);
 
-  const turnLeft = (count = 1) => {
+  const turnLeft = (turnCount = 1) => {
     if (counter <= 1) return;
-    setCounter((prevState) => prevState - 1 * count);
-    setOffset((prevState) => prevState + 640 * count);
-    dispatch(setCurrentCardIndex(currentCardIndex! - 1 * count));
+    setCounter((prevState) => prevState - turnCount);
+    setOffset((prevState) => prevState + 640 * turnCount);
+    dispatch(setCurrentCardIndex(currentCardIndex! - turnCount));
   };
 
-  const turnRight = (count = 1) => {
+  const turnRight = (turnCount = 1) => {
     if (counter >= subscribes!.length) return;
-    setCounter((prevState) => prevState + 1 * count);
-    setOffset((prevState) => prevState - 640 * count);
-    dispatch(setCurrentCardIndex(currentCardIndex! + 1 * count));
+    setCounter((prevState) => prevState + turnCount);
+    setOffset((prevState) => prevState - 640 * turnCount);
+    dispatch(setCurrentCardIndex(currentCardIndex! + turnCount));
   };
+
+  const handleClick = () => {
+    const subscribeId = subscribes[currentCardIndex!].id;
+    dispatch(setSelectedSubcribeId(subscribeId));
+    dispatch(setCurrentCardIndex(null));
+    router.push("/");
+  };
+
+  // const { register, watch } = useForm<CheckedInputs>();
+  // console.log(watch);
 
   return (
     <Wrapper>
       <Container>
         <Header>
           <Title>My subscriptions</Title>
-          {subscribes[0] && <Upgrade>Upgrade</Upgrade>}
+          {subscribes[0] && (
+            <SmallButton onClick={handleClick}>Upgrade</SmallButton>
+          )}
         </Header>
         {subscribes[0] ? (
           <>
@@ -85,6 +100,10 @@ export default function Subscriptions() {
                 <CodeContainer key={code.id} code={code} />
               ))}
             </Codes>
+            <ActivateCodes>
+              <p>Select the domains you want to keep</p>
+              <SmallButton>Confirm</SmallButton>
+            </ActivateCodes>
           </>
         ) : (
           <NoSubscriptions />
@@ -102,12 +121,18 @@ const Wrapper = styled.div`
   overflow: hidden;
 `;
 
+const ActivateCodes = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const Codes = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const Upgrade = styled(Button)`
+const SmallButton = styled(Button)`
   max-width: 10%;
 `;
 

@@ -8,7 +8,7 @@ interface InitialState {
   loading: boolean;
   error: boolean;
   currentCardIndex: number | null;
-  currentCardId: number | null;
+  selectedSubcribeId: number | null;
 }
 
 const initialState: InitialState = {
@@ -16,15 +16,30 @@ const initialState: InitialState = {
   loading: false,
   error: false,
   currentCardIndex: null,
-  currentCardId: null,
+  selectedSubcribeId: null,
 };
+
+interface ChangeProductRes {
+  id: number;
+  userId: number;
+  productId: number;
+  currentPeriodStart: string;
+  currentPeriodEnd: string;
+  status: string;
+}
+
+interface ChangeProductsArgs {
+  token: string;
+  selectedProductForBuy: number;
+  selectedSubcribeId: number;
+}
 
 export const getSubscribes = createAsyncThunk<
   Subscribe[],
   string,
   { rejectValue: string }
 >("products/getSubscribes", async (token, { rejectWithValue }) => {
-  const res = await axios(`${BASE_URL}/subscribe/self`, {
+  const res = await axios.get<Subscribe[]>(`${BASE_URL}/subscribe/self`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
@@ -33,7 +48,9 @@ export const getSubscribes = createAsyncThunk<
   if (!res.data) {
     return rejectWithValue("Error");
   }
-  return res.data;
+  const sortedData = res.data.sort((a, b) => a.id - b.id);
+  console.log(sortedData);
+  return sortedData;
 });
 
 export const activateCode = createAsyncThunk<
@@ -50,6 +67,36 @@ export const activateCode = createAsyncThunk<
   return res.data;
 });
 
+export const changeProduct = createAsyncThunk<
+  ChangeProductRes,
+  ChangeProductsArgs,
+  { rejectValue: string }
+>(
+  "products/changeProduct",
+  async (
+    { token, selectedProductForBuy, selectedSubcribeId },
+    { rejectWithValue }
+  ) => {
+    const res = await axios.post(
+      `${BASE_URL}/subscribe/change-product`,
+      {
+        productId: selectedProductForBuy,
+        subscribeId: selectedSubcribeId,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (!res.data) return rejectWithValue("Server error");
+
+    console.log(res.data);
+    return res.data;
+  }
+);
+
 export const productsSlice = createSlice({
   name: "products",
   initialState,
@@ -57,8 +104,11 @@ export const productsSlice = createSlice({
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
-    setCurrentCardIndex: (state, action: PayloadAction<number>) => {
+    setCurrentCardIndex: (state, action: PayloadAction<number | null>) => {
       state.currentCardIndex = action.payload;
+    },
+    setSelectedSubcribeId: (state, action: PayloadAction<number | null>) => {
+      state.selectedSubcribeId = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -85,10 +135,18 @@ export const productsSlice = createSlice({
           (elem) => elem.id === action.payload.id
         );
         state.subscribes[subscribeIndex].codes[codeIndex] = action.payload;
+      })
+      .addCase(changeProduct.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(changeProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        // state.subscribes[subscribeIndex].status
       });
   },
 });
 
 export default productsSlice.reducer;
 
-export const { setLoading, setCurrentCardIndex } = productsSlice.actions;
+export const { setLoading, setCurrentCardIndex, setSelectedSubcribeId } =
+  productsSlice.actions;

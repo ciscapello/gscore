@@ -5,28 +5,35 @@ import axios from "axios";
 import { BASE_URL } from ".";
 import { GetStaticPropsContext } from "next";
 import { Product } from "../types";
-import { useAppSelector } from "../hooks/useStore";
+import { useAppDispatch, useAppSelector } from "../hooks/useStore";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import {
+  changeProduct,
+  getSubscribes,
+  setSelectedSubcribeId,
+} from "../store/products/productsSlice";
 
 interface CheckoutProps {
   data: Product[];
 }
 
 export default function Checkout({ data }: CheckoutProps) {
+  const dispatch = useAppDispatch();
   const [isPurchased, setIsPurchased] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const { selectedProductId, isLogin, token } = useAppSelector(
+  const { selectedProductForBuy, isLogin, token } = useAppSelector(
     (state) => state.user
   );
+  const { selectedSubcribeId } = useAppSelector((state) => state.products);
 
   const router = useRouter();
   !isLogin ? router.push("/login") : null;
-  !selectedProductId ? router.push("/") : null;
+  !selectedProductForBuy ? router.push("/") : null;
 
   const selectedProduct = data.find(
-    (product) => product.id === selectedProductId
+    (product) => product.id === selectedProductForBuy
   );
 
   const onClick = () => {
@@ -34,26 +41,38 @@ export default function Checkout({ data }: CheckoutProps) {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     };
-
-    axios
-      .post(
-        `${BASE_URL}/payments/buy`,
-        {
-          priceId: selectedProduct?.id,
-        },
-        {
-          headers: headers,
-        }
-      )
-      .then((res) => {
-        console.log(res);
-        setIsPurchased(true);
-        setIsError(false);
-      })
-      .catch((error) => {
-        setIsError(true);
-        console.error(error);
+    if (!selectedSubcribeId) {
+      axios
+        .post(
+          `${BASE_URL}/payments/buy`,
+          {
+            priceId: selectedProduct?.id,
+          },
+          {
+            headers: headers,
+          }
+        )
+        .then((res) => {
+          setIsPurchased(true);
+          setIsError(false);
+        })
+        .catch((error) => {
+          setIsError(true);
+          console.error(error);
+        });
+    } else {
+      const promise = new Promise<void>(function (resolve, reject) {
+        dispatch(
+          changeProduct({ token, selectedProductForBuy, selectedSubcribeId })
+        );
+        resolve();
       });
+      promise.then(() => {
+        dispatch(getSubscribes(token));
+        setIsPurchased(true);
+        dispatch(setSelectedSubcribeId(null));
+      });
+    }
   };
 
   const handleClick = () => {
