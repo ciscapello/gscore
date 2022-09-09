@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { BASE_URL } from "../../pages";
 import { Code, Subscribe } from "../../types";
+import { RootState } from "../store";
 
 interface InitialState {
   subscribes: Subscribe[] | [];
@@ -36,9 +37,12 @@ interface ChangeProductsArgs {
 
 export const getSubscribes = createAsyncThunk<
   Subscribe[],
-  string,
-  { rejectValue: string }
->("products/getSubscribes", async (token, { rejectWithValue }) => {
+  undefined,
+  { rejectValue: string; state: RootState }
+>("products/getSubscribes", async (_, { rejectWithValue, getState }) => {
+  console.log(getState().user);
+  const { token } = getState().user;
+
   const res = await axios.get<Subscribe[]>(`${BASE_URL}/subscribe/self`, {
     headers: {
       "Content-Type": "application/json",
@@ -58,25 +62,30 @@ export const activateCode = createAsyncThunk<
   Code,
   { rejectValue: string }
 >("products/activateCode", async (code, { rejectWithValue }) => {
-  const res = await axios.post(`${BASE_URL}/code/activate`, {
-    code: code.code,
-  });
-
-  if (!res.data) return rejectWithValue("Server error");
-
-  return res.data;
+  try {
+    const res = await axios.post(`${BASE_URL}/code/activate`, {
+      code: code.code,
+    });
+    if (!res.data) {
+      throw new Error("Server error");
+    }
+    return res.data;
+  } catch (error) {
+    let message;
+    if (error instanceof Error) message = error.message;
+    else message = String(error);
+    return rejectWithValue(message);
+  }
 });
 
 export const changeProduct = createAsyncThunk<
   ChangeProductRes,
-  ChangeProductsArgs,
-  { rejectValue: string }
->(
-  "products/changeProduct",
-  async (
-    { token, selectedProductForBuy, selectedSubcribeId },
-    { rejectWithValue }
-  ) => {
+  undefined,
+  { rejectValue: string; state: RootState }
+>("products/changeProduct", async (_, { rejectWithValue, getState }) => {
+  const { token, selectedProductForBuy } = getState().user;
+  const { selectedSubcribeId } = getState().products;
+  try {
     const res = await axios.post(
       `${BASE_URL}/subscribe/change-product`,
       {
@@ -90,12 +99,11 @@ export const changeProduct = createAsyncThunk<
         },
       }
     );
-    if (!res.data) return rejectWithValue("Server error");
-
-    console.log(res.data);
     return res.data;
+  } catch {
+    return rejectWithValue("Server error");
   }
-);
+});
 
 export const productsSlice = createSlice({
   name: "products",
@@ -136,12 +144,15 @@ export const productsSlice = createSlice({
         );
         state.subscribes[subscribeIndex].codes[codeIndex] = action.payload;
       })
+      .addCase(activateCode.rejected, (state, action) => {
+        state.error = true;
+        console.log(action.payload);
+      })
       .addCase(changeProduct.pending, (state, action) => {
         state.loading = true;
       })
       .addCase(changeProduct.fulfilled, (state, action) => {
         state.loading = false;
-        // state.subscribes[subscribeIndex].status
       });
   },
 });

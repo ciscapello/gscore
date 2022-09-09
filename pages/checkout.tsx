@@ -13,6 +13,7 @@ import {
   getSubscribes,
   setSelectedSubcribeId,
 } from "../store/products/productsSlice";
+import { buyProduct } from "../store/user/userSlice";
 
 interface CheckoutProps {
   data: Product[];
@@ -37,38 +38,16 @@ export default function Checkout({ data }: CheckoutProps) {
   );
 
   const onClick = () => {
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    };
     if (!selectedSubcribeId) {
-      axios
-        .post(
-          `${BASE_URL}/payments/buy`,
-          {
-            priceId: selectedProduct?.id,
-          },
-          {
-            headers: headers,
-          }
-        )
-        .then((res) => {
-          setIsPurchased(true);
-          setIsError(false);
-        })
-        .catch((error) => {
-          setIsError(true);
-          console.error(error);
-        });
+      dispatch(buyProduct());
+      setIsPurchased(true);
     } else {
       const promise = new Promise<void>(function (resolve, reject) {
-        dispatch(
-          changeProduct({ token, selectedProductForBuy, selectedSubcribeId })
-        );
+        dispatch(changeProduct());
         resolve();
       });
       promise.then(() => {
-        dispatch(getSubscribes(token));
+        dispatch(getSubscribes());
         setIsPurchased(true);
         dispatch(setSelectedSubcribeId(null));
       });
@@ -133,7 +112,6 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   if (!data) {
     return null;
   }
-
   return { props: { data } };
 }
 

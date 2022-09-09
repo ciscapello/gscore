@@ -4,46 +4,31 @@ import { ChangedButton, InfoInput, Subtitle } from "../../../styles";
 import { Error, Success } from "../../../styles";
 import axios from "axios";
 import { BASE_URL } from "../../../pages";
-import { useAppSelector } from "../../../hooks/useStore";
+import { useAppDispatch, useAppSelector } from "../../../hooks/useStore";
 import styled from "styled-components";
 import { useState } from "react";
+import { setPassword } from "../../../store/user/userSlice";
 
-interface FieldValues {
+export interface SetPasswordFieldValues {
   currentPassword: string;
   newPassword: string;
 }
 
 export default function PasswordForm() {
-  const { token } = useAppSelector((state) => state.user);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const dispatch = useAppDispatch();
+  const { passwordError, passwordSuccess } = useAppSelector(
+    (state) => state.user
+  );
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FieldValues>();
+  } = useForm<SetPasswordFieldValues>();
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    };
-    axios
-      .patch(`${BASE_URL}/users/update-password`, data, {
-        headers: headers,
-      })
-      .then((res) => {
-        console.log(res);
-        setIsSuccess(true);
-        setTimeout(() => setIsSuccess(false), 2000);
-        reset();
-      })
-      .catch(() => {
-        setIsError(true);
-        setTimeout(() => setIsError(false), 2000);
-      });
+  const onSubmit: SubmitHandler<SetPasswordFieldValues> = (data) => {
+    dispatch(setPassword(data));
+    reset();
   };
 
   return (
@@ -60,8 +45,10 @@ export default function PasswordForm() {
       {errors.newPassword && (
         <Error>New password should have minimal 6 symbols</Error>
       )}
-      {isSuccess && <Success>Your password is successfully updated</Success>}
-      {isError && <Error>Something goes wrong</Error>}
+      {passwordSuccess && (
+        <Success>Your password is successfully updated</Success>
+      )}
+      {passwordError && <Error>Something goes wrong</Error>}
       <ChangedButton>Save</ChangedButton>
     </Form>
   );

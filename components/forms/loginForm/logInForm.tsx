@@ -1,51 +1,35 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button, Error, Form, Input } from "../../../styles";
 import { useRouter } from "next/router";
-import axios from "axios";
-import { BASE_URL } from "../../../pages";
-import { useAppDispatch } from "../../../hooks/useStore";
-import { signIn } from "../../../store/user/userSlice";
-import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../../hooks/useStore";
+import { logIn } from "../../../store/user/userSlice";
 
-interface FormValues {
+export interface LogInFormValues {
   email: string;
   password: string;
 }
 
 export default function LogInForm() {
   const dispatch = useAppDispatch();
-
-  const [error, setError] = useState(false);
+  const { signInError } = useAppSelector((state) => state.user);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = useForm<LogInFormValues>();
 
   const router = useRouter();
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
-    axios
-      .post(`${BASE_URL}/users/sign-in`, data)
-      .then((res) => {
-        console.log(res);
-        const {
-          token,
-          user: { username, email },
-        } = res.data;
-        dispatch(signIn({ email, username, token }));
-        setError(false);
-        router.push("/checkout");
-      })
-      .catch((error) => error.code === "ERR_BAD_REQUEST" && setError(true));
+  const onSubmit: SubmitHandler<LogInFormValues> = (data) => {
+    dispatch(logIn(data));
+    router.push("/checkout");
   };
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       {errors.email ? <Error>Email is required</Error> : null}
-      {error && <Error>Invalid email or password</Error>}
+      {signInError && <Error>Invalid email or password</Error>}
       <Input
         type="text"
         placeholder="Email"

@@ -19,7 +19,7 @@ import { Button, Title } from "../styles";
 export default function Subscriptions() {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const { token, isLogin } = useAppSelector((state) => state.user);
+  const { isLogin } = useAppSelector((state) => state.user);
   // const { holded, setHolded } = useState<boolean>(false);
   const { currentCardIndex, subscribes } = useAppSelector(
     (state) => state.products
@@ -32,8 +32,8 @@ export default function Subscriptions() {
   }
 
   useEffect(() => {
-    dispatch(getSubscribes(token));
-  }, [dispatch, token]);
+    dispatch(getSubscribes());
+  }, [dispatch]);
 
   const currentCodes = subscribes.find(
     (_, index) => index === currentCardIndex

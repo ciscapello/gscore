@@ -10,10 +10,7 @@ import {
   Subtitle,
   Success,
 } from "../../../styles";
-import axios from "axios";
-import { BASE_URL } from "../../../pages";
-import { updateUserData } from "../../../store/user/userSlice";
-import { useState } from "react";
+import { updateUserInfo } from "../../../store/user/userSlice";
 
 interface InfoData {
   username: string;
@@ -21,11 +18,10 @@ interface InfoData {
 }
 
 export default function InfoForm() {
-  const { token } = useAppSelector((state) => state.user);
+  const { userInfoError, userInfoSuccess } = useAppSelector(
+    (state) => state.user
+  );
   const dispatch = useAppDispatch();
-
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [isError, setIsError] = useState(false);
 
   let {
     register,
@@ -35,24 +31,7 @@ export default function InfoForm() {
   } = useForm<InfoData>();
 
   const onInfoSubmit: SubmitHandler<InfoData> = (data) => {
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    };
-    axios
-      .patch(`${BASE_URL}/users`, data, {
-        headers: headers,
-      })
-      .then((res) => {
-        const { email, username } = res.data;
-        dispatch(updateUserData({ email, username }));
-        setIsSuccess(true);
-        setTimeout(() => setIsSuccess(false), 2000);
-      })
-      .catch(() => {
-        setIsError(true);
-        setTimeout(() => setIsError(false), 2000);
-      });
+    dispatch(updateUserInfo(data));
     reset();
   };
 
@@ -71,8 +50,8 @@ export default function InfoForm() {
           pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
         })}
       />
-      {isSuccess && <Success>Data is successfully update</Success>}
-      {isError && <Error>Something goes wrong</Error>}
+      {userInfoSuccess && <Success>Data is successfully update</Success>}
+      {userInfoError && <Error>Something goes wrong</Error>}
       <ChangedButton>Save</ChangedButton>
     </Form>
   );
