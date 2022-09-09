@@ -2,7 +2,8 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { BASE_URL } from "../../pages";
 import { Code, Subscribe } from "../../types";
-import { RootState } from "../store";
+import { AppDispatch, RootState } from "../store";
+import { ChangeProductRes } from "./types";
 
 interface InitialState {
   subscribes: Subscribe[] | [];
@@ -20,20 +21,27 @@ const initialState: InitialState = {
   selectedSubcribeId: null,
 };
 
-interface ChangeProductRes {
-  id: number;
-  userId: number;
-  productId: number;
-  currentPeriodStart: string;
-  currentPeriodEnd: string;
-  status: string;
-}
-
-interface ChangeProductsArgs {
-  token: string;
-  selectedProductForBuy: number;
-  selectedSubcribeId: number;
-}
+export const activateHoldedCodes = createAsyncThunk<
+  void,
+  { selectedCodes: number[]; subscribeId: number },
+  { state: RootState; dispatch: AppDispatch }
+>("products/activateHoldedCodes", async (args, { getState, dispatch }) => {
+  const { token } = getState().user;
+  console.log(args);
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+  const res = await axios.put(
+    `${BASE_URL}/code/manage`,
+    {
+      codesIds: args.selectedCodes,
+      subscribeId: args.subscribeId,
+    },
+    { headers: headers }
+  );
+  console.log(res);
+  dispatch(getSubscribes());
+});
 
 export const getSubscribes = createAsyncThunk<
   Subscribe[],

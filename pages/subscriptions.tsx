@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import {
   CodeContainer,
@@ -10,6 +9,7 @@ import {
 } from "../components";
 import { useAppDispatch, useAppSelector } from "../hooks/useStore";
 import {
+  activateHoldedCodes,
   getSubscribes,
   setCurrentCardIndex,
   setSelectedSubcribeId,
@@ -20,10 +20,37 @@ export default function Subscriptions() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { isLogin } = useAppSelector((state) => state.user);
-  // const { holded, setHolded } = useState<boolean>(false);
+
   const { currentCardIndex, subscribes } = useAppSelector(
     (state) => state.products
   );
+
+  const [selectedCodes, setSelectedCodes] = useState<number[]>([]);
+  const [selectSitesError, setSelectSitesError] = useState(false);
+
+  const addCodeToSelect = (codeId: number) => {
+    setSelectedCodes([...selectedCodes, codeId]);
+    console.log(selectedCodes);
+  };
+
+  const removeCodeFromSelect = (codeId: number) => {
+    setSelectedCodes(() => selectedCodes.filter((elem) => elem !== codeId));
+    console.log(selectedCodes);
+  };
+
+  const currentProductSitesCount = subscribes.find(
+    (_, index) => index === currentCardIndex
+  )?.product.sitesCount;
+
+  const activateCodes = () => {
+    const subscribeId = subscribes[currentCardIndex!].id;
+    if (selectedCodes.length !== currentProductSitesCount!) {
+      setSelectSitesError(true);
+      return;
+    }
+    dispatch(activateHoldedCodes({ selectedCodes, subscribeId }));
+    setSelectSitesError(false);
+  };
 
   !isLogin ? router.push("/") : null;
 
@@ -47,6 +74,7 @@ export default function Subscriptions() {
     setCounter((prevState) => prevState - turnCount);
     setOffset((prevState) => prevState + 640 * turnCount);
     dispatch(setCurrentCardIndex(currentCardIndex! - turnCount));
+    setSelectedCodes([]);
   };
 
   const turnRight = (turnCount = 1) => {
@@ -54,6 +82,7 @@ export default function Subscriptions() {
     setCounter((prevState) => prevState + turnCount);
     setOffset((prevState) => prevState - 640 * turnCount);
     dispatch(setCurrentCardIndex(currentCardIndex! + turnCount));
+    setSelectedCodes([]);
   };
 
   const handleClick = () => {
@@ -62,9 +91,6 @@ export default function Subscriptions() {
     dispatch(setCurrentCardIndex(null));
     router.push("/");
   };
-
-  // const { register, watch } = useForm<CheckedInputs>();
-  // console.log(watch);
 
   return (
     <Wrapper>
@@ -97,12 +123,24 @@ export default function Subscriptions() {
             />
             <Codes>
               {currentCodes?.map((code) => (
-                <CodeContainer key={code.id} code={code} />
+                <CodeContainer
+                  key={code.id}
+                  addCodeToSelect={addCodeToSelect}
+                  removeCodeFromSelect={removeCodeFromSelect}
+                  currentProductSitesCount={currentProductSitesCount}
+                  selectedCodes={selectedCodes}
+                  code={code}
+                />
               ))}
             </Codes>
+            {selectSitesError && (
+              <SelectError>
+                You have to select {currentProductSitesCount} codes!
+              </SelectError>
+            )}
             <ActivateCodes>
               <p>Select the domains you want to keep</p>
-              <SmallButton>Confirm</SmallButton>
+              <SmallButton onClick={activateCodes}>Confirm</SmallButton>
             </ActivateCodes>
           </>
         ) : (
@@ -119,6 +157,11 @@ interface CardsProps {
 
 const Wrapper = styled.div`
   overflow: hidden;
+`;
+
+const SelectError = styled.p`
+  text-align: center;
+  color: red;
 `;
 
 const ActivateCodes = styled.div`

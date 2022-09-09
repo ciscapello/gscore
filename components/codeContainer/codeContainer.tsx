@@ -4,17 +4,32 @@ import { activateCode } from "../../store/products/productsSlice";
 import { Code } from "../../types";
 import useCopyToClipboard from "../../hooks/useCopyToClipboard";
 import { useState } from "react";
-import { UseFormRegister } from "react-hook-form";
 
 interface CodeContainerProps {
   code: Code;
-  // register: UseFormRegister
+  addCodeToSelect: (arg: number) => void;
+  removeCodeFromSelect: (arg: number) => void;
+  currentProductSitesCount: number | undefined;
+  selectedCodes: number[];
 }
 
-export default function CodeContainer({ code }: CodeContainerProps) {
+export default function CodeContainer({
+  code,
+  addCodeToSelect,
+  removeCodeFromSelect,
+  currentProductSitesCount,
+  selectedCodes,
+}: CodeContainerProps) {
   const dispatch = useAppDispatch();
   const [value, copy] = useCopyToClipboard();
   const [copied, setCopied] = useState(false);
+  const [checked, setChecked] = useState(false);
+
+  const onChange = () => {
+    if (currentProductSitesCount! <= selectedCodes.length && !checked) return;
+    setChecked((prev) => !prev);
+    !checked ? addCodeToSelect(code.id) : removeCodeFromSelect(code.id);
+  };
 
   const onClick = () => {
     dispatch(activateCode(code));
@@ -30,7 +45,7 @@ export default function CodeContainer({ code }: CodeContainerProps) {
 
   return (
     <Wrapper status={code.status}>
-      <Checkbox type="checkbox" />
+      <Checkbox type="checkbox" checked={checked} onChange={onChange} />
       <Code>
         <Small>License code</Small>
         <CodeBox disabled defaultValue={`${code.code.slice(0, 24)}...`} />
