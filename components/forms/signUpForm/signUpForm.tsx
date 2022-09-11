@@ -1,6 +1,4 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import axios from "axios";
-import { BASE_URL } from "../../../pages";
 import { useAppDispatch } from "../../../hooks/useStore";
 import { useRouter } from "next/router";
 import { Form, Error, Input, Button } from "../../../styles";
@@ -28,10 +26,6 @@ export default function SingUpForm() {
     reset();
     dispatch(signUp(data));
     router.push("/login");
-    // axios.post(`${BASE_URL}/users/sign-up`, data).then((res) => {
-    //   console.log(res);
-    //   router.push("/login");
-    // });
   };
 
   return (

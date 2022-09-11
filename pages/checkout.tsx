@@ -55,7 +55,7 @@ export default function Checkout({ data }: CheckoutProps) {
   };
 
   const handleClick = () => {
-    router.push("/subscriptions");
+    router.push("/settings/subscriptions");
   };
 
   return (

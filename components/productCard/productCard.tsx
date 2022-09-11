@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Subscribe } from "../../types";
 import { setCurrentCardIndex } from "../../store/products/productsSlice";
-import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
+import { useAppDispatch } from "../../hooks/useStore";
 
 interface ProductCardProps {
   subscribe: Subscribe;
@@ -9,6 +9,7 @@ interface ProductCardProps {
   counter: number;
   index: number;
   turnRight: (count: number) => void;
+  turnLeft: (count: number) => void;
 }
 
 export default function ProductCard({
@@ -17,42 +18,36 @@ export default function ProductCard({
   counter,
   index,
   turnRight,
+  turnLeft,
 }: ProductCardProps) {
   const dispatch = useAppDispatch();
-  const { currentCardIndex } = useAppSelector((state) => state.products);
   const {
     status,
     currentPeriodEnd,
-    currentPeriodStart,
     product: { name },
     id,
   } = subscribe;
   let currentPeriodEndFormatted = new Date(
     Number(currentPeriodEnd)
   ).toLocaleDateString();
-  // const diffDate = Number(currentPeriodEnd) - Number(currentPeriodStart);
-  // const currentDate = Date.now();
-  // const currentDateMs = new Date(currentDate).getMilliseconds();
-  // const dateEnd = new Date(currentDateMs + diffDate).toLocaleDateString();
-
-  // console.log(
-  //   new Date(
-  //     Number(currentPeriodStart) + Number(currentPeriodEnd)
-  //   ).toLocaleDateString()
-  // );
   let turnCount: number;
 
   if (counter < index + 1) {
     turnCount = index + 1 - counter;
   } else if (counter > index + 1) {
-    turnCount = counter - index + 1;
+    turnCount = counter - (index + 1);
   } else if (counter === index + 1) {
     turnCount = 0;
   }
 
   const handleClick = () => {
     dispatch(setCurrentCardIndex(index));
-    turnRight(turnCount);
+    if (index + 1 > counter) {
+      turnRight(turnCount);
+    } else if (index + 1 < counter) {
+      turnLeft(turnCount);
+    }
+    console.log(turnCount);
   };
 
   return (
@@ -129,6 +124,11 @@ const Card = styled.div<CardProps>`
   margin-right: 20px;
   opacity: ${(props) => (props.counter === props.index + 1 ? "1" : "0.7")};
   transition: 0.4s;
+  @media (max-width: 768px) {
+    min-width: 315px;
+    width: 315px;
+    height: 270px;
+  }
 `;
 
 const CardBody = styled.div`

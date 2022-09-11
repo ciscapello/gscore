@@ -25,6 +25,11 @@ interface BarProps {
 
 const Status = styled.div`
   width: 30%;
+  @media (max-width: 400px) {
+    &:first-child {
+      line-height: 9px;
+    }
+  }
 `;
 
 const Wrapper = styled.div`

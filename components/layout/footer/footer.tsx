@@ -9,10 +9,10 @@ const Footer = () => {
         <p>Ut enim ad minim veniam quis nostrud exercitation ea commodo</p>
       </FooterTop>
       <FooterBottom>
-        <p>
+        <Copyright>
           Copyright © 2022 GScore | All Rights Reserved |{" "}
           <A href="#">Cookies</A> | <A href="#">Privacy Policy</A>
-        </p>
+        </Copyright>
         <ImageWrapper>
           <A href="#">
             <Image
@@ -52,6 +52,11 @@ const Wrapper = styled.footer`
   line-height: 30px;
   color: #c7c7c7;
   border-top: 1px solid gray;
+  @media (max-width: 768px) {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 30px;
+  }
 `;
 
 const FooterTop = styled.div`
@@ -67,6 +72,12 @@ const FooterTop = styled.div`
     left: 0;
     width: 450%;
     border-top: 1px solid gray;
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+  @media (max-width: 768px) {
+    max-width: 100%;
   }
 `;
 
@@ -74,6 +85,16 @@ const FooterBottom = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 0% 3%;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
+`;
+
+const Copyright = styled.p`
+  @media (max-width: 768px) {
+    text-align: center;
+  }
 `;
 
 const A = styled.a`
@@ -85,6 +106,10 @@ const ImageWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @media (max-width: 768px) {
+    width: 40%;
+    margin-bottom: 40px;
+  }
 `;
 
 export default Footer;

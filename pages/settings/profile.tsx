@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { InfoForm, PasswordForm } from "../components";
+import { InfoForm, PasswordForm } from "../../components";
 
 export default function Settings() {
   const [personalInfo, setPersonalInfo] = useState("info");
@@ -42,6 +42,9 @@ const Password = styled.span<BarProps>`
   text-align: center;
   cursor: pointer;
   transform: translateY(1px);
+  @media (max-width: 768px) {
+    width: 30%;
+  }
 `;
 
 const Info = styled.span<BarProps>`
@@ -53,6 +56,9 @@ const Info = styled.span<BarProps>`
   text-align: center;
   cursor: pointer;
   transform: translateY(1px);
+  @media (max-width: 768px) {
+    width: 30%;
+  }
 `;
 
 const Bar = styled.div`
@@ -69,6 +75,9 @@ const Title = styled.h2`
   font-weight: 700;
   font-size: 54px;
   line-height: 64px;
+  @media (max-width: 768px) {
+    font-size: 34px;
+  }
 `;
 
 const Container = styled.div`

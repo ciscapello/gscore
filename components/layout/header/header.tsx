@@ -12,62 +12,169 @@ export default function Header() {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
+  const [mobileMenuIsActive, setMobileMenuIsActive] = useState(false);
+  const [mobileProfileMenuIsActive, setMobileProfileMenuIsActive] =
+    useState(false);
+
   let [isShow, setIsShow] = useState<boolean>(false);
 
   const onClick = () => {
     setIsShow((prevState: boolean) => !prevState);
   };
 
+  const handleLinkClick = () => {
+    router.push("/settings/subscriptions");
+    setMobileMenuIsActive(false);
+  };
+
   const logoutHandler = () => {
     dispatch(logout());
-    setIsShow((prevState: boolean) => !prevState);
+    setIsShow(false);
+    setMobileMenuIsActive(false);
     router.push("/");
   };
 
   const settingsHandler = () => {
-    router.push("/settings");
-    setIsShow((prevState: boolean) => !prevState);
+    router.push("/settings/profile");
+    setIsShow(false);
+    setMobileMenuIsActive(false);
   };
 
   return (
-    <Wrapper>
-      <Head>
-        <title>Gscore</title>
-      </Head>
-      <Link href="/">
-        <LinkedImage width={170} height={42} src="/Logo.png" alt="gscore" />
-      </Link>
-      <Container>
-        {isLogin && (
-          <>
-            <Link href="/subscriptions">
-              <A>My subscriptions</A>
-            </Link>
-            <Username onClick={onClick}>
-              <div>{username}</div>
-              <Span isShow={isShow}>⌃</Span>
-            </Username>
-          </>
-        )}
-      </Container>
-      <Profile isShow={isShow}>
-        <Row onClick={settingsHandler}>
-          <Image src="/icons/settings.png" width={24} height={24} alt="" />
-          <ProfileLink>Settings</ProfileLink>
-        </Row>
-        <Row onClick={logoutHandler}>
-          <Image src="/icons/logout.png" width={24} height={24} alt="" />
-          <ProfileLink>Logout</ProfileLink>
-        </Row>
-      </Profile>
-    </Wrapper>
+    <>
+      <MobileMenu mobileMenuIsActive={mobileMenuIsActive}>
+        <MobileMenuHeadContainer>
+          <CloseButton onClick={() => setMobileMenuIsActive(false)} />
+          <Image width={170} height={42} src="/Logo.png" alt="gscore" />
+        </MobileMenuHeadContainer>
+        <A onClick={handleLinkClick}>My subscriptions</A>
+        <MobileUsername
+          onClick={() => setMobileProfileMenuIsActive((prev) => !prev)}
+        >
+          <div>{username}</div>
+          <Span isShow={mobileProfileMenuIsActive}>⌃</Span>
+        </MobileUsername>
+        <MobileProfileMenu isShow={mobileProfileMenuIsActive}>
+          <Row onClick={settingsHandler}>
+            <Image src="/icons/settings.png" width={24} height={24} alt="" />
+            <ProfileLink>Settings</ProfileLink>
+          </Row>
+          <Row onClick={logoutHandler}>
+            <Image src="/icons/logout.png" width={24} height={24} alt="" />
+            <ProfileLink>Logout</ProfileLink>
+          </Row>
+        </MobileProfileMenu>
+      </MobileMenu>
+      <Wrapper>
+        <Head>
+          <title>Gscore</title>
+        </Head>
+        <Link href="/">
+          <LinkedImage width={170} height={42} src="/Logo.png" alt="gscore" />
+        </Link>
+        <Container>
+          {isLogin && (
+            <>
+              <BurgerButton
+                onClick={() => setMobileMenuIsActive(true)}
+              ></BurgerButton>
+              <Menu>
+                <Link href="/settings/subscriptions">
+                  <A>My subscriptions</A>
+                </Link>
+                <Username onClick={onClick}>
+                  <div>{username}</div>
+                  <Span isShow={isShow}>⌃</Span>
+                </Username>
+              </Menu>
+            </>
+          )}
+        </Container>
+        <Profile isShow={isShow}>
+          <Row onClick={settingsHandler}>
+            <Image src="/icons/settings.png" width={24} height={24} alt="" />
+            <ProfileLink>Settings</ProfileLink>
+          </Row>
+          <Row onClick={logoutHandler}>
+            <Image src="/icons/logout.png" width={24} height={24} alt="" />
+            <ProfileLink>Logout</ProfileLink>
+          </Row>
+        </Profile>
+      </Wrapper>
+    </>
   );
 }
+
+interface MobileMenuProps {
+  mobileMenuIsActive: boolean;
+}
+
+const MobileMenuHeadContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+`;
+
+const MobileUsername = styled.div`
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const MobileMenu = styled.div<MobileMenuProps>`
+  overflow: hidden;
+  height: 1000px;
+  float: right;
+  width: 70%;
+  background-color: #272727;
+  position: fixed;
+  right: 0;
+  z-index: 5;
+  padding: 20px;
+  display: ${(props) => (props.mobileMenuIsActive ? "block" : "none")};
+  opacity: ${(props) => (props.mobileMenuIsActive ? "0.9" : "0")};
+`;
+
+const CloseButton = styled.button`
+  border: 0;
+  display: none !important;
+  background: url("/icons/Close.png") center/cover no-repeat;
+  width: 30px;
+  height: 30px;
+  &:active {
+    opacity: 0.5;
+  }
+  @media (max-width: 768px) {
+    display: block !important;
+  }
+`;
+
+const BurgerButton = styled.button`
+  border: 0;
+  display: none !important;
+  background: url("/icons/burger.png") center/cover no-repeat;
+  width: 30px;
+  height: 30px;
+  &:active {
+    opacity: 0.5;
+  }
+  @media (max-width: 768px) {
+    display: block !important;
+  }
+`;
 
 const LinkedImage = styled(Image)`
   cursor: pointer;
   &:hover {
     opacity: 0.5;
+  }
+`;
+
+const Menu = styled.div`
+  display: flex;
+  @media (max-width: 786px) {
+    display: none;
   }
 `;
 
@@ -100,6 +207,11 @@ const Profile = styled.div<SpanProps>`
   justify-content: space-around;
   align-items: center;
   z-index: 1;
+`;
+
+const MobileProfileMenu = styled(Profile)`
+  position: static;
+  padding: 0;
 `;
 
 const Row = styled.div`

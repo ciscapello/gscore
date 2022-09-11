@@ -19,6 +19,9 @@ export const Input = styled.input`
   font-weight: 400;
   font-size: 16px;
   line-height: 18px;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 export const Paragraph = styled.p`
@@ -43,6 +46,9 @@ export const Button = styled.button`
   &:hover {
     background-color: gray;
   }
+  @media (max-width: 768px) {
+    width: 50%;
+  }
 `;
 
 export const Success = styled.small`
@@ -51,6 +57,9 @@ export const Success = styled.small`
 
 export const ChangedButton = styled(Button)`
   width: 16%;
+  @media (max-width: 768px) {
+    width: 50%;
+  }
 `;
 
 export const Subtitle = styled.h3`
@@ -61,15 +70,24 @@ export const Subtitle = styled.h3`
 
 export const InfoInput = styled(Input)`
   width: 40%;
+  @media (max-width: 768px) {
+    width: auto;
+  }
 `;
 
 export const Title = styled.h1`
   font-weight: 700;
   font-size: 44px;
   line-height: 54px;
+  @media (max-width: 768px) {
+    font-size: 28px;
+  }
 `;
 
 export const Container = styled.div`
   width: 45%;
   margin: 0 auto;
+  @media (max-width: 768px) {
+    width: 90%;
+  }
 `;

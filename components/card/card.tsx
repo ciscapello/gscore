@@ -56,6 +56,16 @@ const Wrapper = styled.div<StyledProps>`
   border-radius: 12px;
   padding: 3%;
   margin-right: ${(props) => (props.index === 2 ? "0" : "30px")};
+  @media (max-width: 1270px) {
+    width: 30%;
+    height: auto;
+  }
+  @media (max-width: 768px) {
+    width: 80%;
+    transform: none;
+    margin-right: 0;
+    margin-bottom: 30px;
+  }
 `;
 
 const Price = styled.h2`

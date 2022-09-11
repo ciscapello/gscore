@@ -6,15 +6,16 @@ import {
   NoSubscriptions,
   ProductCard,
   ProductNavigation,
-} from "../components";
-import { useAppDispatch, useAppSelector } from "../hooks/useStore";
+} from "../../components";
+import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
 import {
   activateHoldedCodes,
   getSubscribes,
   setCurrentCardIndex,
   setSelectedSubcribeId,
-} from "../store/products/productsSlice";
-import { Button, Title } from "../styles";
+} from "../../store/products/productsSlice";
+import { Button, Title } from "../../styles";
+import { Code } from "../../types";
 
 export default function Subscriptions() {
   const dispatch = useAppDispatch();
@@ -62,9 +63,23 @@ export default function Subscriptions() {
     dispatch(getSubscribes());
   }, [dispatch]);
 
-  const currentCodes = subscribes.find(
+  const currentCodes: Code[] | undefined = subscribes.find(
     (_, index) => index === currentCardIndex
   )?.codes;
+
+  // const haveHoldStatus = currentCodes?.some((elem) => {
+  //   elem.status == "HOLD";
+  // });
+
+  const haveHoldStatus = () => {
+    if (currentCodes && currentCodes[0].status === "HOLD") {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  console.log(haveHoldStatus);
 
   const [counter, setCounter] = useState(1);
   const [offset, setOffset] = useState(0);
@@ -72,7 +87,9 @@ export default function Subscriptions() {
   const turnLeft = (turnCount = 1) => {
     if (counter <= 1) return;
     setCounter((prevState) => prevState - turnCount);
-    setOffset((prevState) => prevState + 640 * turnCount);
+    if (document.body.clientWidth > 768) {
+      setOffset((prevState) => prevState + 640 * turnCount);
+    }
     dispatch(setCurrentCardIndex(currentCardIndex! - turnCount));
     setSelectedCodes([]);
   };
@@ -80,7 +97,9 @@ export default function Subscriptions() {
   const turnRight = (turnCount = 1) => {
     if (counter >= subscribes!.length) return;
     setCounter((prevState) => prevState + turnCount);
-    setOffset((prevState) => prevState - 640 * turnCount);
+    if (document.body.clientWidth > 768) {
+      setOffset((prevState) => prevState - 640 * turnCount);
+    }
     dispatch(setCurrentCardIndex(currentCardIndex! + turnCount));
     setSelectedCodes([]);
   };
@@ -107,6 +126,7 @@ export default function Subscriptions() {
               {subscribes?.map((elem, index) => (
                 <ProductCard
                   turnRight={turnRight}
+                  turnLeft={turnLeft}
                   subscribe={elem}
                   key={elem.id}
                   price={elem.product.prices[0].price}
@@ -121,6 +141,9 @@ export default function Subscriptions() {
               counter={counter}
               dataLength={subscribes.length}
             />
+            <MobileSelectDomains haveHoldStatus={haveHoldStatus}>
+              Select the domains you want to keep
+            </MobileSelectDomains>
             <Codes>
               {currentCodes?.map((code) => (
                 <CodeContainer
@@ -138,9 +161,11 @@ export default function Subscriptions() {
                 You have to select {currentProductSitesCount} codes!
               </SelectError>
             )}
-            <ActivateCodes>
-              <p>Select the domains you want to keep</p>
-              <SmallButton onClick={activateCodes}>Confirm</SmallButton>
+            <ActivateCodes haveHoldStatus={haveHoldStatus}>
+              <SelectDomains>Select the domains you want to keep</SelectDomains>
+              <SmallButtonActivate onClick={activateCodes}>
+                Confirm
+              </SmallButtonActivate>
             </ActivateCodes>
           </>
         ) : (
@@ -151,6 +176,10 @@ export default function Subscriptions() {
   );
 }
 
+interface HaveHoldStatus {
+  haveHoldStatus: () => boolean;
+}
+
 interface CardsProps {
   offset: number;
 }
@@ -159,15 +188,27 @@ const Wrapper = styled.div`
   overflow: hidden;
 `;
 
+const SelectDomains = styled.p`
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
 const SelectError = styled.p`
   text-align: center;
   color: red;
 `;
 
-const ActivateCodes = styled.div`
+const MobileSelectDomains = styled.p<HaveHoldStatus>`
+  max-width: 50%;
+  display: ${(props) => (props.haveHoldStatus() ? "block" : "none")};
+`;
+
+const ActivateCodes = styled.div<HaveHoldStatus>`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  display: ${(props) => (props.haveHoldStatus() ? "block" : "none")};
 `;
 
 const Codes = styled.div`
@@ -177,6 +218,19 @@ const Codes = styled.div`
 
 const SmallButton = styled(Button)`
   max-width: 10%;
+  @media (max-width: 768px) {
+    background: transparent;
+    color: red;
+    max-width: 30%;
+  }
+`;
+
+const SmallButtonActivate = styled(SmallButton)`
+  @media (max-width: 768px) {
+    min-width: 100%;
+    background: red;
+    color: white;
+  }
 `;
 
 const Header = styled.div`
@@ -190,6 +244,9 @@ const Cards = styled.div<CardsProps>`
   position: relative;
   left: ${(props) => props.offset}px;
   transition: 0.4s;
+  @media (max-width: 768px) {
+    overflow-x: auto;
+  }
 `;
 
 const Container = styled.div`

@@ -40,6 +40,10 @@ const Counter = styled.div`
   font-size: 22px;
   line-height: 28px;
   color: #393939;
+  width: auto;
+  @media (max-width: 768px) {
+    margin: 0 auto;
+  }
 `;
 
 const Span = styled.span`
@@ -60,6 +64,9 @@ const ArrowLeft = styled.button`
   &:hover {
     border-color: gray;
   }
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 const ArrowRight = styled.button`
   background-color: transparent;
@@ -73,5 +80,8 @@ const ArrowRight = styled.button`
   margin-left: 10px;
   &:hover {
     border-color: gray;
+  }
+  @media (max-width: 768px) {
+    display: none;
   }
 `;

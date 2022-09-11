@@ -65,10 +65,10 @@ export default function CodeContainer({
         />
       </Domain>
       {code.status === "INACTIVE" && (
-        <Button onClick={onClick}>Activate</Button>
+        <ActivateButton onClick={onClick}>Activate</ActivateButton>
       )}
       <Status>
-        <Small>Status</Small>
+        <StatusSmall>Status</StatusSmall>
         <StatusBox status={code.status}>{code.status}</StatusBox>
       </Status>
     </Wrapper>
@@ -96,6 +96,12 @@ interface StatusProps {
   status: string;
 }
 
+const ActivateButton = styled(Button)`
+  @media (max-width: 768px) {
+    grid-area: c;
+  }
+`;
+
 const StatusBox = styled.div<StatusProps>`
   height: 68px;
   font-weight: 700;
@@ -116,6 +122,9 @@ const Copied = styled.div`
   font-size: 14px;
   position: absolute;
   left: 350px;
+  @media (max-width: 400px) {
+    left: 163px;
+  }
 `;
 
 const Small = styled.small`
@@ -133,6 +142,9 @@ const DomainBox = styled.input<StatusProps>`
   height: 68px;
   color: #969696;
   border: 0;
+  @media (max-width: 1178px) {
+    width: auto;
+  }
 `;
 
 const CodeBox = styled.input`
@@ -144,6 +156,10 @@ const CodeBox = styled.input`
   background-color: #393939;
   border: 0;
   padding-left: 20px;
+
+  @media (max-width: 914px) {
+    width: auto;
+  }
 `;
 
 const CopyButton = styled.button`
@@ -159,22 +175,55 @@ const CopyButton = styled.button`
   &:hover {
     opacity: 0.5;
   }
+  @media (max-width: 768px) {
+    left: 505px;
+  }
+  @media (max-width: 1339px) {
+    left: 416px;
+  }
+  @media (max-width: 1192px) {
+    left: 387px;
+  }
+  @media (max-width: 914px) {
+    left: 226px;
+  }
+  @media (max-width: 380px) {
+    left: 257px;
+  }
+  @media (max-width: 498px) {
+    left: 263px;
+  }
 `;
 
 const Code = styled.div`
   display: flex;
   flex-direction: column;
+  @media (max-width: 768px) {
+    grid-area: d;
+  }
 `;
 
 const Domain = styled.div`
   display: flex;
   flex-direction: column;
+  @media (max-width: 768px) {
+    grid-area: e;
+  }
 `;
 
 const Status = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 8%;
+  @media (max-width: 768px) {
+    grid-area: b;
+  }
+`;
+
+const StatusSmall = styled(Status)`
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const Wrapper = styled.div<StatusProps>`
@@ -191,6 +240,15 @@ const Wrapper = styled.div<StatusProps>`
   height: 153px;
   border-radius: 12px;
   padding: 2% 1% 5% 2%;
+  @media (max-width: 768px) {
+    height: auto;
+    grid-template-areas:
+      "a b f c"
+      "d d d d"
+      "e e e e";
+    padding: 20px;
+    row-gap: 20px;
+  }
 `;
 
 const Checkbox = styled.input`
@@ -200,5 +258,8 @@ const Checkbox = styled.input`
   height: 28px;
   &:checked {
     background-color: red;
+  }
+  @media (max-width: 768px) {
+    grid-area: a;
   }
 `;

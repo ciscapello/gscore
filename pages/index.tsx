@@ -77,12 +77,23 @@ const Title = styled.h1`
   line-height: 54px;
   color: white;
   margin-bottom: 6%;
+  @media (max-width: 768px) {
+    text-align: center;
+    font-size: 34px;
+  }
+  @media (max-width: 400px) {
+    font-size: 28px;
+  }
 `;
 
 const Container = styled.div`
   display: flex;
   justify-content: space-around;
   margin-bottom: 30px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const pricing: Pricing[] = [
