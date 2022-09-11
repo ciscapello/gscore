@@ -2,7 +2,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useAppDispatch } from "../../../hooks/useStore";
 import { useRouter } from "next/router";
 import { Form, Error, Input, Button } from "../../../styles";
-import { signUp } from "../../../store/user/userSlice";
+import { signUp } from "../../../store";
 
 export interface SignUpFormValues {
   email: string;

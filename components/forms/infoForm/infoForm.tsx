@@ -2,15 +2,17 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../../../hooks/useStore";
 import {
-  Button,
   ChangedButton,
   Error,
   InfoInput,
-  Input,
   Subtitle,
   Success,
 } from "../../../styles";
-import { updateUserInfo } from "../../../store/user/userSlice";
+import {
+  selectUserInfoError,
+  selectUserInfoSuccess,
+  updateUserInfo,
+} from "../../../store";
 
 interface InfoData {
   username: string;
@@ -18,9 +20,8 @@ interface InfoData {
 }
 
 export default function InfoForm() {
-  const { userInfoError, userInfoSuccess } = useAppSelector(
-    (state) => state.user
-  );
+  const userInfoError = useAppSelector(selectUserInfoError);
+  const userInfoSuccess = useAppSelector(selectUserInfoSuccess);
   const dispatch = useAppDispatch();
 
   let {

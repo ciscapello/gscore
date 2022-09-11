@@ -3,19 +3,19 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import styled from "styled-components";
-import { useAppDispatch, useAppSelector } from "../../../hooks/useStore";
-import { logout } from "../../../store/user/userSlice";
 import Head from "next/head";
+import { useAppDispatch, useAppSelector } from "../../../hooks/useStore";
+import { selectIsLogin, selectUsername, logout } from "../../../store";
 
 export default function Header() {
-  const { isLogin, username } = useAppSelector((state) => state.user);
+  const isLogin = useAppSelector(selectIsLogin);
+  const username = useAppSelector(selectUsername);
   const dispatch = useAppDispatch();
   const router = useRouter();
 
   const [mobileMenuIsActive, setMobileMenuIsActive] = useState(false);
   const [mobileProfileMenuIsActive, setMobileProfileMenuIsActive] =
     useState(false);
-
   let [isShow, setIsShow] = useState<boolean>(false);
 
   const onClick = () => {

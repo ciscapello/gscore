@@ -2,12 +2,12 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Form } from "../infoForm/infoForm";
 import { ChangedButton, InfoInput, Subtitle } from "../../../styles";
 import { Error, Success } from "../../../styles";
-import axios from "axios";
-import { BASE_URL } from "../../../pages";
 import { useAppDispatch, useAppSelector } from "../../../hooks/useStore";
-import styled from "styled-components";
-import { useState } from "react";
-import { setPassword } from "../../../store/user/userSlice";
+import {
+  selectPasswordError,
+  selectPasswordSuccess,
+  setPassword,
+} from "../../../store";
 
 export interface SetPasswordFieldValues {
   currentPassword: string;
@@ -16,9 +16,9 @@ export interface SetPasswordFieldValues {
 
 export default function PasswordForm() {
   const dispatch = useAppDispatch();
-  const { passwordError, passwordSuccess } = useAppSelector(
-    (state) => state.user
-  );
+  const passwordError = useAppSelector(selectPasswordError);
+  const passwordSuccess = useAppSelector(selectPasswordSuccess);
+
   const {
     register,
     handleSubmit,

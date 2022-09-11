@@ -13,18 +13,19 @@ import {
   getSubscribes,
   setCurrentCardIndex,
   setSelectedSubcribeId,
-} from "../../store/products/productsSlice";
+  selectIsLogin,
+  selectCurrentCardIndex,
+  selectAllSubscribes,
+} from "../../store";
 import { Button, Title } from "../../styles";
 import { Code } from "../../types";
 
 export default function Subscriptions() {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const { isLogin } = useAppSelector((state) => state.user);
-
-  const { currentCardIndex, subscribes } = useAppSelector(
-    (state) => state.products
-  );
+  const isLogin = useAppSelector(selectIsLogin);
+  const currentCardIndex = useAppSelector(selectCurrentCardIndex);
+  const subscribes = useAppSelector(selectAllSubscribes);
 
   const [selectedCodes, setSelectedCodes] = useState<number[]>([]);
   const [selectSitesError, setSelectSitesError] = useState(false);
@@ -66,10 +67,6 @@ export default function Subscriptions() {
   const currentCodes: Code[] | undefined = subscribes.find(
     (_, index) => index === currentCardIndex
   )?.codes;
-
-  // const haveHoldStatus = currentCodes?.some((elem) => {
-  //   elem.status == "HOLD";
-  // });
 
   const haveHoldStatus = () => {
     if (currentCodes && currentCodes[0].status === "HOLD") {
@@ -201,14 +198,16 @@ const SelectError = styled.p`
 
 const MobileSelectDomains = styled.p<HaveHoldStatus>`
   max-width: 50%;
-  display: ${(props) => (props.haveHoldStatus() ? "block" : "none")};
+  display: none;
+  @media (max-width: 768px) {
+    ${(props) => (props.haveHoldStatus() ? "block" : "none")};
+  }
 `;
 
 const ActivateCodes = styled.div<HaveHoldStatus>`
-  display: flex;
   justify-content: space-between;
   align-items: center;
-  display: ${(props) => (props.haveHoldStatus() ? "block" : "none")};
+  display: ${(props) => (props.haveHoldStatus() ? "flex" : "none")};
 `;
 
 const Codes = styled.div`

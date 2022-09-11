@@ -1,12 +1,12 @@
 import styled, { keyframes } from "styled-components";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
-import { setLoading } from "../../store/products/productsSlice";
+import { selectLoading, setLoading } from "../../store";
 
 export default function Loading() {
   const dispatch = useAppDispatch();
-  const { loading } = useAppSelector((state) => state.products);
+  const loading = useAppSelector(selectLoading);
   const router = useRouter();
   useEffect(() => {
     const handleStart = (url: any) =>

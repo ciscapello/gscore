@@ -9,25 +9,27 @@ import { useAppDispatch, useAppSelector } from "../hooks/useStore";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import {
+  selectSubscribeId,
+  selectIsLogin,
+  selectProductForBuy,
+  buyProduct,
   changeProduct,
   getSubscribes,
   setSelectedSubcribeId,
-} from "../store/products/productsSlice";
-import { buyProduct } from "../store/user/userSlice";
+} from "../store";
 
 interface CheckoutProps {
   data: Product[];
 }
 
 export default function Checkout({ data }: CheckoutProps) {
+  const selectedProductForBuy = useAppSelector(selectProductForBuy);
+  const isLogin = useAppSelector(selectIsLogin);
+  const selectedSubcribeId = useAppSelector(selectSubscribeId);
+
   const dispatch = useAppDispatch();
   const [isPurchased, setIsPurchased] = useState(false);
   const [isError, setIsError] = useState(false);
-
-  const { selectedProductForBuy, isLogin, token } = useAppSelector(
-    (state) => state.user
-  );
-  const { selectedSubcribeId } = useAppSelector((state) => state.products);
 
   const router = useRouter();
   !isLogin ? router.push("/login") : null;

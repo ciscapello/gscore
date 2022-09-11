@@ -2,7 +2,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Button, Error, Form, Input } from "../../../styles";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "../../../hooks/useStore";
-import { logIn } from "../../../store/user/userSlice";
+import { selectSignInError, logIn } from "../../../store";
 
 export interface LogInFormValues {
   email: string;
@@ -11,7 +11,7 @@ export interface LogInFormValues {
 
 export default function LogInForm() {
   const dispatch = useAppDispatch();
-  const { signInError } = useAppSelector((state) => state.user);
+  const signInError = useAppSelector(selectSignInError);
 
   const {
     register,
