@@ -48,7 +48,7 @@ export default function PasswordForm() {
       {passwordSuccess && (
         <Success>Your password is successfully updated</Success>
       )}
-      {passwordError && <Error>Something goes wrong</Error>}
+      {passwordError && <Error>{passwordError}</Error>}
       <ChangedButton>Save</ChangedButton>
     </Form>
   );

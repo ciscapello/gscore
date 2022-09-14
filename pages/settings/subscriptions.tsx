@@ -76,8 +76,6 @@ export default function Subscriptions() {
     }
   };
 
-  console.log(haveHoldStatus);
-
   const [counter, setCounter] = useState(1);
   const [offset, setOffset] = useState(0);
 

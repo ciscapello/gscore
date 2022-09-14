@@ -1,8 +1,9 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useAppDispatch } from "../../../hooks/useStore";
-import { useRouter } from "next/router";
+import { useAppDispatch, useAppSelector } from "../../../hooks/useStore";
 import { Form, Error, Input, Button } from "../../../styles";
-import { signUp } from "../../../store";
+import { selectSignUpError, setSignUpError, signUp } from "../../../store";
+import router from "next/router";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 export interface SignUpFormValues {
   email: string;
@@ -11,8 +12,8 @@ export interface SignUpFormValues {
 }
 
 export default function SingUpForm() {
-  const router = useRouter();
   const dispatch = useAppDispatch();
+  const signUpError = useAppSelector(selectSignUpError);
   const {
     register,
     handleSubmit,
@@ -23,14 +24,24 @@ export default function SingUpForm() {
   });
 
   const onSubmit: SubmitHandler<SignUpFormValues> = (data) => {
-    reset();
-    dispatch(signUp(data));
-    router.push("/login");
+    console.log(signUpError);
+    dispatch(signUp(data))
+      .then(unwrapResult)
+      .then((res) => {
+        reset();
+        router.push("/login");
+      })
+      .catch((err) => {
+        setTimeout(() => {
+          dispatch(setSignUpError(""));
+        }, 3000);
+      });
   };
 
   return (
     <>
       <Form onSubmit={handleSubmit(onSubmit)}>
+        {signUpError && <Error>{signUpError}</Error>}
         {errors.username ? <Error>This field is required</Error> : null}
         <Input
           placeholder="Username"

@@ -5,7 +5,7 @@ import { SetPasswordFieldValues } from "../../components/forms/passwordForm/pass
 import { SignUpFormValues } from "../../components/forms/signUpForm/signUpForm";
 import { BASE_URL } from "../../pages";
 import { AppDispatch, RootState } from "../store";
-import { LoginAction, UpdateUserData } from "./types";
+import { LoginResponse, UpdateUserData } from "./types";
 
 interface UserState {
   isLogin: boolean;
@@ -14,11 +14,12 @@ interface UserState {
   token: string;
   selectedProductForBuy: number;
   checkedCodes: number[];
-  signInError: boolean;
-  passwordError: boolean;
+  signInError: string;
+  singUpError: string | undefined;
+  passwordError: string;
   passwordSuccess: boolean;
   userInfoSuccess: boolean;
-  userInfoError: boolean;
+  userInfoError: string;
 }
 
 const initialState: UserState = {
@@ -28,11 +29,12 @@ const initialState: UserState = {
   token: "",
   selectedProductForBuy: 0,
   checkedCodes: [],
-  signInError: false,
-  passwordError: false,
+  signInError: "",
+  singUpError: "",
+  passwordError: "",
   passwordSuccess: false,
   userInfoSuccess: false,
-  userInfoError: false,
+  userInfoError: "",
 };
 
 export const updateUserInfo = createAsyncThunk<
@@ -54,8 +56,9 @@ export const updateUserInfo = createAsyncThunk<
       setTimeout(() => dispatch(setUserInfoSuccess(false)), 2000);
       dispatch(updateUserData({ email, username }));
     })
-    .catch(() => {
-      dispatch(setUserInfoError(true));
+    .catch((error) => {
+      console.log(error.response.data.message);
+      dispatch(setUserInfoError(error.response.data.message));
       setTimeout(() => dispatch(setUserInfoError(false)), 2000);
     });
 });
@@ -64,30 +67,38 @@ export const setPassword = createAsyncThunk<
   void,
   SetPasswordFieldValues,
   { state: RootState; dispatch: AppDispatch }
->("user/setPassword", async (data, { getState, dispatch }) => {
+>("user/setPassword", (data, { getState, dispatch }) => {
   const { token } = getState().user;
   const headers = {
     Authorization: `Bearer ${token}`,
   };
-  const res = await axios.patch(`${BASE_URL}/users/update-password`, data, {
-    headers: headers,
-  });
-  console.log(res);
-  if (!res.data) {
-    return;
-  }
-  dispatch(setPasswordSuccess(true));
-  dispatch(setPasswordError(""));
-  setTimeout(() => {
-    dispatch(setPasswordSuccess(false));
-  }, 2000);
+  axios
+    .patch(`${BASE_URL}/users/update-password`, data, {
+      headers: headers,
+    })
+    .then((res) => {
+      dispatch(setPasswordSuccess(true));
+      dispatch(setPasswordError(""));
+    })
+    .catch((error) => {
+      dispatch(setPasswordError(error.response.data.message));
+      console.log(error.response.data.message);
+    })
+    .finally(() => {
+      setTimeout(() => {
+        dispatch(setPasswordSuccess(false));
+      }, 2000);
+      setTimeout(() => {
+        dispatch(setPasswordError(false));
+      }, 2000);
+    });
 });
 
 export const buyProduct = createAsyncThunk<
   void,
   undefined,
-  { rejectValue: string; state: RootState }
->("user/buyProduct", async (_, { rejectWithValue, getState }) => {
+  { state: RootState }
+>("user/buyProduct", async (_, { getState }) => {
   const { selectedProductForBuy, token } = getState().user;
   const headers = {
     Authorization: `Bearer ${token}`,
@@ -102,15 +113,15 @@ export const buyProduct = createAsyncThunk<
 export const signUp = createAsyncThunk<
   unknown,
   SignUpFormValues,
-  { rejectValue: string }
->("user/signUp", async (data, { rejectWithValue }) => {
+  { dispatch: AppDispatch; rejectValue: string }
+>("user/signUp", async (data, { dispatch, rejectWithValue }) => {
   const res = await axios.post(`${BASE_URL}/users/sign-up`, data);
-
-  if (!res.data) return rejectWithValue("Server error");
+  console.log(res);
+  return res;
 });
 
 export const logIn = createAsyncThunk<
-  LogInFormValues,
+  LoginResponse,
   LogInFormValues,
   { rejectValue: string; dispatch: AppDispatch }
 >("user/logIn", async (data, { rejectWithValue, dispatch }) => {
@@ -123,7 +134,6 @@ export const logIn = createAsyncThunk<
     dispatch(setSignInError(true));
     return rejectWithValue("Error");
   }
-
   return res.data;
 });
 
@@ -131,11 +141,12 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    signIn: (state, action: PayloadAction<LoginAction>) => {
-      const { email, username, token } = action.payload;
+    signIn: (state, action: PayloadAction<LoginResponse>) => {
+      const { user, token } = action.payload;
+      console.log(action.payload);
       state.isLogin = true;
-      state.email = email;
-      state.username = username;
+      state.email = user.email;
+      state.username = user.username;
       state.token = token;
     },
     logout: (state) => {
@@ -150,6 +161,10 @@ export const userSlice = createSlice({
     updateUserData: (state, action: PayloadAction<UpdateUserData>) => {
       state.username = action.payload.username;
       state.email = action.payload.email;
+    },
+    setSignUpError: (state, action) => {
+      console.log(action.payload);
+      state.singUpError = action.payload;
     },
     setSignInError: (state, action) => {
       state.signInError = action.payload;
@@ -168,8 +183,11 @@ export const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(setPassword.rejected, (state, action) => {
-      state.passwordError = true;
+    builder.addCase(signUp.rejected, (state, action) => {
+      console.log(action.error);
+      if (action.error) {
+        state.singUpError = action.error.message;
+      }
     });
   },
 });
@@ -186,4 +204,5 @@ export const {
   setPasswordSuccess,
   setUserInfoError,
   setUserInfoSuccess,
+  setSignUpError,
 } = userSlice.actions;

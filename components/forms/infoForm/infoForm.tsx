@@ -52,7 +52,7 @@ export default function InfoForm() {
         })}
       />
       {userInfoSuccess && <Success>Data is successfully update</Success>}
-      {userInfoError && <Error>Something goes wrong</Error>}
+      {userInfoError && <Error>{userInfoError}</Error>}
       <ChangedButton>Save</ChangedButton>
     </Form>
   );

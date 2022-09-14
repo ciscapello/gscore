@@ -3,6 +3,7 @@ import { Button, Error, Form, Input } from "../../../styles";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "../../../hooks/useStore";
 import { selectSignInError, logIn } from "../../../store";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 export interface LogInFormValues {
   email: string;
@@ -22,8 +23,15 @@ export default function LogInForm() {
   const router = useRouter();
 
   const onSubmit: SubmitHandler<LogInFormValues> = (data) => {
-    dispatch(logIn(data));
-    router.push("/checkout");
+    dispatch(logIn(data))
+      .then(unwrapResult)
+      .then(() => {
+        console.log("then");
+        router.push("/checkout");
+      })
+      .catch(() => {
+        console.log("catch");
+      });
   };
 
   return (
