@@ -9,10 +9,12 @@ export default function Loading() {
   const loading = useAppSelector(selectLoading);
   const router = useRouter();
   useEffect(() => {
-    const handleStart = (url: any) =>
-      url !== router.asPath && dispatch(setLoading(true));
-    const handleComplete = (url: any) =>
-      url === router.asPath && dispatch(setLoading(false));
+    const handleStart = (url: any) => {
+      dispatch(setLoading(true));
+    };
+    const handleComplete = (url: any) => {
+      dispatch(setLoading(false));
+    };
     router.events.on("routeChangeStart", handleStart);
     router.events.on("routeChangeComplete", handleComplete);
 
@@ -41,6 +43,7 @@ const Spinner = styled.div`
   animation-duration: 1s;
   animation-iteration-count: infinite;
   position: fixed;
-  top: 100px;
-  right: 50px;
+  top: 50%;
+  right: 50%;
+  z-index: 3;
 `;
