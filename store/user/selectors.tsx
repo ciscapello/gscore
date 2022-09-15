@@ -28,10 +28,6 @@ export const selectUsername = (state: RootState) => {
   return state.user.username;
 };
 
-export const selectProductForBuy = (state: RootState) => {
-  return state.user.selectedProductForBuy;
-};
-
 export const selectSignUpError = (state: RootState) => {
   return state.user.singUpError;
 };
