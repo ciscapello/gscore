@@ -26,7 +26,6 @@ export default function LogInForm() {
     dispatch(logIn(data))
       .then(unwrapResult)
       .then(() => {
-        console.log("then");
         router.push("/checkout");
       })
       .catch(() => {

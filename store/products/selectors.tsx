@@ -15,3 +15,7 @@ export const selectAllSubscribes = (state: RootState) => {
 export const selectSubscribeId = (state: RootState) => {
   return state.products.selectedSubcribeId;
 };
+
+export const selectProductForBuy = (state: RootState) => {
+  return state.products.selectedProductForBuy;
+};

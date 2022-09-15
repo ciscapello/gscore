@@ -17,6 +17,7 @@ import {
   getSubscribes,
   setSelectedSubcribeId,
 } from "../store";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 interface CheckoutProps {
   data: Product[];
@@ -44,15 +45,13 @@ export default function Checkout({ data }: CheckoutProps) {
       dispatch(buyProduct());
       setIsPurchased(true);
     } else {
-      const promise = new Promise<void>(function (resolve, reject) {
-        dispatch(changeProduct());
-        resolve();
-      });
-      promise.then(() => {
-        dispatch(getSubscribes());
-        setIsPurchased(true);
-        dispatch(setSelectedSubcribeId(null));
-      });
+      dispatch(changeProduct())
+        .then(unwrapResult)
+        .then(() => {
+          dispatch(getSubscribes());
+          setIsPurchased(true);
+          dispatch(setSelectedSubcribeId(null));
+        });
     }
   };
 

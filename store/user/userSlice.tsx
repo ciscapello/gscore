@@ -12,7 +12,6 @@ interface UserState {
   username: string;
   email: string;
   token: string;
-  selectedProductForBuy: number;
   checkedCodes: number[];
   signInError: string;
   singUpError: string | undefined;
@@ -27,7 +26,6 @@ const initialState: UserState = {
   username: "",
   email: "",
   token: "",
-  selectedProductForBuy: 0,
   checkedCodes: [],
   signInError: "",
   singUpError: "",
@@ -94,22 +92,6 @@ export const setPassword = createAsyncThunk<
     });
 });
 
-export const buyProduct = createAsyncThunk<
-  void,
-  undefined,
-  { state: RootState }
->("user/buyProduct", async (_, { getState }) => {
-  const { selectedProductForBuy, token } = getState().user;
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-  const res = await axios.post(
-    `${BASE_URL}/payments/buy`,
-    { priceId: selectedProductForBuy },
-    { headers: headers }
-  );
-});
-
 export const signUp = createAsyncThunk<
   unknown,
   SignUpFormValues,
@@ -155,9 +137,6 @@ export const userSlice = createSlice({
       state.token = "";
       state.email = "";
     },
-    selectProduct: (state, action: PayloadAction<number>) => {
-      state.selectedProductForBuy = action.payload;
-    },
     updateUserData: (state, action: PayloadAction<UpdateUserData>) => {
       state.username = action.payload.username;
       state.email = action.payload.email;
@@ -197,7 +176,6 @@ export default userSlice.reducer;
 export const {
   signIn,
   logout,
-  selectProduct,
   updateUserData,
   setSignInError,
   setPasswordError,

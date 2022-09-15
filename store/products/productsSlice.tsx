@@ -11,6 +11,7 @@ interface InitialState {
   error: boolean;
   currentCardIndex: number | null;
   selectedSubcribeId: number | null;
+  selectedProductForBuy: number;
 }
 
 const initialState: InitialState = {
@@ -19,7 +20,25 @@ const initialState: InitialState = {
   error: false,
   currentCardIndex: null,
   selectedSubcribeId: null,
+  selectedProductForBuy: 0,
 };
+
+export const buyProduct = createAsyncThunk<
+  void,
+  undefined,
+  { state: RootState }
+>("user/buyProduct", async (_, { getState }) => {
+  const { token } = getState().user;
+  const { selectedProductForBuy } = getState().products;
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+  const res = await axios.post(
+    `${BASE_URL}/payments/buy`,
+    { priceId: selectedProductForBuy },
+    { headers: headers }
+  );
+});
 
 export const activateHoldedCodes = createAsyncThunk<
   void,
@@ -91,8 +110,8 @@ export const changeProduct = createAsyncThunk<
   undefined,
   { rejectValue: string; state: RootState }
 >("products/changeProduct", async (_, { rejectWithValue, getState }) => {
-  const { token, selectedProductForBuy } = getState().user;
-  const { selectedSubcribeId } = getState().products;
+  const { token } = getState().user;
+  const { selectedSubcribeId, selectedProductForBuy } = getState().products;
   try {
     const res = await axios.post(
       `${BASE_URL}/subscribe/change-product`,
@@ -125,6 +144,9 @@ export const productsSlice = createSlice({
     },
     setSelectedSubcribeId: (state, action: PayloadAction<number | null>) => {
       state.selectedSubcribeId = action.payload;
+    },
+    selectProduct: (state, action: PayloadAction<number>) => {
+      state.selectedProductForBuy = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -167,5 +189,9 @@ export const productsSlice = createSlice({
 
 export default productsSlice.reducer;
 
-export const { setLoading, setCurrentCardIndex, setSelectedSubcribeId } =
-  productsSlice.actions;
+export const {
+  setLoading,
+  setCurrentCardIndex,
+  setSelectedSubcribeId,
+  selectProduct,
+} = productsSlice.actions;
