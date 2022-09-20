@@ -5,7 +5,7 @@ import axios from "axios";
 import { BASE_URL } from ".";
 import { GetStaticPropsContext } from "next";
 import { Product } from "../types";
-import { useAppDispatch, useAppSelector } from "../hooks/useStore";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import {

@@ -1,6 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
-import { useAppDispatch, useAppSelector } from "../../../hooks/useStore";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
 import {
   ChangedButton,
   Error,

@@ -4,7 +4,7 @@ import { createGlobalStyle } from "styled-components";
 import { Provider } from "react-redux";
 import { persistor, store } from "../store/store";
 import { PersistGate } from "redux-persist/integration/react";
-import Loading from "../components/loading/loading";
+import { Loading } from "../components";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button, Error, Form, Input } from "../../../styles";
 import { useRouter } from "next/router";
-import { useAppDispatch, useAppSelector } from "../../../hooks/useStore";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { selectSignInError, logIn } from "../../../store";
 import { unwrapResult } from "@reduxjs/toolkit";
 

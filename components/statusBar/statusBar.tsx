@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import { useAppSelector } from "../../hooks/useStore";
+import { useAppSelector } from "../../hooks";
 import { selectIsLogin } from "../../store";
 
 interface StatusBarProps {

@@ -1,5 +1,5 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useAppDispatch, useAppSelector } from "../../../hooks/useStore";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { Form, Error, Input, Button } from "../../../styles";
 import { selectSignUpError, setSignUpError, signUp } from "../../../store";
 import router from "next/router";

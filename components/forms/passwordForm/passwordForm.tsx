@@ -2,7 +2,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Form } from "../infoForm/infoForm";
 import { ChangedButton, InfoInput, Subtitle } from "../../../styles";
 import { Error, Success } from "../../../styles";
-import { useAppDispatch, useAppSelector } from "../../../hooks/useStore";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
 import {
   selectPasswordError,
   selectPasswordSuccess,

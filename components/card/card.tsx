@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { Product, Pricing } from "../../types";
 import { useRouter } from "next/router";
 import { selectIsLogin, selectProduct } from "../../store";

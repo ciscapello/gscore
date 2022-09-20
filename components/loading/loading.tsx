@@ -1,7 +1,7 @@
 import styled, { keyframes } from "styled-components";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { selectLoading, setLoading } from "../../store";
 
 export default function Loading() {

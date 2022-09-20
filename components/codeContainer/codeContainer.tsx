@@ -1,8 +1,7 @@
 import styled from "styled-components";
-import { useAppDispatch } from "../../hooks/useStore";
+import { useAppDispatch, useCopyToClipboard } from "../../hooks";
 import { activateCode } from "../../store/products/productsSlice";
 import { Code } from "../../types";
-import useCopyToClipboard from "../../hooks/useCopyToClipboard";
 import { useState } from "react";
 
 interface CodeContainerProps {

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Subscribe } from "../../types";
-import { setCurrentCardIndex } from "../../store/products/productsSlice";
-import { useAppDispatch } from "../../hooks/useStore";
+import { setCurrentCardIndex } from "../../store";
+import { useAppDispatch } from "../../hooks";
 
 interface ProductCardProps {
   subscribe: Subscribe;

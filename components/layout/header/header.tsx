@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import styled from "styled-components";
 import Head from "next/head";
-import { useAppDispatch, useAppSelector } from "../../../hooks/useStore";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { selectIsLogin, selectUsername, logout } from "../../../store";
 
 export default function Header() {
