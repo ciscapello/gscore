@@ -7,6 +7,6 @@ export { LogInForm } from "./forms";
 export { default as Layout } from "./layout";
 export { NoSubscriptions } from "./noSubscriptions";
 export { ProductCard } from "./productCard";
-export { ProductNavigation } from "./ProductNavigation";
+export { ProductNavigation } from "./productNavigation";
 export { StatusBar } from "./statusBar";
 export { Loading } from "./loading";

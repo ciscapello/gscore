@@ -16,7 +16,7 @@ export default function Header() {
   const [mobileMenuIsActive, setMobileMenuIsActive] = useState(false);
   const [mobileProfileMenuIsActive, setMobileProfileMenuIsActive] =
     useState(false);
-  let [isShow, setIsShow] = useState<boolean>(false);
+  const [isShow, setIsShow] = useState<boolean>(false);
 
   const onClick = () => {
     setIsShow((prevState: boolean) => !prevState);
@@ -56,11 +56,21 @@ export default function Header() {
         </MobileUsername>
         <MobileProfileMenu isShow={mobileProfileMenuIsActive}>
           <Row onClick={settingsHandler}>
-            <Image src="/icons/settings.png" width={24} height={24} alt="" />
+            <Image
+              src="/icons/settings.png"
+              width={24}
+              height={24}
+              alt="settings"
+            />
             <ProfileLink>Settings</ProfileLink>
           </Row>
           <Row onClick={logoutHandler}>
-            <Image src="/icons/logout.png" width={24} height={24} alt="" />
+            <Image
+              src="/icons/logout.png"
+              width={24}
+              height={24}
+              alt="logout"
+            />
             <ProfileLink>Logout</ProfileLink>
           </Row>
         </MobileProfileMenu>
@@ -92,11 +102,21 @@ export default function Header() {
         </Container>
         <Profile isShow={isShow}>
           <Row onClick={settingsHandler}>
-            <Image src="/icons/settings.png" width={24} height={24} alt="" />
+            <Image
+              src="/icons/settings.png"
+              width={24}
+              height={24}
+              alt="settings"
+            />
             <ProfileLink>Settings</ProfileLink>
           </Row>
           <Row onClick={logoutHandler}>
-            <Image src="/icons/logout.png" width={24} height={24} alt="" />
+            <Image
+              src="/icons/logout.png"
+              width={24}
+              height={24}
+              alt="logout"
+            />
             <ProfileLink>Logout</ProfileLink>
           </Row>
         </Profile>

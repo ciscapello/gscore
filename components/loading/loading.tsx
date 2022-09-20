@@ -9,10 +9,10 @@ export default function Loading() {
   const loading = useAppSelector(selectLoading);
   const router = useRouter();
   useEffect(() => {
-    const handleStart = (url: any) => {
+    const handleStart = () => {
       dispatch(setLoading(true));
     };
-    const handleComplete = (url: any) => {
+    const handleComplete = () => {
       dispatch(setLoading(false));
     };
     router.events.on("routeChangeStart", handleStart);

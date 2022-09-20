@@ -45,13 +45,15 @@ export default function Subscriptions() {
   )?.product.sitesCount;
 
   const activateCodes = () => {
-    const subscribeId = subscribes[currentCardIndex!].id;
-    if (selectedCodes.length !== currentProductSitesCount!) {
-      setSelectSitesError(true);
-      return;
+    if (currentCardIndex) {
+      const subscribeId = subscribes[currentCardIndex].id ?? false;
+      if (selectedCodes.length !== currentProductSitesCount) {
+        setSelectSitesError(true);
+        return;
+      }
+      dispatch(activateHoldedCodes({ selectedCodes, subscribeId }));
+      setSelectSitesError(false);
     }
-    dispatch(activateHoldedCodes({ selectedCodes, subscribeId }));
-    setSelectSitesError(false);
   };
 
   !isLogin ? router.push("/") : null;
@@ -85,25 +87,33 @@ export default function Subscriptions() {
     if (document.body.clientWidth > 768) {
       setOffset((prevState) => prevState + 640 * turnCount);
     }
-    dispatch(setCurrentCardIndex(currentCardIndex! - turnCount));
-    setSelectedCodes([]);
+    if (currentCardIndex) {
+      dispatch(setCurrentCardIndex(currentCardIndex - turnCount));
+      setSelectedCodes([]);
+    }
   };
 
   const turnRight = (turnCount = 1) => {
-    if (counter >= subscribes!.length) return;
+    if (counter >= subscribes?.length) return;
     setCounter((prevState) => prevState + turnCount);
     if (document.body.clientWidth > 768) {
       setOffset((prevState) => prevState - 640 * turnCount);
     }
-    dispatch(setCurrentCardIndex(currentCardIndex! + turnCount));
+    dispatch(
+      setCurrentCardIndex(
+        currentCardIndex ? currentCardIndex + turnCount : null
+      )
+    );
     setSelectedCodes([]);
   };
 
   const handleClick = () => {
-    const subscribeId = subscribes[currentCardIndex!].id;
-    dispatch(setSelectedSubcribeId(subscribeId));
-    dispatch(setCurrentCardIndex(null));
-    router.push("/");
+    if (currentCardIndex) {
+      const subscribeId = subscribes[currentCardIndex].id;
+      dispatch(setSelectedSubcribeId(subscribeId));
+      dispatch(setCurrentCardIndex(null));
+      router.push("/");
+    }
   };
 
   return (

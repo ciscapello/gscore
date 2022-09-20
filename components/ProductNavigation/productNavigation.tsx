@@ -17,13 +17,23 @@ export default function ProductNavigation({
   return (
     <Navigation>
       <ArrowLeft onClick={() => turnLeft(1)}>
-        <Image src="/icons/arrowRight.png" width={24} height={24} alt="" />
+        <Image
+          src="/icons/arrowRight.png"
+          width={24}
+          height={24}
+          alt="arrowRight"
+        />
       </ArrowLeft>
       <Counter>
         <Span>{counter}</Span>/{dataLength}
       </Counter>
       <ArrowRight onClick={() => turnRight(1)}>
-        <Image src="/icons/arrowRight.png" width={24} height={24} alt="" />
+        <Image
+          src="/icons/arrowRight.png"
+          width={24}
+          height={24}
+          alt="arrowRight"
+        />
       </ArrowRight>
     </Navigation>
   );

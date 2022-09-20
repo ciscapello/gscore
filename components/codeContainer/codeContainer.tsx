@@ -24,8 +24,15 @@ export default function CodeContainer({
   const [copied, setCopied] = useState(false);
   const [checked, setChecked] = useState(false);
 
+  console.log(value);
+
   const onChange = () => {
-    if (currentProductSitesCount! <= selectedCodes.length && !checked) return;
+    if (
+      currentProductSitesCount &&
+      currentProductSitesCount <= selectedCodes.length &&
+      !checked
+    )
+      return;
     setChecked((prev) => !prev);
     !checked ? addCodeToSelect(code.id) : removeCodeFromSelect(code.id);
   };

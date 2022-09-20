@@ -24,7 +24,7 @@ export default function InfoForm() {
   const userInfoSuccess = useAppSelector(selectUserInfoSuccess);
   const dispatch = useAppDispatch();
 
-  let {
+  const {
     register,
     handleSubmit,
     reset,
@@ -48,7 +48,7 @@ export default function InfoForm() {
       <InfoInput
         placeholder="Email"
         {...register("email", {
-          pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+          pattern: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g,
         })}
       />
       {userInfoSuccess && <Success>Data is successfully update</Success>}

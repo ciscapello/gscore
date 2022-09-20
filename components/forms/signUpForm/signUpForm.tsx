@@ -27,11 +27,11 @@ export default function SingUpForm() {
     console.log(signUpError);
     dispatch(signUp(data))
       .then(unwrapResult)
-      .then((res) => {
+      .then(() => {
         reset();
         router.push("/login");
       })
-      .catch((err) => {
+      .catch(() => {
         setTimeout(() => {
           dispatch(setSignUpError(""));
         }, 3000);
@@ -56,7 +56,7 @@ export default function SingUpForm() {
           type="text"
           {...register("email", {
             required: true,
-            pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+            pattern: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g,
           })}
         />
         {errors.password ? (

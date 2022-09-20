@@ -25,9 +25,8 @@ export default function ProductCard({
     status,
     currentPeriodEnd,
     product: { name },
-    id,
   } = subscribe;
-  let currentPeriodEndFormatted = new Date(
+  const currentPeriodEndFormatted = new Date(
     Number(currentPeriodEnd)
   ).toLocaleDateString();
   let turnCount: number;

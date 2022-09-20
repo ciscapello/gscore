@@ -1,9 +1,8 @@
 import styled from "styled-components";
 import { StatusBar } from "../components";
-import { Button, Error, Paragraph, Title, Container } from "../styles";
+import { Button, Paragraph, Title, Container } from "../styles";
 import axios from "axios";
 import { BASE_URL } from ".";
-import { GetStaticPropsContext } from "next";
 import { Product } from "../types";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { useRouter } from "next/router";
@@ -30,7 +29,6 @@ export default function Checkout({ data }: CheckoutProps) {
 
   const dispatch = useAppDispatch();
   const [isPurchased, setIsPurchased] = useState(false);
-  const [isError, setIsError] = useState(false);
 
   const router = useRouter();
   !isLogin ? router.push("/login") : null;
@@ -97,7 +95,6 @@ export default function Checkout({ data }: CheckoutProps) {
           <Total>{`$${selectedProduct?.prices[0].price}`}</Total>
         </Wrapper>
       )}
-      {isError && <Error>Something goes wrong</Error>}
       {!isPurchased && <Button onClick={onClick}>Purchase</Button>}
       {isPurchased && (
         <LongButton onClick={handleClick}>Go to my subscriptions</LongButton>
@@ -106,7 +103,7 @@ export default function Checkout({ data }: CheckoutProps) {
   );
 }
 
-export async function getStaticProps(context: GetStaticPropsContext) {
+export async function getStaticProps() {
   const res = await axios(`${BASE_URL}/products`);
   const data = await res.data;
 
@@ -145,7 +142,6 @@ const Table = styled.table`
 
 const TableRow = styled.tr`
   height: 110px;
-  border
 `;
 
 const TableData = styled.td`

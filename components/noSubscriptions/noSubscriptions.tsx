@@ -38,7 +38,6 @@ const Text = styled.p`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  jusify-content: space-between;
   align-items: center;
 `;
 
