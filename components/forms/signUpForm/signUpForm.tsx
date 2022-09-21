@@ -6,6 +6,7 @@ import { selectSignUpError, setSignUpError, signUp } from "../../../store";
 import router from "next/router";
 import { unwrapResult } from "@reduxjs/toolkit";
 import styled from "styled-components";
+import { Color } from "../../../styles";
 
 export interface SignUpFormValues {
   email: string;
@@ -81,7 +82,7 @@ const Form = styled.form`
 `;
 
 const Error = styled.small`
-  color: red;
+  color: ${Color.RED};
 `;
 
 const Input = styled.input`
@@ -89,7 +90,7 @@ const Input = styled.input`
   margin-bottom: 24px;
   width: 100%;
   height: 68px;
-  border: 1px solid #d7d7d7;
+  border: 1px solid ${Color.LIGHTGRAY};
   border-radius: 6px;
   padding: 25px;
   font-weight: 400;

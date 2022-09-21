@@ -3,6 +3,7 @@ import { Product, Pricing } from "../types";
 import styled from "styled-components";
 import axios from "axios";
 import { GetStaticPropsContext } from "next";
+import { Color } from "../styles";
 
 export const BASE_URL = "https://gscore-back.herokuapp.com/api";
 
@@ -49,7 +50,7 @@ const Paragraph = styled.p`
   font-weight: 500;
   font-size: 18px;
   line-height: 30px;
-  color: white;
+  color: ${Color.WHITE};
 `;
 
 const A = styled.a`
@@ -57,9 +58,9 @@ const A = styled.a`
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
-  color: #fc5842;
+  color: ${Color.ORANGE};
   &:hover {
-    color: white;
+    color: ${Color.WHITE};
   }
 `;
 

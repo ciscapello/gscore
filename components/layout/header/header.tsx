@@ -6,6 +6,7 @@ import styled from "styled-components";
 import Head from "next/head";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { selectIsLogin, selectUsername, logout } from "../../../store";
+import { Color } from "../../../styles";
 
 export default function Header() {
   const isLogin = useAppSelector(selectIsLogin);
@@ -147,7 +148,7 @@ const MobileMenu = styled.div<MobileMenuProps>`
   height: 1000px;
   float: right;
   width: 70%;
-  background-color: #272727;
+  background-color: ${Color.BLACK};
   position: fixed;
   right: 0;
   z-index: 5;
@@ -203,7 +204,7 @@ interface SpanProps {
 }
 
 const ProfileLink = styled.p`
-  color: white;
+  color: ${Color.WHITE};
   text-decoration: none;
   margin-left: 10px;
   font-weight: 500;
@@ -217,7 +218,7 @@ const Profile = styled.div<SpanProps>`
   height: 120px;
   padding: 10px;
   position: absolute;
-  background-color: #272727;
+  background-color: ${Color.BLACK};
   display: ${(props) => (props.isShow ? "flex" : "none")};
   transition: 0.4s;
   top: 80px;
@@ -262,9 +263,9 @@ const A = styled.a`
   text-decoration: none;
   margin-right: 30px;
   cursor: pointer;
-  color: white;
+  color: ${Color.WHITE};
   &:hover {
-    color: gray;
+    color: ${Color.GRAY};
   }
 `;
 

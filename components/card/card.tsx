@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks";
 import { Product, Pricing } from "../../types";
 import { useRouter } from "next/router";
 import { selectIsLogin, selectProduct } from "../../store";
+import { Color } from "../../styles";
 
 interface CardProps {
   pricing: Pricing;
@@ -50,7 +51,7 @@ const Wrapper = styled.div<StyledProps>`
   width: 400px;
   height: 612px;
   box-sizing: border-box;
-  background-color: ${(props) => (props.index === 1 ? "#FC5842" : "#272727")};
+  background-color: ${(props) => (props.index === 1 ? Color.RED : Color.BLACK)};
   transform: ${(props) => (props.index === 1 ? "translateY(-40px)" : "0")};
   font-family: "thicccboi", sans-serif;
   border-radius: 12px;
@@ -74,7 +75,7 @@ const Price = styled.h2`
   font-weight: 700;
   font-size: 54px;
   line-height: 66px;
-  color: white;
+  color: ${Color.WHITE};
 `;
 
 const Title = styled.h3`
@@ -83,15 +84,14 @@ const Title = styled.h3`
   font-weight: 700;
   font-size: 24px;
   line-height: 26px;
-  color: white;
+  color: ${Color.WHITE};
 `;
 
 const Text = styled.p<StyledProps>`
   font-weight: 500;
   font-size: 18px;
   line-height: 30px;
-  color: #c7c7c7;
-  color: ${(props) => (props.index === 1 ? "white" : "#c7c7c7")};
+  color: ${(props) => (props.index === 1 ? Color.WHITE : Color.LIGHTGRAY)};
   border-bottom: 1px solid white;
   padding-bottom: 30px;
   text-align: center;
@@ -101,7 +101,7 @@ const List = styled.ul`
   font-weight: 500;
   font-size: 18px;
   line-height: 20px;
-  color: white;
+  color: ${Color.WHITE};
   align-self: flex-start;
   margin-bottom: 0;
 `;
@@ -128,10 +128,10 @@ const Button = styled.button<StyledProps>`
   font-weight: 700;
   font-size: 18px;
   line-height: 20px;
-  color: ${(props) => (props.index === 1 ? "#FC5842" : "#181818")};
+  color: ${(props) => (props.index === 1 ? Color.ORANGE : Color.BLACK)};
   border: 0;
   cursor: pointer;
   &:hover {
-    background-color: gray;
+    background-color: ${Color.GRAY};
   }
 `;

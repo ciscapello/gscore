@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Color } from "../../styles";
 
 interface ButtonProps {
   children: React.ReactNode;
@@ -44,19 +45,19 @@ export const StyledButton = styled.button<ButtonStyledProps>`
   line-height: 18px;
   border-radius: 4px;
   border: 0;
-  color: white;
+  color: ${Color.WHITE};
   background: #fc5842;
   cursor: pointer;
   &:hover {
-    background-color: gray;
+    background-color: ${Color.GRAY};
   }
   @media (max-width: 768px) {
     width: 50%;
     min-width: ${(props) => props.activate && "100%"};
-    background: ${(props) => props.activate && "red"};
-    color: ${(props) => props.activate && "white"};
+    background: ${(props) => props.activate && Color.RED};
+    color: ${(props) => props.activate && Color.WHITE};
     background: ${(props) => props.tranparent && "transparent"};
-    color: ${(props) => props.tranparent && "red"};
+    color: ${(props) => props.tranparent && Color.RED};
     max-width: ${(props) => props.tranparent && "30%"};
   }
 `;

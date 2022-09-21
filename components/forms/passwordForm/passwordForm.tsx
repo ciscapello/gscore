@@ -8,6 +8,7 @@ import {
   setPassword,
 } from "../../../store";
 import styled from "styled-components";
+import { Color } from "../../../styles";
 
 export interface SetPasswordFieldValues {
   currentPassword: string;
@@ -74,9 +75,9 @@ const Subtitle = styled.h3`
 `;
 
 const Error = styled.small`
-  color: red;
+  color: ${Color.RED};
 `;
 
 const Success = styled.small`
-  color: green;
+  color: ${Color.GREEN};
 `;

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Image from "next/image";
+import { Color } from "../../styles";
 
 interface IProductNavigationProps {
   turnLeft: (count: number) => void;
@@ -49,7 +50,7 @@ const Counter = styled.div`
   font-weight: 700;
   font-size: 22px;
   line-height: 28px;
-  color: #393939;
+  color: ${Color.DARKGRAY};
   width: auto;
   @media (max-width: 768px) {
     margin: 0 auto;
@@ -57,7 +58,7 @@ const Counter = styled.div`
 `;
 
 const Span = styled.span`
-  color: white;
+  color: ${Color.WHITE};
 `;
 
 const ArrowLeft = styled.button`
@@ -72,7 +73,7 @@ const ArrowLeft = styled.button`
   margin-right: 10px;
   transform: rotate(180deg);
   &:hover {
-    border-color: gray;
+    border-color: ${Color.GRAY};
   }
   @media (max-width: 768px) {
     display: none;
@@ -89,7 +90,7 @@ const ArrowRight = styled.button`
   justify-content: center;
   margin-left: 10px;
   &:hover {
-    border-color: gray;
+    border-color: ${Color.GRAY};
   }
   @media (max-width: 768px) {
     display: none;

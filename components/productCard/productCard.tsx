@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Subscribe } from "../../types";
 import { setCurrentCardIndex } from "../../store";
 import { useAppDispatch } from "../../hooks";
+import { Color } from "../../styles";
 
 interface ProductCardProps {
   subscribe: Subscribe;
@@ -78,7 +79,7 @@ const Button = styled.button`
   border-radius: 4px;
   border: 0;
   padding: 20px 24px;
-  color: #fc5842;
+  color: ${Color.ORANGE};
   font-weight: 700;
   font-size: 16px;
   line-height: 18px;
@@ -87,7 +88,7 @@ const Button = styled.button`
   margin-top: 35px;
   cursor: pointer;
   &:hover {
-    background-color: gray;
+    background-color: ${Color.GRAY};
   }
 `;
 
@@ -105,7 +106,7 @@ const Row = styled.div`
 
 const Data = styled.small`
   margin-top: 10px;
-  color: #969696;
+  color: ${Color.GRAY};
 `;
 
 const ProductName = styled.div`
@@ -118,7 +119,7 @@ const Card = styled.div<CardProps>`
   box-sizing: border-box;
   min-width: 620px;
   height: 330px;
-  background: #393939;
+  background: ${Color.BLACK};
   border-radius: 12px;
   margin-right: 20px;
   opacity: ${(props) => (props.counter === props.index + 1 ? "1" : "0.7")};
@@ -150,5 +151,5 @@ const ProductWrapper = styled.div`
 `;
 
 const Status = styled.span`
-  color: #05c168;
+  color: ${Color.GREEN};
 `;

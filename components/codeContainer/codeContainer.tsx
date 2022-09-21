@@ -3,6 +3,7 @@ import { useAppDispatch, useCopyToClipboard } from "../../hooks";
 import { activateCode } from "../../store";
 import { Code } from "../../types";
 import { useState } from "react";
+import { Color } from "../../styles";
 
 interface CodeContainerProps {
   code: Code;
@@ -85,7 +86,7 @@ const Button = styled.button`
   border-radius: 4px;
   border: 0;
   padding: 20px 24px;
-  color: #fc5842;
+  color: ${Color.ORANGE};
   font-weight: 700;
   font-size: 16px;
   line-height: 18px;
@@ -94,7 +95,7 @@ const Button = styled.button`
   margin-top: 35px;
   cursor: pointer;
   &:hover {
-    background-color: gray;
+    background-color: ${Color.GRAY};
   }
 `;
 
@@ -114,9 +115,9 @@ const StatusBox = styled.div<StatusProps>`
   font-size: 22px;
   line-height: 28px;
   color: ${(props) => {
-    if (props.status === "ACTIVE") return "#05C168";
-    if (props.status === "HOLD") return "#ff9e2c";
-    if (props.status === "INACTIVE") return "#FF5A65";
+    if (props.status === "ACTIVE") return Color.GREEN;
+    if (props.status === "HOLD") return Color.LIGHTORANGE;
+    if (props.status === "INACTIVE") return Color.GREEN;
   }};
   justify-self: center;
   line-height: 77px;
@@ -137,16 +138,16 @@ const Small = styled.small`
   font-weight: 700;
   font-size: 16px;
   line-height: 18px;
-  color: #969696;
+  color: ${Color.GRAY};
 `;
 
 const DomainBox = styled.input<StatusProps>`
   margin-top: 10px;
   padding: 0 5%;
-  background-color: #393939;
+  background-color: ${Color.DARKGRAY};
   border-radius: 6px;
   height: 68px;
-  color: #969696;
+  color: ${Color.GRAY};
   border: 0;
   @media (max-width: 1178px) {
     width: auto;
@@ -158,11 +159,10 @@ const CodeBox = styled.input`
   border-radius: 6px;
   height: 68px;
   width: 300px;
-  color: #969696;
-  background-color: #393939;
+  color: ${Color.GRAY};
+  background-color: ${Color.DARKGRAY};
   border: 0;
   padding-left: 20px;
-
   @media (max-width: 914px) {
     width: auto;
   }
@@ -242,7 +242,7 @@ const Wrapper = styled.div<StatusProps>`
   box-sizing: border-box;
   width: 100%;
   justify-content: space-between;
-  background-color: #272727;
+  background-color: ${Color.BLACK};
   height: 153px;
   border-radius: 12px;
   padding: 2% 1% 5% 2%;
@@ -263,7 +263,7 @@ const Checkbox = styled.input`
   width: 28px;
   height: 28px;
   &:checked {
-    background-color: red;
+    background-color: ${Color.RED};
   }
   @media (max-width: 768px) {
     grid-area: a;

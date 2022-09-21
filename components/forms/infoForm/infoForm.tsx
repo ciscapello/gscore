@@ -7,6 +7,7 @@ import {
   selectUserInfoSuccess,
   updateUserInfo,
 } from "../../../store";
+import { Color } from "../../../styles";
 
 interface InfoData {
   username: string;
@@ -74,11 +75,11 @@ export const Form = styled.form`
 `;
 
 const Error = styled.small`
-  color: red;
+  color: ${Color.RED};
 `;
 
 const Success = styled.small`
-  color: green;
+  color: ${Color.GREEN};
 `;
 
 const Subtitle = styled.h3`

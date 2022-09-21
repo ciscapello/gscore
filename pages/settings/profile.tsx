@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { InfoForm, PasswordForm } from "../../components";
+import { Color } from "../../styles";
 
 export default function Settings() {
   const [personalInfo, setPersonalInfo] = useState("info");
@@ -48,7 +49,7 @@ const Password = styled.span<BarProps>`
 `;
 
 const Info = styled.span<BarProps>`
-  color: ${(props) => (props.personalInfo === "info" ? "red" : "gray")};
+  color: ${(props) => (props.personalInfo === "info" ? Color.RED : Color.GRAY)};
   border-bottom: ${(props) =>
     props.personalInfo === "info" ? "1px solid red" : "none"};
   width: 15%;

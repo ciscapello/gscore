@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useRouter } from "next/router";
 import { useAppSelector } from "../../hooks";
 import { selectIsLogin } from "../../store";
+import { Color } from "../../styles";
 
 interface StatusBarProps {
   count: number;
@@ -71,6 +72,6 @@ const Bar = styled.div<BarProps>`
   width: 100%;
   background: #fc5842;
   background-color: ${(props) =>
-    props.index <= props.count ? "#fc5842" : "#393939"};
+    props.index <= props.count ? Color.ORANGE : Color.DARKGRAY};
   border-radius: 4px;
 `;

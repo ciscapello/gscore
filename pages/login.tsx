@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { LogInForm, StatusBar } from "../components";
+import { Color } from "../styles";
 
 export default function Login() {
   return (
@@ -25,5 +26,5 @@ const Title = styled.h3`
   font-weight: 700;
   font-size: 24px;
   line-height: 26px;
-  color: white;
+  color: ${Color.WHITE};
 `;

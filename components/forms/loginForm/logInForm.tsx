@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { selectSignInError, logIn } from "../../../store";
 import { unwrapResult } from "@reduxjs/toolkit";
 import styled from "styled-components";
+import { Color } from "../../../styles";
 
 export interface LogInFormValues {
   email: string;
@@ -55,7 +56,7 @@ export default function LogInForm() {
 }
 
 const Error = styled.small`
-  color: red;
+  color: ${Color.RED};
 `;
 
 const Form = styled.form`

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import styled from "styled-components";
 import { SingUpForm, StatusBar } from "../components";
+import { Color } from "../styles";
 // import { Paragraph, Title, Container } from "../styles";
 
 export default function Login() {
@@ -39,11 +40,11 @@ const Span = styled.span`
   font-weight: 400;
   font-size: 16px;
   line-height: 18px;
-  color: #fc5842;
+  color: ${Color.ORANGE};
   margin-left: 5px;
   cursor: pointer;
   &:hover {
-    color: gray;
+    color: ${Color.GRAY};
   }
 `;
 
@@ -61,5 +62,5 @@ const Title = styled.h3`
   font-weight: 700;
   font-size: 24px;
   line-height: 26px;
-  color: white;
+  color: ${Color.WHITE};
 `;

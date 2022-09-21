@@ -16,6 +16,7 @@ import {
   setSelectedSubcribeId,
 } from "../store";
 import { unwrapResult } from "@reduxjs/toolkit";
+import { Color } from "../styles";
 
 interface CheckoutProps {
   data: Product[];
@@ -147,7 +148,7 @@ const Wrapper = styled.div`
 const Table = styled.table`
   width: 100%;
   margin-top: 15px;
-  background-color: #272727;
+  background-color: ${Color.BLACK};
   box-sizing: border-box;
   border-radius: 12px;
 `;

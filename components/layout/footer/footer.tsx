@@ -1,5 +1,6 @@
 import Image from "next/image";
 import styled from "styled-components";
+import { Color } from "../../../styles";
 
 const Footer = () => {
   return (
@@ -50,7 +51,7 @@ const Wrapper = styled.footer`
   font-weight: 500;
   font-size: 18px;
   line-height: 30px;
-  color: #c7c7c7;
+  color: ${Color.LIGHTGRAY};
   border-top: 1px solid gray;
   @media (max-width: 768px) {
     font-weight: 400;
@@ -98,7 +99,7 @@ const Copyright = styled.p`
 `;
 
 const A = styled.a`
-  color: white;
+  color: ${Color.WHITE};
 `;
 
 const ImageWrapper = styled.div`

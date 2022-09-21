@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Button } from "../../components";
+import { Color } from "../../styles";
 
 export default function NoSubscriptions() {
   const router = useRouter();
@@ -46,7 +47,7 @@ const Round = styled.div`
   border-radius: 50%;
   width: 96px;
   height: 96px;
-  background-color: #393939;
+  background-color: ${Color.DARKGRAY};
 `;
 
 const Subtitle = styled.h3`
