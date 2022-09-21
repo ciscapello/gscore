@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Subtitle, Button as OldButton } from "../../styles";
+import { Button } from "../../components";
 
 export default function NoSubscriptions() {
   const router = useRouter();
@@ -20,14 +20,12 @@ export default function NoSubscriptions() {
       </Round>
       <Subtitle>No active subscriptions</Subtitle>
       <Text>You can subscribe right now by clicking on the button below</Text>
-      <Button onClick={onClick}>Get Gscore</Button>
+      <Button small onClick={onClick}>
+        Get Gscore
+      </Button>
     </Wrapper>
   );
 }
-
-const Button = styled(OldButton)`
-  max-width: 10%;
-`;
 
 const Text = styled.p`
   max-width: 300px;
@@ -49,4 +47,10 @@ const Round = styled.div`
   width: 96px;
   height: 96px;
   background-color: #393939;
+`;
+
+const Subtitle = styled.h3`
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 40px;
 `;

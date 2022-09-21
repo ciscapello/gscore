@@ -1,9 +1,11 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
-import { Form, Error, Input, Button } from "../../../styles";
+// import { Form, Error, Input, Button } from "../../../styles";
+import { Button } from "../../button";
 import { selectSignUpError, setSignUpError, signUp } from "../../../store";
 import router from "next/router";
 import { unwrapResult } from "@reduxjs/toolkit";
+import styled from "styled-components";
 
 export interface SignUpFormValues {
   email: string;
@@ -67,8 +69,33 @@ export default function SingUpForm() {
           type="password"
           {...register("password", { minLength: 6 })}
         />
-        <Button>Send password</Button>
+        <Button small={false}>Send password</Button>
       </Form>
     </>
   );
 }
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Error = styled.small`
+  color: red;
+`;
+
+const Input = styled.input`
+  box-sizing: border-box;
+  margin-bottom: 24px;
+  width: 100%;
+  height: 68px;
+  border: 1px solid #d7d7d7;
+  border-radius: 6px;
+  padding: 25px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 18px;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`;

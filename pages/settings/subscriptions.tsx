@@ -17,7 +17,7 @@ import {
   selectCurrentCardIndex,
   selectAllSubscribes,
 } from "../../store";
-import { Button, Title } from "../../styles";
+import { Button } from "../../components";
 import { Code } from "../../types";
 
 export default function Subscriptions() {
@@ -101,7 +101,7 @@ export default function Subscriptions() {
     }
     dispatch(
       setCurrentCardIndex(
-        currentCardIndex ? currentCardIndex + turnCount : null
+        currentCardIndex ? currentCardIndex + turnCount : turnCount
       )
     );
     setSelectedCodes([]);
@@ -122,7 +122,9 @@ export default function Subscriptions() {
         <Header>
           <Title>My subscriptions</Title>
           {subscribes[0] && (
-            <SmallButton onClick={handleClick}>Upgrade</SmallButton>
+            <Button small tranparent onClick={handleClick}>
+              Upgrade
+            </Button>
           )}
         </Header>
         {subscribes[0] ? (
@@ -168,9 +170,9 @@ export default function Subscriptions() {
             )}
             <ActivateCodes haveHoldStatus={haveHoldStatus}>
               <SelectDomains>Select the domains you want to keep</SelectDomains>
-              <SmallButtonActivate onClick={activateCodes}>
+              <Button small activate onClick={activateCodes}>
                 Confirm
-              </SmallButtonActivate>
+              </Button>
             </ActivateCodes>
           </>
         ) : (
@@ -223,23 +225,6 @@ const Codes = styled.div`
   flex-direction: column;
 `;
 
-const SmallButton = styled(Button)`
-  max-width: 10%;
-  @media (max-width: 768px) {
-    background: transparent;
-    color: red;
-    max-width: 30%;
-  }
-`;
-
-const SmallButtonActivate = styled(SmallButton)`
-  @media (max-width: 768px) {
-    min-width: 100%;
-    background: red;
-    color: white;
-  }
-`;
-
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
@@ -259,4 +244,13 @@ const Cards = styled.div<CardsProps>`
 const Container = styled.div`
   width: 90%;
   margin: 0 auto;
+`;
+
+const Title = styled.h1`
+  font-weight: 700;
+  font-size: 44px;
+  line-height: 54px;
+  @media (max-width: 768px) {
+    font-size: 28px;
+  }
 `;

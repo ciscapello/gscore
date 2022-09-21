@@ -1,13 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
-import {
-  ChangedButton,
-  Error,
-  InfoInput,
-  Subtitle,
-  Success,
-} from "../../../styles";
+import { Button } from "../../../components";
 import {
   selectUserInfoError,
   selectUserInfoSuccess,
@@ -40,12 +34,12 @@ export default function InfoForm() {
     <Form onSubmit={handleSubmit(onInfoSubmit)}>
       <Subtitle>Personal Info</Subtitle>
       {errors.username ? <Error>This field is required</Error> : null}
-      <InfoInput
+      <Input
         placeholder="Username"
         {...register("username", { required: true })}
       />
       {errors.email ? <Error>Please enter existing email</Error> : null}
-      <InfoInput
+      <Input
         placeholder="Email"
         {...register("email", {
           pattern: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g,
@@ -53,12 +47,42 @@ export default function InfoForm() {
       />
       {userInfoSuccess && <Success>Data is successfully update</Success>}
       {userInfoError && <Error>{userInfoError}</Error>}
-      <ChangedButton>Save</ChangedButton>
+      <Button small>Save</Button>
     </Form>
   );
 }
 
+const Input = styled.input`
+  box-sizing: border-box;
+  margin-bottom: 24px;
+  width: 40%;
+  height: 68px;
+  border: 1px solid #d7d7d7;
+  border-radius: 6px;
+  padding: 25px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 18px;
+  @media (max-width: 768px) {
+    width: auto;
+  }
+`;
+
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
+`;
+
+const Error = styled.small`
+  color: red;
+`;
+
+const Success = styled.small`
+  color: green;
+`;
+
+const Subtitle = styled.h3`
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 40px;
 `;

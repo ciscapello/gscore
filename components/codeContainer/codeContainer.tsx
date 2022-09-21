@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useAppDispatch, useCopyToClipboard } from "../../hooks";
-import { activateCode } from "../../store/products/productsSlice";
+import { activateCode } from "../../store";
 import { Code } from "../../types";
 import { useState } from "react";
 

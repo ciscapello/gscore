@@ -10,3 +10,4 @@ export { ProductCard } from "./productCard";
 export { ProductNavigation } from "./productNavigation";
 export { StatusBar } from "./statusBar";
 export { Loading } from "./loading";
+export { Button } from "./button";

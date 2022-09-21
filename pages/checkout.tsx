@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import { StatusBar } from "../components";
-import { Button, Paragraph, Title, Container } from "../styles";
+import { StatusBar, Button } from "../components";
 import axios from "axios";
 import { BASE_URL } from ".";
 import { Product } from "../types";
@@ -68,10 +67,10 @@ export default function Checkout({ data }: CheckoutProps) {
       {isPurchased && (
         <>
           <Title>Start your subscription</Title>
-          <Text>
+          <Paragraph text>
             We have sent you a payment receipt by e-mail and a link to download
             the plugin with a license key.
-          </Text>
+          </Paragraph>
         </>
       )}
       <Table>
@@ -95,9 +94,15 @@ export default function Checkout({ data }: CheckoutProps) {
           <Total>{`$${selectedProduct?.prices[0].price}`}</Total>
         </Wrapper>
       )}
-      {!isPurchased && <Button onClick={onClick}>Purchase</Button>}
+      {!isPurchased && (
+        <Button small={false} onClick={onClick}>
+          Purchase
+        </Button>
+      )}
       {isPurchased && (
-        <LongButton onClick={handleClick}>Go to my subscriptions</LongButton>
+        <LongButton small={false} onClick={handleClick}>
+          Go to my subscriptions
+        </LongButton>
       )}
     </Container>
   );
@@ -117,8 +122,15 @@ const LongButton = styled(Button)`
   width: 100%;
 `;
 
-const Text = styled(Paragraph)`
-  margin-bottom: 40px;
+interface ParagraphProps {
+  text: boolean;
+}
+
+export const Paragraph = styled.p<ParagraphProps>`
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  margin-bottom: ${(props) => props.text && "40px"};
 `;
 
 const Total = styled.p`
@@ -165,4 +177,21 @@ const Delete = styled.button`
   background: url("/icons/Vector.png") center/cover no-repeat;
   border: 0;
   cursor: pointer;
+`;
+
+const Container = styled.div`
+  width: 45%;
+  margin: 0 auto;
+  @media (max-width: 768px) {
+    width: 90%;
+  }
+`;
+
+const Title = styled.h1`
+  font-weight: 700;
+  font-size: 44px;
+  line-height: 54px;
+  @media (max-width: 768px) {
+    font-size: 28px;
+  }
 `;
