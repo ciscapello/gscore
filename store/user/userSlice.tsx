@@ -1,9 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
+import { axiosAPI } from "../../api";
 import { LogInFormValues } from "../../components/forms/loginForm/logInForm";
 import { SetPasswordFieldValues } from "../../components/forms/passwordForm/passwordForm";
 import { SignUpFormValues } from "../../components/forms/signUpForm/signUpForm";
-import { BASE_URL } from "../../pages";
 import { AppDispatch, RootState } from "../store";
 import { LoginResponse, UpdateUserData } from "./types";
 
@@ -44,8 +43,8 @@ export const updateUserInfo = createAsyncThunk<
   const headers = {
     Authorization: `Bearer ${token}`,
   };
-  axios
-    .patch(`${BASE_URL}/users`, data, {
+  axiosAPI
+    .patch(`users`, data, {
       headers: headers,
     })
     .then((res) => {
@@ -70,11 +69,11 @@ export const setPassword = createAsyncThunk<
   const headers = {
     Authorization: `Bearer ${token}`,
   };
-  axios
-    .patch(`${BASE_URL}/users/update-password`, data, {
+  axiosAPI
+    .patch(`users/update-password`, data, {
       headers: headers,
     })
-    .then((res) => {
+    .then(() => {
       dispatch(setPasswordSuccess(true));
       dispatch(setPasswordError(""));
     })
@@ -96,8 +95,8 @@ export const signUp = createAsyncThunk<
   unknown,
   SignUpFormValues,
   { dispatch: AppDispatch; rejectValue: string }
->("user/signUp", async (data, { dispatch, rejectWithValue }) => {
-  const res = await axios.post(`${BASE_URL}/users/sign-up`, data);
+>("user/signUp", async (data) => {
+  const res = await axiosAPI.post(`users/sign-up`, data);
   console.log(res);
   return res;
 });
@@ -109,7 +108,7 @@ export const logIn = createAsyncThunk<
 >("user/logIn", async (data, { rejectWithValue, dispatch }) => {
   let res;
   try {
-    res = await axios.post(`${BASE_URL}/users/sign-in`, data);
+    res = await axiosAPI.post(`users/sign-in`, data);
     dispatch(signIn(res.data));
     dispatch(setSignInError(false));
   } catch {

@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
-import { BASE_URL } from "../../pages";
+import { axiosAPI } from "../../api";
 import { Code, Subscribe } from "../../types";
 import { AppDispatch, RootState } from "../store";
 import { ChangeProductRes } from "./types";
@@ -33,11 +32,12 @@ export const buyProduct = createAsyncThunk<
   const headers = {
     Authorization: `Bearer ${token}`,
   };
-  const res = await axios.post(
-    `${BASE_URL}/payments/buy`,
+  const res = await axiosAPI.post(
+    `payments/buy`,
     { priceId: selectedProductForBuy },
     { headers: headers }
   );
+  console.log(res);
 });
 
 export const activateHoldedCodes = createAsyncThunk<
@@ -50,8 +50,8 @@ export const activateHoldedCodes = createAsyncThunk<
   const headers = {
     Authorization: `Bearer ${token}`,
   };
-  const res = await axios.put(
-    `${BASE_URL}/code/manage`,
+  const res = await axiosAPI.put(
+    `code/manage`,
     {
       codesIds: args.selectedCodes,
       subscribeId: args.subscribeId,
@@ -70,7 +70,7 @@ export const getSubscribes = createAsyncThunk<
   console.log(getState().user);
   const { token } = getState().user;
 
-  const res = await axios.get<Subscribe[]>(`${BASE_URL}/subscribe/self`, {
+  const res = await axiosAPI.get<Subscribe[]>(`subscribe/self`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
@@ -90,7 +90,7 @@ export const activateCode = createAsyncThunk<
   { rejectValue: string }
 >("products/activateCode", async (code, { rejectWithValue }) => {
   try {
-    const res = await axios.post(`${BASE_URL}/code/activate`, {
+    const res = await axiosAPI.post(`code/activate`, {
       code: code.code,
     });
     if (!res.data) {
@@ -113,8 +113,8 @@ export const changeProduct = createAsyncThunk<
   const { token } = getState().user;
   const { selectedSubcribeId, selectedProductForBuy } = getState().products;
   try {
-    const res = await axios.post(
-      `${BASE_URL}/subscribe/change-product`,
+    const res = await axiosAPI.post(
+      `subscribe/change-product`,
       {
         productId: selectedProductForBuy,
         subscribeId: selectedSubcribeId,
@@ -151,7 +151,7 @@ export const productsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getSubscribes.pending, (state, action) => {
+      .addCase(getSubscribes.pending, (state) => {
         state.loading = true;
         state.error = false;
       })
@@ -160,7 +160,7 @@ export const productsSlice = createSlice({
         state.loading = false;
         state.error = false;
       })
-      .addCase(activateCode.pending, (state, action) => {
+      .addCase(activateCode.pending, (state) => {
         state.loading = true;
       })
       .addCase(activateCode.fulfilled, (state, action) => {
@@ -178,10 +178,10 @@ export const productsSlice = createSlice({
         state.error = true;
         console.log(action.payload);
       })
-      .addCase(changeProduct.pending, (state, action) => {
+      .addCase(changeProduct.pending, (state) => {
         state.loading = true;
       })
-      .addCase(changeProduct.fulfilled, (state, action) => {
+      .addCase(changeProduct.fulfilled, (state) => {
         state.loading = false;
       });
   },

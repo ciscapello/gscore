@@ -25,8 +25,6 @@ export default function CodeContainer({
   const [copied, setCopied] = useState(false);
   const [checked, setChecked] = useState(false);
 
-  console.log(value);
-
   const onChange = () => {
     if (
       currentProductSitesCount &&
@@ -39,6 +37,7 @@ export default function CodeContainer({
   };
 
   const onClick = () => {
+    console.log(value);
     dispatch(activateCode(code));
   };
 
