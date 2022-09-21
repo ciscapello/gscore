@@ -8,10 +8,10 @@ import {
   selectSubscribeId,
   selectIsLogin,
   selectProductForBuy,
+  setSelectedSubcribeId,
   buyProduct,
   changeProduct,
   getSubscribes,
-  setSelectedSubcribeId,
 } from "../store";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { Color } from "../styles";

@@ -9,13 +9,13 @@ import {
 } from "../../components";
 import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
 import {
-  activateHoldedCodes,
-  getSubscribes,
   setCurrentCardIndex,
   setSelectedSubcribeId,
   selectIsLogin,
   selectCurrentCardIndex,
   selectAllSubscribes,
+  activateHoldedCodes,
+  getSubscribes,
 } from "../../store";
 import { Button } from "../../components";
 import { Code } from "../../types";
