@@ -7,6 +7,10 @@ import Head from "next/head";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { selectIsLogin, selectUsername, logout } from "../../../store";
 import { Color } from "../../../styles";
+import Burger from "../../../public/icons/burger.svg";
+import Close from "../../../public/icons/Close.svg";
+import Settings from "../../../public/icons/Settings.svg";
+import Logout from "../../../public/icons/Logout.svg";
 
 export default function Header() {
   const isLogin = useAppSelector(selectIsLogin);
@@ -57,21 +61,11 @@ export default function Header() {
         </MobileUsername>
         <MobileProfileMenu isShow={mobileProfileMenuIsActive}>
           <Row onClick={settingsHandler}>
-            <Image
-              src="/icons/settings.png"
-              width={24}
-              height={24}
-              alt="settings"
-            />
+            <Settings />
             <ProfileLink>Settings</ProfileLink>
           </Row>
           <Row onClick={logoutHandler}>
-            <Image
-              src="/icons/logout.png"
-              width={24}
-              height={24}
-              alt="logout"
-            />
+            <Logout />
             <ProfileLink>Logout</ProfileLink>
           </Row>
         </MobileProfileMenu>
@@ -86,9 +80,7 @@ export default function Header() {
         <Container>
           {isLogin && (
             <>
-              <BurgerButton
-                onClick={() => setMobileMenuIsActive(true)}
-              ></BurgerButton>
+              <BurgerButton onClick={() => setMobileMenuIsActive(true)} />
               <Menu>
                 <Link href="/settings/subscriptions">
                   <A>My subscriptions</A>
@@ -103,21 +95,11 @@ export default function Header() {
         </Container>
         <Profile isShow={isShow}>
           <Row onClick={settingsHandler}>
-            <Image
-              src="/icons/settings.png"
-              width={24}
-              height={24}
-              alt="settings"
-            />
+            <Settings />
             <ProfileLink>Settings</ProfileLink>
           </Row>
           <Row onClick={logoutHandler}>
-            <Image
-              src="/icons/logout.png"
-              width={24}
-              height={24}
-              alt="logout"
-            />
+            <Logout />
             <ProfileLink>Logout</ProfileLink>
           </Row>
         </Profile>
@@ -157,10 +139,9 @@ const MobileMenu = styled.div<MobileMenuProps>`
   opacity: ${(props) => (props.mobileMenuIsActive ? "0.9" : "0")};
 `;
 
-const CloseButton = styled.button`
+const CloseButton = styled(Close)`
   border: 0;
   display: none !important;
-  background: url("/icons/Close.png") center/cover no-repeat;
   width: 30px;
   height: 30px;
   &:active {
@@ -171,10 +152,9 @@ const CloseButton = styled.button`
   }
 `;
 
-const BurgerButton = styled.button`
+const BurgerButton = styled(Burger)`
   border: 0;
   display: none !important;
-  background: url("/icons/burger.png") center/cover no-repeat;
   width: 30px;
   height: 30px;
   &:active {

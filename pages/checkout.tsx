@@ -1,7 +1,5 @@
 import styled from "styled-components";
 import { StatusBar, Button } from "../components";
-import axios from "axios";
-import { BASE_URL } from ".";
 import { Product } from "../types";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { useRouter } from "next/router";
@@ -17,6 +15,8 @@ import {
 } from "../store";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { Color } from "../styles";
+import Basket from "../public/icons/basket.svg";
+import { axiosAPI } from "../api";
 
 interface CheckoutProps {
   data: Product[];
@@ -84,7 +84,7 @@ export default function Checkout({ data }: CheckoutProps) {
             <TableData>{selectedProduct?.name}</TableData>
             <TableData>
               {`$${selectedProduct?.prices[0].price}`}
-              {!isPurchased && <Delete />}
+              {!isPurchased && <StyledBasket />}
             </TableData>
           </TableRow>
         </tbody>
@@ -110,7 +110,7 @@ export default function Checkout({ data }: CheckoutProps) {
 }
 
 export async function getStaticProps() {
-  const res = await axios(`${BASE_URL}/products`);
+  const res = await axiosAPI.get("/products");
   const data = await res.data;
 
   if (!data) {
@@ -171,11 +171,10 @@ const TableHeader = styled(TableData)`
   border-bottom: 1px solid gray;
 `;
 
-const Delete = styled.button`
+const StyledBasket = styled(Basket)`
   margin-left: 20px;
   width: 25px;
   height: 25px;
-  background: url("/icons/Vector.png") center/cover no-repeat;
   border: 0;
   cursor: pointer;
 `;

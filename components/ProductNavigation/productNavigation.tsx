@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import Image from "next/image";
 import { Color } from "../../styles";
+import ArrowRightIcon from "../../public/icons/ArrowRight.svg";
 
 interface IProductNavigationProps {
   turnLeft: (count: number) => void;
@@ -18,23 +18,13 @@ export default function ProductNavigation({
   return (
     <Navigation>
       <ArrowLeft onClick={() => turnLeft(1)}>
-        <Image
-          src="/icons/arrowRight.png"
-          width={24}
-          height={24}
-          alt="arrowRight"
-        />
+        <ArrowRightIcon />
       </ArrowLeft>
       <Counter>
         <Span>{counter}</Span>/{dataLength}
       </Counter>
       <ArrowRight onClick={() => turnRight(1)}>
-        <Image
-          src="/icons/arrowRight.png"
-          width={24}
-          height={24}
-          alt="arrowRight"
-        />
+        <ArrowRightIcon />
       </ArrowRight>
     </Navigation>
   );

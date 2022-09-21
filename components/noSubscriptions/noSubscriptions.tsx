@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { Button } from "../../components";
 import { Color } from "../../styles";
+import Close from "../../public/icons/Close.svg";
 
 export default function NoSubscriptions() {
   const router = useRouter();
@@ -12,12 +12,7 @@ export default function NoSubscriptions() {
   return (
     <Wrapper>
       <Round>
-        <Image
-          src={"/icons/Close.png"}
-          height={"24"}
-          width={"24"}
-          alt={"cross"}
-        />
+        <Close />
       </Round>
       <Subtitle>No active subscriptions</Subtitle>
       <Text>You can subscribe right now by clicking on the button below</Text>

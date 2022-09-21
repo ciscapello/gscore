@@ -4,6 +4,7 @@ import { Product, Pricing } from "../../types";
 import { useRouter } from "next/router";
 import { selectIsLogin, selectProduct } from "../../store";
 import { Color } from "../../styles";
+import Check from "../../public/icons/check.svg";
 
 interface CardProps {
   pricing: Pricing;
@@ -30,7 +31,10 @@ export default function Card({ product, pricing, index }: CardProps) {
       <Text index={index}>{text}</Text>
       <List>
         {features.map((feature, ind) => (
-          <Item key={ind}>{feature}</Item>
+          <Flex key={ind}>
+            <Check />
+            <Item>{feature}</Item>
+          </Flex>
         ))}
       </List>
       <Button index={index} onClick={onClick}>
@@ -67,6 +71,11 @@ const Wrapper = styled.div<StyledProps>`
     margin-right: 0;
     margin-bottom: 30px;
   }
+`;
+
+const Flex = styled.div`
+  display: flex;
+  align-items: flex-start;
 `;
 
 const Price = styled.h2`
@@ -109,20 +118,13 @@ const List = styled.ul`
 const Item = styled.li`
   list-style-type: none;
   margin-bottom: 20px;
-  &:before {
-    content: "";
-    width: 23px;
-    height: 23px;
-    position: absolute;
-    transform: translateX(-33px);
-    background: url("/icons/check.png") center/cover no-repeat;
-  }
+  margin-left: 10px;
 `;
 
 const Button = styled.button<StyledProps>`
   width: 100%;
   height: 72px;
-  background: #ffffff;
+  background: ${Color.WHITE};
   border-radius: 6px;
   font-style: normal;
   font-weight: 700;

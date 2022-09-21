@@ -1,6 +1,9 @@
 import Image from "next/image";
 import styled from "styled-components";
 import { Color } from "../../../styles";
+import Twitter from "../../../public/icons/Twitter.svg";
+import LinkedIn from "../../../public/icons/LinkedIn.svg";
+import Facebook from "../../../public/icons/Facebook.svg";
 
 const Footer = () => {
   return (
@@ -16,28 +19,13 @@ const Footer = () => {
         </Copyright>
         <ImageWrapper>
           <A href="#">
-            <Image
-              width={18}
-              height={25}
-              src="/icons/Facebook.png"
-              alt="facebook"
-            />
+            <Facebook />
           </A>
           <A href="#">
-            <Image
-              width={25}
-              height={23}
-              src="/icons/Twitter.png"
-              alt="twitter"
-            />
+            <Twitter />
           </A>
           <A href="#">
-            <Image
-              width={25}
-              height={25}
-              src="/icons/LinkedIn.png"
-              alt="linkedIn"
-            />
+            <LinkedIn />
           </A>
         </ImageWrapper>
       </FooterBottom>

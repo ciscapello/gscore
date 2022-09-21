@@ -4,6 +4,7 @@ import { activateCode } from "../../store";
 import { Code } from "../../types";
 import { useState } from "react";
 import { Color } from "../../styles";
+import Clipboard from "../../public/icons/clipboard.svg";
 
 interface CodeContainerProps {
   code: Code;
@@ -55,7 +56,7 @@ export default function CodeContainer({
       <Code>
         <Small>License code</Small>
         <CodeBox disabled defaultValue={`${code.code.slice(0, 24)}...`} />
-        <CopyButton onClick={handleClipboard} />
+        <StyledClipboard onClick={handleClipboard} />
         {copied && <Copied>This code copied in clipboard</Copied>}
       </Code>
       <Domain>
@@ -167,16 +168,14 @@ const CodeBox = styled.input`
   }
 `;
 
-const CopyButton = styled.button`
-  background: url("/icons/clipboard.png") center/cover no-repeat,
-    rgba(0, 0, 0, 0);
+const StyledClipboard = styled(Clipboard)`
   cursor: pointer;
   border: 0;
   height: 56px;
   width: 56px;
   position: absolute;
   left: 438px;
-  margin-top: 34px;
+  margin-top: 45px;
   &:hover {
     opacity: 0.5;
   }
