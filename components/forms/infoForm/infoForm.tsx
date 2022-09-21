@@ -8,6 +8,7 @@ import {
   updateUserInfo,
 } from "../../../store";
 import { Color } from "../../../styles";
+import { EMAIL_VALID_REGEX } from "../../../utils";
 
 interface InfoData {
   username: string;
@@ -43,7 +44,7 @@ export default function InfoForm() {
       <Input
         placeholder="Email"
         {...register("email", {
-          pattern: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+          pattern: EMAIL_VALID_REGEX,
         })}
       />
       {userInfoSuccess && <Success>Data is successfully update</Success>}

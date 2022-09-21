@@ -7,6 +7,7 @@ import router from "next/router";
 import { unwrapResult } from "@reduxjs/toolkit";
 import styled from "styled-components";
 import { Color } from "../../../styles";
+import { EMAIL_VALID_REGEX } from "../../../utils";
 
 export interface SignUpFormValues {
   email: string;
@@ -59,7 +60,7 @@ export default function SingUpForm() {
           type="text"
           {...register("email", {
             required: true,
-            pattern: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+            pattern: EMAIL_VALID_REGEX,
           })}
         />
         {errors.password ? (
