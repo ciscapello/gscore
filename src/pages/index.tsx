@@ -1,11 +1,9 @@
 import { Card } from "../components";
 import { Product, Pricing } from "../types";
 import styled from "styled-components";
-import axios from "axios";
+import Api from "../api";
 import { GetStaticPropsContext } from "next";
 import { Color } from "../styles";
-
-export const BASE_URL = "https://gscore-back.herokuapp.com/api";
 
 interface HomeProps {
   data: Product[];
@@ -34,7 +32,7 @@ export default function Home({ data }: HomeProps) {
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   console.log("ctx", context);
-  const res = await axios(`${BASE_URL}/products`);
+  const res = await Api.get(`products`);
   const data = await res.data;
 
   if (!data) {

@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { axiosAPI } from "../../../api";
+import { AxiosResponse } from "axios";
+import Api from "../../../api";
 import { Code, Subscribe } from "../../../types";
 import { AppDispatch, RootState } from "../../store";
 import { ChangeProductRes } from "../types";
@@ -9,37 +10,23 @@ export const buyProduct = createAsyncThunk<
   undefined,
   { state: RootState }
 >("user/buyProduct", async (_, { getState }) => {
-  const { token } = getState().user;
   const { selectedProductForBuy } = getState().products;
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-  const res = await axiosAPI.post(
-    `payments/buy`,
-    { priceId: selectedProductForBuy },
-    { headers: headers }
-  );
+  const res = await Api.post(`payments/buy`, {
+    priceId: selectedProductForBuy,
+  });
   console.log(res);
 });
 
 export const activateHoldedCodes = createAsyncThunk<
   void,
   { selectedCodes: number[]; subscribeId: number },
-  { state: RootState; dispatch: AppDispatch }
->("products/activateHoldedCodes", async (args, { getState, dispatch }) => {
-  const { token } = getState().user;
+  { dispatch: AppDispatch }
+>("products/activateHoldedCodes", async (args, { dispatch }) => {
   console.log(args);
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-  const res = await axiosAPI.put(
-    `code/manage`,
-    {
-      codesIds: args.selectedCodes,
-      subscribeId: args.subscribeId,
-    },
-    { headers: headers }
-  );
+  const res = await Api.put(`code/manage`, {
+    codesIds: args.selectedCodes,
+    subscribeId: args.subscribeId,
+  });
   console.log(res);
   dispatch(getSubscribes());
 });
@@ -47,17 +34,9 @@ export const activateHoldedCodes = createAsyncThunk<
 export const getSubscribes = createAsyncThunk<
   Subscribe[],
   undefined,
-  { rejectValue: string; state: RootState }
->("products/getSubscribes", async (_, { rejectWithValue, getState }) => {
-  console.log(getState().user);
-  const { token } = getState().user;
-
-  const res = await axiosAPI.get<Subscribe[]>(`subscribe/self`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  { rejectValue: string }
+>("products/getSubscribes", async (_, { rejectWithValue }) => {
+  const res: AxiosResponse<Subscribe[]> = await Api.get(`subscribe/self`);
   if (!res.data) {
     return rejectWithValue("Error");
   }
@@ -72,7 +51,7 @@ export const activateCode = createAsyncThunk<
   { rejectValue: string }
 >("products/activateCode", async (code, { rejectWithValue }) => {
   try {
-    const res = await axiosAPI.post(`code/activate`, {
+    const res = await Api.post(`code/activate`, {
       code: code.code,
     });
     if (!res.data) {
@@ -92,22 +71,12 @@ export const changeProduct = createAsyncThunk<
   undefined,
   { rejectValue: string; state: RootState }
 >("products/changeProduct", async (_, { rejectWithValue, getState }) => {
-  const { token } = getState().user;
   const { selectedSubcribeId, selectedProductForBuy } = getState().products;
   try {
-    const res = await axiosAPI.post(
-      `subscribe/change-product`,
-      {
-        productId: selectedProductForBuy,
-        subscribeId: selectedSubcribeId,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const res = await Api.post(`subscribe/change-product`, {
+      productId: selectedProductForBuy,
+      subscribeId: selectedSubcribeId,
+    });
     return res.data;
   } catch {
     return rejectWithValue("Server error");

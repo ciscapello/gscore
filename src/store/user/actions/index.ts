@@ -38,12 +38,8 @@ export const setPassword = createAsyncThunk<
   void,
   SetPasswordFieldValues,
   { state: RootState; dispatch: AppDispatch }
->("user/setPassword", (data, { getState, dispatch }) => {
-  const { token } = getState().user;
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-  Api.patch(`users/update-password`, data
+>("user/setPassword", (data, { dispatch }) => {
+  Api.patch(`users/update-password`, data)
     .then(() => {
       dispatch(setPasswordSuccess(true));
       dispatch(setPasswordError(""));
@@ -67,7 +63,7 @@ export const signUp = createAsyncThunk<
   SignUpFormValues,
   { dispatch: AppDispatch; rejectValue: string }
 >("user/signUp", async (data) => {
-  const res = await axiosAPI.post(`users/sign-up`, data);
+  const res = await Api.post(`users/sign-up`, data);
   console.log(res);
   return res;
 });
@@ -79,7 +75,7 @@ export const logIn = createAsyncThunk<
 >("user/logIn", async (data, { rejectWithValue, dispatch }) => {
   let res;
   try {
-    res = await axiosAPI.post(`users/sign-in`, data);
+    res = await Api.post(`users/sign-in`, data);
     dispatch(signIn(res.data));
     dispatch(setSignInError(false));
   } catch {
