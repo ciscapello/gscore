@@ -15,7 +15,7 @@ import {
 } from "../store";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { Color } from "../styles";
-import Basket from "../public/icons/basket.svg";
+import { Basket } from "../components/icons";
 import { axiosAPI } from "../api";
 
 interface CheckoutProps {

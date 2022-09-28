@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useRouter } from "next/router";
 import { Button } from "../../components";
 import { Color } from "../../styles";
-import Close from "../../public/icons/Close.svg";
+import { Close } from "../icons";
 
 export default function NoSubscriptions() {
   const router = useRouter();

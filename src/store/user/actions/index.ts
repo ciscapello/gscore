@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { axiosAPI } from "../../../api";
+import Api from "../../../api";
 import { LogInFormValues } from "../../../components/forms/loginForm/logInForm";
 import { SetPasswordFieldValues } from "../../../components/forms/passwordForm/passwordForm";
 import { SignUpFormValues } from "../../../components/forms/signUpForm/signUpForm";
@@ -18,16 +18,9 @@ import {
 export const updateUserInfo = createAsyncThunk<
   void,
   { username: string; email: string },
-  { state: RootState; dispatch: AppDispatch }
->("user/updateUserInfo", (data, { getState, dispatch }) => {
-  const { token } = getState().user;
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-  axiosAPI
-    .patch(`users`, data, {
-      headers: headers,
-    })
+  { dispatch: AppDispatch }
+>("user/updateUserInfo", (data, { dispatch }) => {
+  Api.patch(`users`, data)
     .then((res) => {
       const { email, username } = res.data;
       dispatch(setUserInfoSuccess(true));
@@ -50,10 +43,7 @@ export const setPassword = createAsyncThunk<
   const headers = {
     Authorization: `Bearer ${token}`,
   };
-  axiosAPI
-    .patch(`users/update-password`, data, {
-      headers: headers,
-    })
+  Api.patch(`users/update-password`, data
     .then(() => {
       dispatch(setPasswordSuccess(true));
       dispatch(setPasswordError(""));

@@ -4,7 +4,7 @@ import { activateCode } from "../../store";
 import { Code } from "../../types";
 import { useState } from "react";
 import { Color } from "../../styles";
-import Clipboard from "../../public/icons/clipboard.svg";
+import { Clipboard } from "../icons";
 
 interface CodeContainerProps {
   code: Code;

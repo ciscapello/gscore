@@ -7,10 +7,7 @@ import Head from "next/head";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { selectIsLogin, selectUsername, logout } from "../../../store";
 import { Color } from "../../../styles";
-import Burger from "../../../public/icons/burger.svg";
-import Close from "../../../public/icons/Close.svg";
-import Settings from "../../../public/icons/Settings.svg";
-import Logout from "../../../public/icons/Logout.svg";
+import { Burger, Close, Settings, Logout } from "../../icons";
 
 export default function Header() {
   const isLogin = useAppSelector(selectIsLogin);

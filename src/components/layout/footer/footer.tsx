@@ -1,9 +1,7 @@
 import Image from "next/image";
 import styled from "styled-components";
 import { Color } from "../../../styles";
-import Twitter from "../../../public/icons/Twitter.svg";
-import LinkedIn from "../../../public/icons/LinkedIn.svg";
-import Facebook from "../../../public/icons/Facebook.svg";
+import { Twitter, LinkedIn, Facebook } from "../../icons";
 
 const Footer = () => {
   return (
