@@ -1,10 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import Api from "../../../api";
-import { LogInFormValues } from "../../../components/forms/loginForm/logInForm";
-import { SetPasswordFieldValues } from "../../../components/forms/passwordForm/passwordForm";
-import { SignUpFormValues } from "../../../components/forms/signUpForm/signUpForm";
-import { AppDispatch, RootState } from "../../store";
-import { LoginResponse } from "../types";
+import { LogInFormValues } from "../../components/forms/loginForm/logInForm";
+import { SetPasswordFieldValues } from "../../components/forms/passwordForm/passwordForm";
+import { SignUpFormValues } from "../../components/forms/signUpForm/signUpForm";
+import { AppDispatch, RootState } from "../store";
+import { LoginResponse } from "./types";
 import {
   setPasswordError,
   setPasswordSuccess,
@@ -13,7 +12,8 @@ import {
   setUserInfoSuccess,
   signIn,
   updateUserData,
-} from "../userSlice";
+} from "./userSlice";
+import Api from "../../api";
 
 export const updateUserInfo = createAsyncThunk<
   void,

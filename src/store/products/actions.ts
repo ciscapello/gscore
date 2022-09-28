@@ -1,9 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosResponse } from "axios";
-import Api from "../../../api";
-import { Code, Subscribe } from "../../../types";
-import { AppDispatch, RootState } from "../../store";
-import { ChangeProductRes } from "../types";
+import { Code, Subscribe } from "../../types";
+import { AppDispatch, RootState } from "../store";
+import { ChangeProductRes } from "./types";
+import Api from "../../api";
 
 export const buyProduct = createAsyncThunk<
   void,
