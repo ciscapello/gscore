@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "svg:transform": "./node_modules/@svgr/cli/bin/svgr --ignore-existing --typescript --no-dimensions -d src/shared/assets/svgs/ src/shared/assets/svgs/origin"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.5",

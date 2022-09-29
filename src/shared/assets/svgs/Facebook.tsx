@@ -3,8 +3,7 @@ import { SVGProps } from "react";
 
 const SvgFacebook = (props: SVGProps<SVGSVGElement>) => (
   <svg
-    width={14}
-    height={25}
+    viewBox="0 0 14 25"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}

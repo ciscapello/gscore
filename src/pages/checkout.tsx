@@ -15,8 +15,8 @@ import {
 } from "../store";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { Color } from "../styles";
-import { Basket } from "../components/icons";
-import { axiosAPI } from "../api";
+import { Basket } from "../shared/assets/svgs";
+import Api from "../api";
 
 interface CheckoutProps {
   data: Product[];
@@ -110,7 +110,7 @@ export default function Checkout({ data }: CheckoutProps) {
 }
 
 export async function getStaticProps() {
-  const res = await axiosAPI.get("/products");
+  const res = await Api.get("products");
   const data = await res.data;
 
   if (!data) {

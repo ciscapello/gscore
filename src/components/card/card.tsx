@@ -4,7 +4,7 @@ import { Product, Pricing } from "../../types";
 import { useRouter } from "next/router";
 import { selectIsLogin, selectProduct } from "../../store";
 import { Color } from "../../styles";
-import { Check } from "../icons";
+import { Check } from "../../shared/assets/svgs";
 
 interface CardProps {
   pricing: Pricing;

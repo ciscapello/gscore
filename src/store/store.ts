@@ -27,7 +27,7 @@ const rootReducer = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export const store = configureStore({
+const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -36,6 +36,8 @@ export const store = configureStore({
       },
     }),
 });
+
+export default store;
 
 export const persistor = persistStore(store);
 

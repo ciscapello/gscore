@@ -1,46 +1,69 @@
-import axios, { AxiosInstance } from "axios";
-import { store } from "../store/store";
-const baseUrl = "https://gscore-back.herokuapp.com/api/";
+import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import store from "../store/store";
 
-class Api {
-  private api: AxiosInstance;
+const BACKEND_URL = "https://gscore-back.herokuapp.com/api/";
 
-  constructor() {
-    this.api = axios.create({
-      baseURL: baseUrl,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+export const api = (): AxiosInstance => {
+  const instance = axios.create({
+    baseURL: BACKEND_URL,
+  });
 
-    this.api.interceptors.request.use((config) => {
-      const token = store.getState().user.token;
-      if (token && config.headers) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-      return config;
-    });
-  }
+  instance.interceptors.request.use((config: AxiosRequestConfig) => {
+    const token = store.getState().user.token;
+    if (config.headers === undefined) {
+      config.headers = {};
+    }
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    } else {
+      config.headers.Authorization = "";
+    }
 
-  async post(url: string, data?: unknown) {
-    return this.api.post(url, data);
-  }
+    return config;
+  });
 
-  async get(url: string) {
-    return this.api.get(url);
-  }
+  return instance;
+};
 
-  async put(url: string, data?: unknown) {
-    return this.api.put(url, data);
-  }
+// import axios, { AxiosInstance } from "axios";
+// import store from "../store/store";
+// const baseUrl = "https://gscore-back.herokuapp.com/api/";
 
-  async delete(url: string) {
-    return this.api.delete(url);
-  }
+// class Api {
+//   private api: AxiosInstance;
 
-  async patch(url: string, data?: unknown) {
-    return this.api.patch(url, data);
-  }
-}
+//   constructor() {
+//     this.api = axios.create({
+//       baseURL: baseUrl,
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     });
 
-export default new Api();
+//     this.api.interceptors.request.use((config) => {
+//       const token = store.getState().user.token;
+//       if (token && config.headers) {
+//         config.headers.Authorization = `Bearer ${token}`;
+//       }
+//       return config;
+//     });
+//   }
+
+//   async post(url: string, data?: unknown) {
+//     return this.api.post(url, data);
+//   }
+
+//   async get(url: string) {
+//     return this.api.get(url);
+//   }
+
+//   async put(url: string, data?: unknown) {
+//     return this.api.put(url, data);
+//   }
+
+//   async patch(url: string, data?: unknown) {
+//     return this.api.patch(url, data);
+//   }
+// }
+
+// export default new Api();

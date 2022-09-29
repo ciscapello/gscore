@@ -3,7 +3,7 @@ import { AxiosResponse } from "axios";
 import { Code, Subscribe } from "../../types";
 import { AppDispatch, RootState } from "../store";
 import { ChangeProductRes } from "./types";
-import Api from "../../api";
+import { api } from "../../api";
 
 export const buyProduct = createAsyncThunk<
   void,
@@ -11,7 +11,7 @@ export const buyProduct = createAsyncThunk<
   { state: RootState }
 >("user/buyProduct", async (_, { getState }) => {
   const { selectedProductForBuy } = getState().products;
-  const res = await Api.post(`payments/buy`, {
+  const res = await api().post(`payments/buy`, {
     priceId: selectedProductForBuy,
   });
   console.log(res);
@@ -23,7 +23,7 @@ export const activateHoldedCodes = createAsyncThunk<
   { dispatch: AppDispatch }
 >("products/activateHoldedCodes", async (args, { dispatch }) => {
   console.log(args);
-  const res = await Api.put(`code/manage`, {
+  const res = await api().put(`code/manage`, {
     codesIds: args.selectedCodes,
     subscribeId: args.subscribeId,
   });
@@ -36,7 +36,7 @@ export const getSubscribes = createAsyncThunk<
   undefined,
   { rejectValue: string }
 >("products/getSubscribes", async (_, { rejectWithValue }) => {
-  const res: AxiosResponse<Subscribe[]> = await Api.get(`subscribe/self`);
+  const res: AxiosResponse<Subscribe[]> = await api().get(`subscribe/self`);
   if (!res.data) {
     return rejectWithValue("Error");
   }
@@ -51,7 +51,7 @@ export const activateCode = createAsyncThunk<
   { rejectValue: string }
 >("products/activateCode", async (code, { rejectWithValue }) => {
   try {
-    const res = await Api.post(`code/activate`, {
+    const res = await api().post(`code/activate`, {
       code: code.code,
     });
     if (!res.data) {
@@ -73,7 +73,7 @@ export const changeProduct = createAsyncThunk<
 >("products/changeProduct", async (_, { rejectWithValue, getState }) => {
   const { selectedSubcribeId, selectedProductForBuy } = getState().products;
   try {
-    const res = await Api.post(`subscribe/change-product`, {
+    const res = await api().post(`subscribe/change-product`, {
       productId: selectedProductForBuy,
       subscribeId: selectedSubcribeId,
     });

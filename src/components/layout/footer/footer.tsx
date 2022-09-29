@@ -1,7 +1,7 @@
 import Image from "next/image";
 import styled from "styled-components";
 import { Color } from "../../../styles";
-import { Twitter, LinkedIn, Facebook } from "../../icons";
+import { Twitter, LinkedIn, Facebook } from "../../../shared/assets/svgs";
 
 const Footer = () => {
   return (

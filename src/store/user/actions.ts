@@ -13,14 +13,15 @@ import {
   signIn,
   updateUserData,
 } from "./userSlice";
-import Api from "../../api";
+import { api } from "../../api";
 
 export const updateUserInfo = createAsyncThunk<
   void,
   { username: string; email: string },
   { dispatch: AppDispatch }
 >("user/updateUserInfo", (data, { dispatch }) => {
-  Api.patch(`users`, data)
+  api()
+    .patch(`users`, data)
     .then((res) => {
       const { email, username } = res.data;
       dispatch(setUserInfoSuccess(true));
@@ -39,7 +40,8 @@ export const setPassword = createAsyncThunk<
   SetPasswordFieldValues,
   { state: RootState; dispatch: AppDispatch }
 >("user/setPassword", (data, { dispatch }) => {
-  Api.patch(`users/update-password`, data)
+  api()
+    .patch(`users/update-password`, data)
     .then(() => {
       dispatch(setPasswordSuccess(true));
       dispatch(setPasswordError(""));
@@ -63,7 +65,7 @@ export const signUp = createAsyncThunk<
   SignUpFormValues,
   { dispatch: AppDispatch; rejectValue: string }
 >("user/signUp", async (data) => {
-  const res = await Api.post(`users/sign-up`, data);
+  const res = await api().post(`users/sign-up`, data);
   console.log(res);
   return res;
 });
@@ -75,7 +77,7 @@ export const logIn = createAsyncThunk<
 >("user/logIn", async (data, { rejectWithValue, dispatch }) => {
   let res;
   try {
-    res = await Api.post(`users/sign-in`, data);
+    res = await api().post(`users/sign-in`, data);
     dispatch(signIn(res.data));
     dispatch(setSignInError(false));
   } catch {

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Color } from "../../styles";
-import ArrowRightIcon from "../../../public/icons/ArrowRight.svg";
+import { ArrowRight as ArrowRightIcon } from "../../shared/assets/svgs";
 
 interface IProductNavigationProps {
   turnLeft: (count: number) => void;
