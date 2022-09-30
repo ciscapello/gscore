@@ -1,69 +1,64 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import store from "../store/store";
+import axios, { AxiosInstance } from "axios";
+const baseUrl = "https://gscore-back.herokuapp.com/api/";
 
-const BACKEND_URL = "https://gscore-back.herokuapp.com/api/";
+class Api {
+  private api: AxiosInstance;
 
-export const api = (): AxiosInstance => {
-  const instance = axios.create({
-    baseURL: BACKEND_URL,
-  });
+  constructor() {
+    this.api = axios.create({
+      baseURL: baseUrl,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-  instance.interceptors.request.use((config: AxiosRequestConfig) => {
-    const token = store.getState().user.token;
-    if (config.headers === undefined) {
-      config.headers = {};
-    }
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    } else {
-      config.headers.Authorization = "";
-    }
+    this.api.interceptors.request.use((config) => {
+      const token = store.getState().user.token;
+      if (token && config.headers) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    });
+  }
 
-    return config;
-  });
+  async post(url: string, data?: unknown) {
+    return this.api.post(url, data);
+  }
 
-  return instance;
-};
+  async get(url: string) {
+    return this.api.get(url);
+  }
 
-// import axios, { AxiosInstance } from "axios";
-// import store from "../store/store";
-// const baseUrl = "https://gscore-back.herokuapp.com/api/";
+  async put(url: string, data?: unknown) {
+    return this.api.put(url, data);
+  }
 
-// class Api {
-//   private api: AxiosInstance;
+  async patch(url: string, data?: unknown) {
+    return this.api.patch(url, data);
+  }
+}
 
-//   constructor() {
-//     this.api = axios.create({
-//       baseURL: baseUrl,
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     });
+export default new Api();
 
-//     this.api.interceptors.request.use((config) => {
-//       const token = store.getState().user.token;
-//       if (token && config.headers) {
-//         config.headers.Authorization = `Bearer ${token}`;
-//       }
-//       return config;
-//     });
-//   }
+// export const api = (): AxiosInstance => {
+//   const instance = axios.create({
+//     baseURL: BACKEND_URL,
+//   });
 
-//   async post(url: string, data?: unknown) {
-//     return this.api.post(url, data);
-//   }
+//   instance.interceptors.request.use((config: AxiosRequestConfig) => {
+//     const token = store.getState().user.token;
+//     if (config.headers === undefined) {
+//       config.headers = {};
+//     }
+//     if (token) {
+//       config.headers.Authorization = `Bearer ${token}`;
+//     } else {
+//       config.headers.Authorization = "";
+//     }
 
-//   async get(url: string) {
-//     return this.api.get(url);
-//   }
+//     return config;
+//   });
 
-//   async put(url: string, data?: unknown) {
-//     return this.api.put(url, data);
-//   }
-
-//   async patch(url: string, data?: unknown) {
-//     return this.api.patch(url, data);
-//   }
-// }
-
-// export default new Api();
+//   return instance;
+// };

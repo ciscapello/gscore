@@ -12,7 +12,7 @@ export default function NoSubscriptions() {
   return (
     <Wrapper>
       <Round>
-        <Close />
+        <Close width={24} height={24} />
       </Round>
       <Subtitle>No active subscriptions</Subtitle>
       <Text>You can subscribe right now by clicking on the button below</Text>

@@ -32,7 +32,7 @@ export default function Card({ product, pricing, index }: CardProps) {
       <List>
         {features.map((feature, ind) => (
           <Flex key={ind}>
-            <Check />
+            <Check width={24} height={24} />
             <Item>{feature}</Item>
           </Flex>
         ))}

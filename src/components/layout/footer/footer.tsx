@@ -17,13 +17,13 @@ const Footer = () => {
         </Copyright>
         <ImageWrapper>
           <A href="#">
-            <Facebook />
+            <Facebook width={24} height={24} />
           </A>
           <A href="#">
-            <Twitter />
+            <Twitter width={24} height={24} />
           </A>
           <A href="#">
-            <LinkedIn />
+            <LinkedIn width={24} height={24} />
           </A>
         </ImageWrapper>
       </FooterBottom>

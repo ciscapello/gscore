@@ -16,7 +16,7 @@ import {
 import { unwrapResult } from "@reduxjs/toolkit";
 import { Color } from "../styles";
 import { Basket } from "../shared/assets/svgs";
-import { api } from "../api";
+import Api from "../api";
 
 interface CheckoutProps {
   data: Product[];
@@ -84,7 +84,7 @@ export default function Checkout({ data }: CheckoutProps) {
             <TableData>{selectedProduct?.name}</TableData>
             <TableData>
               {`$${selectedProduct?.prices[0].price}`}
-              {!isPurchased && <StyledBasket />}
+              {!isPurchased && <StyledBasket width={24} height={24} />}
             </TableData>
           </TableRow>
         </tbody>
@@ -110,7 +110,7 @@ export default function Checkout({ data }: CheckoutProps) {
 }
 
 export async function getStaticProps() {
-  const res = await api().get("products");
+  const res = await Api.get("products");
   const data = await res.data;
 
   if (!data) {

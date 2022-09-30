@@ -46,7 +46,11 @@ export default function Header() {
     <>
       <MobileMenu mobileMenuIsActive={mobileMenuIsActive}>
         <MobileMenuHeadContainer>
-          <CloseButton onClick={() => setMobileMenuIsActive(false)} />
+          <CloseButton
+            width={24}
+            height={24}
+            onClick={() => setMobileMenuIsActive(false)}
+          />
           <Image width={170} height={42} src="/Logo.png" alt="gscore" />
         </MobileMenuHeadContainer>
         <A onClick={handleLinkClick}>My subscriptions</A>
@@ -58,11 +62,11 @@ export default function Header() {
         </MobileUsername>
         <MobileProfileMenu isShow={mobileProfileMenuIsActive}>
           <Row onClick={settingsHandler}>
-            <Settings />
+            <Settings width={24} height={24} />
             <ProfileLink>Settings</ProfileLink>
           </Row>
           <Row onClick={logoutHandler}>
-            <Logout />
+            <Logout width={24} height={24} />
             <ProfileLink>Logout</ProfileLink>
           </Row>
         </MobileProfileMenu>
@@ -77,7 +81,11 @@ export default function Header() {
         <Container>
           {isLogin && (
             <>
-              <BurgerButton onClick={() => setMobileMenuIsActive(true)} />
+              <BurgerButton
+                width={24}
+                height={24}
+                onClick={() => setMobileMenuIsActive(true)}
+              />
               <Menu>
                 <Link href="/settings/subscriptions">
                   <A>My subscriptions</A>
@@ -92,11 +100,11 @@ export default function Header() {
         </Container>
         <Profile isShow={isShow}>
           <Row onClick={settingsHandler}>
-            <Settings />
+            <Settings width={24} height={24} />
             <ProfileLink>Settings</ProfileLink>
           </Row>
           <Row onClick={logoutHandler}>
-            <Logout />
+            <Logout width={24} height={24} />
             <ProfileLink>Logout</ProfileLink>
           </Row>
         </Profile>
