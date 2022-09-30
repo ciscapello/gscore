@@ -1,4 +1,4 @@
-import store from "../store/store";
+import store from "../store/";
 import axios, { AxiosInstance } from "axios";
 const baseUrl = "https://gscore-back.herokuapp.com/api/";
 

@@ -56,7 +56,7 @@ export default function CodeContainer({
       <Code>
         <Small>License code</Small>
         <CodeBox disabled defaultValue={`${code.code.slice(0, 24)}...`} />
-        <StyledClipboard onClick={handleClipboard} />
+        <StyledClipboard width={36} height={36} onClick={handleClipboard} />
         {copied && <Copied>This code copied in clipboard</Copied>}
       </Code>
       <Domain>
@@ -171,8 +171,6 @@ const CodeBox = styled.input`
 const StyledClipboard = styled(Clipboard)`
   cursor: pointer;
   border: 0;
-  height: 56px;
-  width: 56px;
   position: absolute;
   left: 438px;
   margin-top: 45px;
