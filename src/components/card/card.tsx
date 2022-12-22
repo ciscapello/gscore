@@ -119,6 +119,7 @@ const Item = styled.li`
   list-style-type: none;
   margin-bottom: 20px;
   margin-left: 10px;
+  max-width: 70%;
 `;
 
 const Button = styled.button<StyledProps>`

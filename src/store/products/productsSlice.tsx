@@ -4,7 +4,7 @@ import { activateCode, changeProduct, getSubscribes } from "./actions";
 
 interface InitialState {
   subscribes: Subscribe[] | [];
-  loading: boolean;
+  isLoading: boolean;
   error: boolean;
   currentCardIndex: number | null;
   selectedSubcribeId: number | null;
@@ -13,7 +13,7 @@ interface InitialState {
 
 const initialState: InitialState = {
   subscribes: [],
-  loading: false,
+  isLoading: false,
   error: false,
   currentCardIndex: null,
   selectedSubcribeId: null,
@@ -25,7 +25,7 @@ export const productsSlice = createSlice({
   initialState,
   reducers: {
     setLoading: (state, action: PayloadAction<boolean>) => {
-      state.loading = action.payload;
+      state.isLoading = action.payload;
     },
     setCurrentCardIndex: (state, action: PayloadAction<number | null>) => {
       state.currentCardIndex = action.payload;
@@ -41,20 +41,20 @@ export const productsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getSubscribes.pending, (state) => {
-        state.loading = true;
+        state.isLoading = true;
         state.error = false;
       })
       .addCase(getSubscribes.fulfilled, (state, action) => {
         state.subscribes = action.payload;
         console.log(action.payload);
-        state.loading = false;
+        state.isLoading = false;
         state.error = false;
       })
       .addCase(activateCode.pending, (state) => {
-        state.loading = true;
+        state.isLoading = true;
       })
       .addCase(activateCode.fulfilled, (state, action) => {
-        state.loading = false;
+        state.isLoading = false;
         console.log("payload", action.payload);
         const subscribeIndex = state.subscribes.findIndex(
           (elem) => elem._id === action.payload.subscribeId
@@ -69,10 +69,10 @@ export const productsSlice = createSlice({
         console.log(action.payload);
       })
       .addCase(changeProduct.pending, (state) => {
-        state.loading = true;
+        state.isLoading = true;
       })
       .addCase(changeProduct.fulfilled, (state) => {
-        state.loading = false;
+        state.isLoading = false;
       });
   },
 });

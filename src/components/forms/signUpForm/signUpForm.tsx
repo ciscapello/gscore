@@ -1,6 +1,5 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
-// import { Form, Error, Input, Button } from "../../../styles";
 import { Button } from "../../button";
 import { selectSignUpError, setSignUpError, signUp } from "../../../store";
 import router from "next/router";
@@ -28,7 +27,6 @@ export default function SingUpForm() {
   });
 
   const onSubmit: SubmitHandler<SignUpFormValues> = (data) => {
-    console.log(signUpError);
     dispatch(signUp(data))
       .then(unwrapResult)
       .then(() => {
@@ -38,7 +36,7 @@ export default function SingUpForm() {
       .catch(() => {
         setTimeout(() => {
           dispatch(setSignUpError(""));
-        }, 3000);
+        }, 10000);
       });
   };
 

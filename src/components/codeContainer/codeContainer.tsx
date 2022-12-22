@@ -55,8 +55,10 @@ export default function CodeContainer({
       <Checkbox type="checkbox" checked={checked} onChange={onChange} />
       <Code>
         <Small>License code</Small>
-        <CodeBox disabled defaultValue={`${code.code.slice(0, 24)}...`} />
-        <StyledClipboard width={36} height={36} onClick={handleClipboard} />
+        <CodeBox>
+          <p>{`${code.code.slice(0, 24)}...`}</p>
+          <StyledClipboard width={36} height={36} onClick={handleClipboard} />
+        </CodeBox>
         {copied && <Copied>This code copied in clipboard</Copied>}
       </Code>
       <Domain>
@@ -154,7 +156,10 @@ const DomainBox = styled.input<StatusProps>`
   }
 `;
 
-const CodeBox = styled.input`
+const CodeBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-top: 10px;
   border-radius: 6px;
   height: 68px;
@@ -162,7 +167,7 @@ const CodeBox = styled.input`
   color: ${Color.GRAY};
   background-color: ${Color.DARKGRAY};
   border: 0;
-  padding-left: 20px;
+  padding: 0 20px;
   @media (max-width: 914px) {
     width: auto;
   }
@@ -171,29 +176,8 @@ const CodeBox = styled.input`
 const StyledClipboard = styled(Clipboard)`
   cursor: pointer;
   border: 0;
-  position: absolute;
-  left: 438px;
-  margin-top: 45px;
   &:hover {
     opacity: 0.5;
-  }
-  @media (max-width: 768px) {
-    left: 505px;
-  }
-  @media (max-width: 1339px) {
-    left: 416px;
-  }
-  @media (max-width: 1192px) {
-    left: 387px;
-  }
-  @media (max-width: 914px) {
-    left: 226px;
-  }
-  @media (max-width: 380px) {
-    left: 257px;
-  }
-  @media (max-width: 498px) {
-    left: 263px;
   }
 `;
 

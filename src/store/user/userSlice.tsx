@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { signUp } from "./actions";
-import { LoginResponse, UpdateUserData } from "./types";
+import { logIn, signUp } from "./actions";
+import { UpdateUserData } from "./types";
 
 interface UserState {
   isLogin: boolean;
@@ -8,12 +8,13 @@ interface UserState {
   email: string;
   token: string;
   checkedCodes: number[];
-  signInError: string;
+  signInError: string | undefined;
   singUpError: string | undefined;
   passwordError: string;
   passwordSuccess: boolean;
   userInfoSuccess: boolean;
   userInfoError: string;
+  isLoading: boolean;
 }
 
 const initialState: UserState = {
@@ -28,19 +29,15 @@ const initialState: UserState = {
   passwordSuccess: false,
   userInfoSuccess: false,
   userInfoError: "",
+  isLoading: false,
 };
 
 export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    signIn: (state, action: PayloadAction<LoginResponse>) => {
-      const { user, token } = action.payload;
-      console.log(action.payload);
-      state.isLogin = true;
-      state.email = user.email;
-      state.username = user.username;
-      state.token = token;
+    setSignUpError: (state, action) => {
+      state.singUpError = action.payload;
     },
     logout: (state) => {
       state.isLogin = false;
@@ -51,10 +48,6 @@ export const userSlice = createSlice({
     updateUserData: (state, action: PayloadAction<UpdateUserData>) => {
       state.username = action.payload.username;
       state.email = action.payload.email;
-    },
-    setSignUpError: (state, action) => {
-      console.log(action.payload);
-      state.singUpError = action.payload;
     },
     setSignInError: (state, action) => {
       state.signInError = action.payload;
@@ -73,19 +66,38 @@ export const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(signUp.rejected, (state, action) => {
-      console.log(action.error);
-      if (action.error) {
-        state.singUpError = action.error.message;
-      }
-    });
+    builder
+      .addCase(signUp.rejected, (state, action) => {
+        state.singUpError = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(signUp.fulfilled, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(signUp.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(logIn.rejected, (state, action) => {
+        state.signInError = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(logIn.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const { user, token } = action.payload;
+        state.isLogin = true;
+        state.email = user.email;
+        state.username = user.name;
+        state.token = token;
+      })
+      .addCase(logIn.pending, (state) => {
+        state.isLoading = true;
+      });
   },
 });
 
 export default userSlice.reducer;
 
 export const {
-  signIn,
   logout,
   updateUserData,
   setSignInError,

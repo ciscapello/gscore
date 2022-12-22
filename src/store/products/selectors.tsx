@@ -1,7 +1,7 @@
 import { RootState } from "../store";
 
 export const selectLoading = (state: RootState) => {
-  return state.products.loading;
+  return state.products.isLoading || state.user.isLoading;
 };
 
 export const selectCurrentCardIndex = (state: RootState) => {

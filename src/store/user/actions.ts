@@ -7,10 +7,8 @@ import { LoginResponse } from "./types";
 import {
   setPasswordError,
   setPasswordSuccess,
-  setSignInError,
   setUserInfoError,
   setUserInfoSuccess,
-  signIn,
   updateUserData,
 } from "./userSlice";
 import Api from "../../api";
@@ -62,25 +60,27 @@ export const signUp = createAsyncThunk<
   unknown,
   SignUpFormValues,
   { dispatch: AppDispatch; rejectValue: string }
->("user/signUp", async (data) => {
-  const res = await Api.post(`users/sign-up`, data);
-  console.log(res);
-  return res;
+>("user/signUp", async (data, { rejectWithValue }) => {
+  return await Api.post(`users/sign-up`, data)
+    .then((res) => {
+      return res;
+    })
+    .catch((error) => {
+      console.log(error);
+      return rejectWithValue(error.response.data.message);
+    });
 });
 
 export const logIn = createAsyncThunk<
   LoginResponse,
   LogInFormValues,
-  { rejectValue: string; dispatch: AppDispatch }
->("user/logIn", async (data, { rejectWithValue, dispatch }) => {
-  let res;
-  try {
-    res = await Api.post(`users/sign-in`, data);
-    dispatch(signIn(res.data));
-    dispatch(setSignInError(false));
-  } catch {
-    dispatch(setSignInError(true));
-    return rejectWithValue("Error");
-  }
-  return res.data;
+  { rejectValue: string }
+>("user/logIn", async (data, { rejectWithValue }) => {
+  return await Api.post(`users/sign-in`, data)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      return rejectWithValue(error.response.data.message);
+    });
 });
