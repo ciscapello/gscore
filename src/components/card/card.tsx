@@ -18,7 +18,7 @@ export default function Card({ product, pricing, index }: CardProps) {
   const router = useRouter();
 
   const onClick = () => {
-    dispatch(selectProduct(product.id));
+    dispatch(selectProduct(product._id));
     isLogin ? router.push("/checkout") : router.push("/createAccount");
   };
 
@@ -26,7 +26,7 @@ export default function Card({ product, pricing, index }: CardProps) {
 
   return (
     <Wrapper index={index}>
-      <Price>{`$${product.prices[0].price}`}</Price>
+      <Price>{product.prices[0].price}</Price>
       <Title>{product.name}</Title>
       <Text index={index}>{text}</Text>
       <List>

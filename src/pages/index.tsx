@@ -33,7 +33,7 @@ export default function Home({ data }: HomeProps) {
 export async function getStaticProps(context: GetStaticPropsContext) {
   console.log("ctx", context);
   const res = await Api.get(`products`);
-  const data = await res.data;
+  const data = await res.data.body;
 
   if (!data) {
     return {};

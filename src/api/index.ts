@@ -1,6 +1,6 @@
 import store from "../store/";
 import axios, { AxiosInstance } from "axios";
-const baseUrl = "https://gscore-back.herokuapp.com/api/";
+const baseUrl = "https://gscore-back-ciscapello.amvera.io/api/";
 
 class Api {
   private api: AxiosInstance;

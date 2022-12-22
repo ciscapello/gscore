@@ -22,13 +22,10 @@ export default function ProductCard({
   turnLeft,
 }: ProductCardProps) {
   const dispatch = useAppDispatch();
-  const {
-    status,
-    currentPeriodEnd,
-    product: { name },
-  } = subscribe;
+  const { status, currentPeriodEnd } = subscribe;
+  const { name } = subscribe.product[0];
   const currentPeriodEndFormatted = new Date(
-    Number(currentPeriodEnd)
+    currentPeriodEnd
   ).toLocaleDateString();
   let turnCount: number;
 
@@ -59,10 +56,10 @@ export default function ProductCard({
       <CardBody>
         <Row>
           <ProductWrapper>
-            <ProductName>{name} license</ProductName>
+            <ProductName>{name}</ProductName>
             <Data>valid until {currentPeriodEndFormatted}</Data>
           </ProductWrapper>
-          <Price>${price}</Price>
+          <Price>{price}</Price>
         </Row>
         <Button onClick={handleClick}>View</Button>
       </CardBody>

@@ -42,11 +42,11 @@ export default function Subscriptions() {
 
   const currentProductSitesCount = subscribes.find(
     (_, index) => index === currentCardIndex
-  )?.product.sitesCount;
+  )?.product[0].sitesCount;
 
   const activateCodes = () => {
-    if (currentCardIndex) {
-      const subscribeId = subscribes[currentCardIndex].id ?? false;
+    if (currentCardIndex !== null) {
+      const subscribeId = subscribes[currentCardIndex]._id ?? false;
       if (selectedCodes.length !== currentProductSitesCount) {
         setSelectSitesError(true);
         return;
@@ -71,7 +71,8 @@ export default function Subscriptions() {
   )?.codes;
 
   const haveHoldStatus = () => {
-    if (currentCodes && currentCodes[0].status === "HOLD") {
+    console.log(currentCodes);
+    if (currentCodes?.length && currentCodes[0].status === "HOLD") {
       return true;
     } else {
       return false;
@@ -108,8 +109,9 @@ export default function Subscriptions() {
   };
 
   const handleClick = () => {
-    if (currentCardIndex) {
-      const subscribeId = subscribes[currentCardIndex].id;
+    if (currentCardIndex !== null) {
+      console.log(currentCardIndex);
+      const subscribeId = subscribes[currentCardIndex]._id;
       dispatch(setSelectedSubcribeId(subscribeId));
       dispatch(setCurrentCardIndex(null));
       router.push("/");
@@ -135,8 +137,8 @@ export default function Subscriptions() {
                   turnRight={turnRight}
                   turnLeft={turnLeft}
                   subscribe={elem}
-                  key={elem.id}
-                  price={elem.product.prices[0].price}
+                  key={elem._id}
+                  price={elem.product[0].prices[0].price}
                   counter={counter}
                   index={index}
                 />
@@ -154,7 +156,7 @@ export default function Subscriptions() {
             <Codes>
               {currentCodes?.map((code) => (
                 <CodeContainer
-                  key={code.id}
+                  key={code._id}
                   addCodeToSelect={addCodeToSelect}
                   removeCodeFromSelect={removeCodeFromSelect}
                   currentProductSitesCount={currentProductSitesCount}

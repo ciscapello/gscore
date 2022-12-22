@@ -34,7 +34,7 @@ export default function CodeContainer({
     )
       return;
     setChecked((prev) => !prev);
-    !checked ? addCodeToSelect(code.id) : removeCodeFromSelect(code.id);
+    !checked ? addCodeToSelect(code._id) : removeCodeFromSelect(code._id);
   };
 
   const onClick = () => {

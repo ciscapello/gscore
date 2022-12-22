@@ -13,28 +13,27 @@ export interface Prices {
 }
 
 export interface Product {
-  id: number;
+  _id: number;
   sitesCount: number;
   name: string;
   prices: Prices[];
 }
 
 export interface Code {
-  id: number;
+  _id: number;
   code: string;
-  origin: string | null;
   status: string;
   subscribeId: number;
   userId: number;
 }
 
 export interface Subscribe {
-  id: number;
+  _id: number;
   userId: number;
   productId: number;
   currentPeriodStart: string;
   currentPeriodEnd: string;
   status: string;
-  product: Product;
+  product: Product[];
   codes: Code[];
 }

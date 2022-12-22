@@ -35,7 +35,7 @@ export default function Checkout({ data }: CheckoutProps) {
   !selectedProductForBuy ? router.push("/") : null;
 
   const selectedProduct = data.find(
-    (product) => product.id === selectedProductForBuy
+    (product) => product._id === selectedProductForBuy
   );
 
   const onClick = () => {
@@ -83,7 +83,7 @@ export default function Checkout({ data }: CheckoutProps) {
           <TableRow>
             <TableData>{selectedProduct?.name}</TableData>
             <TableData>
-              {`$${selectedProduct?.prices[0].price}`}
+              {selectedProduct?.prices[0].price}
               {!isPurchased && <StyledBasket width={24} height={24} />}
             </TableData>
           </TableRow>
@@ -92,7 +92,7 @@ export default function Checkout({ data }: CheckoutProps) {
       {!isPurchased && (
         <Wrapper>
           <Total>Total:</Total>
-          <Total>{`$${selectedProduct?.prices[0].price}`}</Total>
+          <Total>{selectedProduct?.prices[0].price}</Total>
         </Wrapper>
       )}
       {!isPurchased && (
@@ -111,7 +111,7 @@ export default function Checkout({ data }: CheckoutProps) {
 
 export async function getStaticProps() {
   const res = await Api.get("products");
-  const data = await res.data;
+  const data = await res.data.body;
 
   if (!data) {
     return null;

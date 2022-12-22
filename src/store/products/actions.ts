@@ -36,11 +36,13 @@ export const getSubscribes = createAsyncThunk<
   undefined,
   { rejectValue: string }
 >("products/getSubscribes", async (_, { rejectWithValue }) => {
-  const res: AxiosResponse<Subscribe[]> = await Api.get(`subscribe/self`);
+  const res: AxiosResponse<{ data: Subscribe[] }> = await Api.get(
+    `subscribe/self`
+  );
   if (!res.data) {
     return rejectWithValue("Error");
   }
-  const sortedData = res.data.sort((a, b) => a.id - b.id);
+  const sortedData = res.data.data.sort((a, b) => a._id - b._id);
   console.log(sortedData);
   return sortedData;
 });
@@ -57,7 +59,7 @@ export const activateCode = createAsyncThunk<
     if (!res.data) {
       throw new Error("Server error");
     }
-    return res.data;
+    return res.data.data;
   } catch (error) {
     let message;
     if (error instanceof Error) message = error.message;
