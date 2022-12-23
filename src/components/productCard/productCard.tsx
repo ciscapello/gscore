@@ -44,7 +44,6 @@ export default function ProductCard({
     } else if (index + 1 < counter) {
       turnLeft(turnCount);
     }
-    console.log(turnCount);
   };
 
   return (

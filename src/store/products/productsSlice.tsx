@@ -34,7 +34,6 @@ export const productsSlice = createSlice({
       state.selectedSubcribeId = action.payload;
     },
     selectProduct: (state, action: PayloadAction<number>) => {
-      console.log(action.payload);
       state.selectedProductForBuy = action.payload;
     },
   },
@@ -46,7 +45,6 @@ export const productsSlice = createSlice({
       })
       .addCase(getSubscribes.fulfilled, (state, action) => {
         state.subscribes = action.payload;
-        console.log(action.payload);
         state.isLoading = false;
         state.error = false;
       })
@@ -55,7 +53,6 @@ export const productsSlice = createSlice({
       })
       .addCase(activateCode.fulfilled, (state, action) => {
         state.isLoading = false;
-        console.log("payload", action.payload);
         const subscribeIndex = state.subscribes.findIndex(
           (elem) => elem._id === action.payload.subscribeId
         );
@@ -64,9 +61,8 @@ export const productsSlice = createSlice({
         );
         state.subscribes[subscribeIndex].codes[codeIndex] = action.payload;
       })
-      .addCase(activateCode.rejected, (state, action) => {
+      .addCase(activateCode.rejected, (state) => {
         state.error = true;
-        console.log(action.payload);
       })
       .addCase(changeProduct.pending, (state) => {
         state.isLoading = true;

@@ -22,13 +22,18 @@ export const activateHoldedCodes = createAsyncThunk<
   { selectedCodes: number[]; subscribeId: number },
   { dispatch: AppDispatch }
 >("products/activateHoldedCodes", async (args, { dispatch }) => {
-  console.log(args);
-  const res = await Api.put(`code/manage`, {
-    codesIds: args.selectedCodes,
+  let res;
+  const payload = {
+    codeIds: args.selectedCodes,
     subscribeId: args.subscribeId,
-  });
-  console.log(res);
-  dispatch(getSubscribes());
+  };
+  try {
+    res = await Api.put(`code/manage`, payload);
+    console.log(res);
+    dispatch(getSubscribes());
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 export const getSubscribes = createAsyncThunk<
@@ -43,7 +48,6 @@ export const getSubscribes = createAsyncThunk<
     return rejectWithValue("Error");
   }
   const sortedData = res.data.data.sort((a, b) => a._id - b._id);
-  console.log(sortedData);
   return sortedData;
 });
 

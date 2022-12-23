@@ -29,9 +29,6 @@ export default function LogInForm() {
       .then(unwrapResult)
       .then(() => {
         router.push("/checkout");
-      })
-      .catch(() => {
-        console.log("catch");
       });
   };
 

@@ -32,12 +32,10 @@ export default function Subscriptions() {
 
   const addCodeToSelect = (codeId: number) => {
     setSelectedCodes([...selectedCodes, codeId]);
-    console.log(selectedCodes);
   };
 
   const removeCodeFromSelect = (codeId: number) => {
     setSelectedCodes(() => selectedCodes.filter((elem) => elem !== codeId));
-    console.log(selectedCodes);
   };
 
   const currentProductSitesCount = subscribes.find(
@@ -46,8 +44,8 @@ export default function Subscriptions() {
 
   const activateCodes = () => {
     if (currentCardIndex !== null) {
-      const subscribeId = subscribes[currentCardIndex]._id ?? false;
-      if (selectedCodes.length !== currentProductSitesCount) {
+      const subscribeId = subscribes[currentCardIndex]._id ?? null;
+      if (selectedCodes.length !== Number(currentProductSitesCount)) {
         setSelectSitesError(true);
         return;
       }
@@ -71,7 +69,6 @@ export default function Subscriptions() {
   )?.codes;
 
   const haveHoldStatus = () => {
-    console.log(currentCodes);
     if (currentCodes?.length && currentCodes[0].status === "HOLD") {
       return true;
     } else {
@@ -110,7 +107,6 @@ export default function Subscriptions() {
 
   const handleClick = () => {
     if (currentCardIndex !== null) {
-      console.log(currentCardIndex);
       const subscribeId = subscribes[currentCardIndex]._id;
       dispatch(setSelectedSubcribeId(subscribeId));
       dispatch(setCurrentCardIndex(null));
@@ -123,7 +119,7 @@ export default function Subscriptions() {
       <Container>
         <Header>
           <Title>My subscriptions</Title>
-          {subscribes[0] && (
+          {subscribes[0] && !haveHoldStatus() && (
             <Button small tranparent onClick={handleClick}>
               Upgrade
             </Button>

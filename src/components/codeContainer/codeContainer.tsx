@@ -25,6 +25,7 @@ export default function CodeContainer({
   const [value, copy] = useCopyToClipboard();
   const [copied, setCopied] = useState(false);
   const [checked, setChecked] = useState(false);
+  console.log(value);
 
   const onChange = () => {
     if (
@@ -38,7 +39,6 @@ export default function CodeContainer({
   };
 
   const onClick = () => {
-    console.log(value);
     dispatch(activateCode(code));
   };
 

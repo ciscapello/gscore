@@ -2,7 +2,6 @@ import { Card } from "../components";
 import { Product, Pricing } from "../types";
 import styled from "styled-components";
 import Api from "../api";
-import { GetStaticPropsContext } from "next";
 import { Color } from "../styles";
 
 interface HomeProps {
@@ -10,7 +9,6 @@ interface HomeProps {
 }
 
 export default function Home({ data }: HomeProps) {
-  console.log(data);
   return (
     <Wrapper>
       <Title>Get started with Gscore today!</Title>
@@ -30,8 +28,7 @@ export default function Home({ data }: HomeProps) {
   );
 }
 
-export async function getStaticProps(context: GetStaticPropsContext) {
-  console.log("ctx", context);
+export async function getStaticProps() {
   const res = await Api.get(`products`);
   const data = await res.data.body;
 

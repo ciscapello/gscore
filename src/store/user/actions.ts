@@ -26,7 +26,6 @@ export const updateUserInfo = createAsyncThunk<
       dispatch(updateUserData({ email, username }));
     })
     .catch((error) => {
-      console.log(error.response.data.message);
       dispatch(setUserInfoError(error.response.data.message));
       setTimeout(() => dispatch(setUserInfoError(false)), 2000);
     });
@@ -44,7 +43,6 @@ export const setPassword = createAsyncThunk<
     })
     .catch((error) => {
       dispatch(setPasswordError(error.response.data.message));
-      console.log(error.response.data.message);
     })
     .finally(() => {
       setTimeout(() => {
@@ -66,7 +64,6 @@ export const signUp = createAsyncThunk<
       return res;
     })
     .catch((error) => {
-      console.log(error);
       return rejectWithValue(error.response.data.message);
     });
 });
